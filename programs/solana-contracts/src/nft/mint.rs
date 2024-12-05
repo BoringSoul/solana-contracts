@@ -2,7 +2,6 @@
 
 use {
     anchor_lang::AnchorDeserialize,
-    std::collections::LinkedList,
     anchor_lang::prelude::*,
     anchor_spl::{
         associated_token::AssociatedToken,
@@ -21,7 +20,7 @@ pub fn mint(
     nft_symbol: String,
     nft_uri: String,
     supply_no: u64,
-    assets: LinkedList<Asset>
+    assets: Option<Vec<Asset>>
 ) -> Result<()> {
     msg!("Minting NFT With Metadata");
     ctx.accounts.wrap_assets_account.assets = assets;
@@ -150,7 +149,7 @@ pub struct NFTToken<'info> {
 #[derive(Default)]
 pub struct WrapAssetsAccount {
     pub supply_no: u64,
-    pub assets: LinkedList<Asset>
+    pub assets: Option<Vec<Asset>>
 }
 
 #[derive(Default, Clone, Copy, AnchorSerialize, AnchorDeserialize)]
