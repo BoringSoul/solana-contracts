@@ -1,6 +1,5 @@
 #![allow(clippy::result_large_err)]
 use anchor_lang::prelude::*;
-use std::collections::LinkedList;
 pub mod tokens;
 pub mod nft;
 
