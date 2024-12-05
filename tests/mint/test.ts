@@ -1,19 +1,21 @@
 import * as anchor from '@coral-xyz/anchor';
 import { getAssociatedTokenAddressSync } from '@solana/spl-token';
 import { Keypair } from '@solana/web3.js';
-import type { NftMinter } from '../target/types/nft_minter';
+import type { SolanaContracts } from '../target/types/solana_contracts';
 
 describe('NFT Minter', () => {
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
   const payer = provider.wallet as anchor.Wallet;
-  const program = anchor.workspace.NftMinter as anchor.Program<NftMinter>;
+  const program = anchor.workspace.SolanaContracts as anchor.Program<SolanaContracts>;
 
   // The metadata for our NFT
   const metadata = {
     name: 'Homer NFT',
     symbol: 'HOMR',
     uri: 'https://raw.githubusercontent.com/solana-developers/program-examples/new-examples/tokens/tokens/.assets/nft.json',
+    supply_no: 1,
+    assets: [{"amount": 100000, "token_address": 'thisisthattokenaddress'}]
   };
 
   it('Create an NFT!', async () => {
@@ -24,7 +26,7 @@ describe('NFT Minter', () => {
     const associatedTokenAccountAddress = getAssociatedTokenAddressSync(mintKeypair.publicKey, payer.publicKey);
 
     const transactionSignature = await program.methods
-      .mintNft(metadata.name, metadata.symbol, metadata.uri)
+      .createNft(metadata.name, metadata.symbol, metadata.uri, metadata.supply_no, metadata.assets)
       .accounts({
         payer: payer.publicKey,
         mintAccount: mintKeypair.publicKey,
