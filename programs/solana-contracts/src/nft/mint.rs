@@ -20,7 +20,7 @@ pub fn mint(
     nft_symbol: String,
     nft_uri: String,
     supply_no: u64,
-    assets: Option<Vec<Asset>>
+    assets: Vec<Asset>
 ) -> Result<()> {
     msg!("Minting NFT With Metadata");
     ctx.accounts.wrap_assets_account.assets = assets;
@@ -142,17 +142,23 @@ pub struct NFTToken<'info> {
     pub associated_token_program: Program<'info, AssociatedToken>,
     pub system_program: Program<'info, System>,
     pub rent: Sysvar<'info, Rent>,
+    #[account(
+        init,
+        payer = payer,
+        space = 8 + WrapAssetsAccount::INIT_SPACE
+    )]
     pub wrap_assets_account: Account<'info, WrapAssetsAccount>,
 }
 
 #[account]
-#[derive(Default)]
+#[derive(Default, InitSpace)]
 pub struct WrapAssetsAccount {
     pub supply_no: u64,
-    pub assets: Option<Vec<Asset>>
+    #[max_len(50)]
+    pub assets: Vec<Asset>
 }
 
-#[derive(Default, Clone, Copy, AnchorSerialize, AnchorDeserialize)]
+#[derive(Default, Clone, Copy, AnchorSerialize, AnchorDeserialize, InitSpace)]
 pub struct Asset {
     pub token_address: Pubkey,
     pub amount: u128
