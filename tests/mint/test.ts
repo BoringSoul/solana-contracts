@@ -14,8 +14,8 @@ describe('NFT Minter', () => {
     name: 'Homer NFT',
     symbol: 'HOMR',
     uri: 'https://raw.githubusercontent.com/solana-developers/program-examples/new-examples/tokens/tokens/.assets/nft.json',
-    supply_no: 1,
-    assets: [{"amount": 100000, "token_address": 'thisisthattokenaddress'}]
+    supply_no: Number(1),
+    assets: [{"amount": Number(100000), "token_address": 'thisisthattokenaddress'}]
   };
 
   it('Create an NFT!', async () => {
