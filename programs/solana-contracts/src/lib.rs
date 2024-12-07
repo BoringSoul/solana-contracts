@@ -6,8 +6,8 @@ pub mod nft;
 use tokens::*;
 use nft::*;
 
-declare_id!("FQcgiPK79ZFAtBriM2MjVGeDYVHu9zDdSwmGqD1CaEoS");
-
+// declare_id!("FQcgiPK79ZFAtBriM2MjVGeDYVHu9zDdSwmGqD1CaEoS");
+declare_id!("DvYFdnuamvwsxXDaHYAzfLSZ8AbDQd9BY2x71j6s87cs");
 #[program]
 pub mod solana_contracts {
     use super::*;
