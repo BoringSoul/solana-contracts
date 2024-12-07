@@ -15,7 +15,7 @@ describe('NFT Minter', () => {
     symbol: 'HOMR',
     uri: 'https://raw.githubusercontent.com/solana-developers/program-examples/new-examples/tokens/tokens/.assets/nft.json',
     supply_no: 1,
-    assets: [{"amount": 100000, "token_address": payer.Keypair.publicKey}]
+    // assets: [{"amount": 100000, "token_address": payer.Keypair.publicKey}]
   };
 
   it('Create an NFT!', async () => {
@@ -26,7 +26,8 @@ describe('NFT Minter', () => {
     const associatedTokenAccountAddress = getAssociatedTokenAddressSync(mintKeypair.publicKey, payer.publicKey);
 
     const transactionSignature = await program.methods
-      .createNft(metadata.name, metadata.symbol, metadata.uri, metadata.supply_no, metadata.assets)
+      // .createNft(metadata.name, metadata.symbol, metadata.uri, metadata.supply_no, metadata.assets)
+      .createNft(metadata.name, metadata.symbol, metadata.uri, metadata.supply_no)
       .accounts({
         payer: payer.publicKey,
         mintAccount: mintKeypair.publicKey,
