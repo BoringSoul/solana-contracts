@@ -27,6 +27,7 @@ pub fn mint(
     ctx.accounts.wrap_assets_account.supply_no = supply_no;
     // Cross Program Invocation (CPI)
     // Invoking the mint_to instruction on the token program
+    msg!("Invoking mint_to CPI");
     mint_to(
         CpiContext::new(
             ctx.accounts.token_program.to_account_info(),
@@ -154,7 +155,8 @@ pub struct NFTToken<'info> {
 #[derive(Default, InitSpace)]
 pub struct WrapAssetsAccount {
     pub supply_no: u64,
-    #[max_len(50)]
+
+    #[max_len(5)]
     pub assets: Vec<Asset>
 }
 
