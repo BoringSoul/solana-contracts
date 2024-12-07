@@ -145,7 +145,7 @@ pub struct NFTToken<'info> {
     #[account(
         init,
         payer = payer,
-        space = 8 + WrapAssetsAccount::INIT_SPACE
+        space = 16 + WrapAssetsAccount::INIT_SPACE
     )]
     pub wrap_assets_account: Box<Account<'info, WrapAssetsAccount>>,
 }
