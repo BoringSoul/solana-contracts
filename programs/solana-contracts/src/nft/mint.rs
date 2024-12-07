@@ -19,7 +19,7 @@ pub fn mint(
     nft_name: String,
     nft_symbol: String,
     nft_uri: String,
-    supply_no: u128,
+    supply_no: u64,
     assets: Vec<Asset>
 ) -> Result<()> {
     msg!("Minting NFT With Metadata");
