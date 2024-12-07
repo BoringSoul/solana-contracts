@@ -20,10 +20,10 @@ pub fn mint(
     nft_symbol: String,
     nft_uri: String,
     supply_no: u64,
-    // assets: Vec<Asset>
+    assets: Vec<Asset>
 ) -> Result<()> {
     msg!("Minting NFT With Metadata");
-    // ctx.accounts.wrap_assets_account.assets = assets;
+    ctx.accounts.wrap_assets_account.assets = assets;
     ctx.accounts.wrap_assets_account.supply_no = supply_no;
     // Cross Program Invocation (CPI)
     // Invoking the mint_to instruction on the token program
@@ -154,8 +154,8 @@ pub struct NFTToken<'info> {
 #[derive(Default, InitSpace)]
 pub struct WrapAssetsAccount {
     pub supply_no: u64,
-    // #[max_len(50)]
-    // pub assets: Vec<Asset>
+    #[max_len(50)]
+    pub assets: Vec<Asset>
 }
 
 #[derive(Default, Clone, Copy, AnchorSerialize, AnchorDeserialize, InitSpace)]
