@@ -2,7 +2,6 @@ import * as anchor from '@coral-xyz/anchor';
 import { getAssociatedTokenAddressSync } from '@solana/spl-token';
 import { Keypair } from '@solana/web3.js';
 import type { SolanaContracts } from '../../target/types/solana_contracts';
-import { BN } from 'bn.js';
 
 describe('NFT Minter', () => {
   const provider = anchor.AnchorProvider.env();
@@ -15,8 +14,8 @@ describe('NFT Minter', () => {
     name: 'Homer NFT',
     symbol: 'HOMR',
     uri: 'https://raw.githubusercontent.com/solana-developers/program-examples/new-examples/tokens/tokens/.assets/nft.json',
-    supply_no: new BN(1),
-    assets: [{"amount": new BN(10000), "tokenAddress": payer.publicKey}]
+    supply_no: new anchor.BN(1),
+    assets: [{"amount": new anchor.BN(10000), "tokenAddress": payer.publicKey}]
   };
 
   it('Create an NFT!', async () => {
