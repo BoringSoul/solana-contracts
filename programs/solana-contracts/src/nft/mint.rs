@@ -18,11 +18,11 @@ pub fn mint(
     ctx: Context<NFTToken>,
     nft_name: String,
     nft_symbol: String,
-    nft_uri: String
-    // assets: Vec<Asset>
+    nft_uri: String,
+    assets: Vec<Asset>
 ) -> Result<()> {
     msg!("Minting NFT With Metadata");
-    // msg!("assets: {assets:?}");
+    msg!("assets: {assets:?}");
     // ctx.accounts.wrap_assets_account.set_inner(WrapAssetsAccount{
     //     supply_no
     // });
