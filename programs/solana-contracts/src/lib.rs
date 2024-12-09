@@ -34,10 +34,11 @@ pub mod solana_contracts {
         token_title: String,
         token_symbol: String,
         token_uri: String,
-        supply_no: u64,
+        // supply_no: u64,
         // assets: Vec<Asset>
     ) -> Result<()> {
-        nft::mint::mint(ctx, token_title, token_symbol, token_uri, supply_no)
+        nft::mint::mint(ctx, token_title, token_symbol, token_uri)
+        // nft::mint::mint(ctx, token_title, token_symbol, token_uri, supply_no)
         // nft::mint::mint(ctx, token_title, token_symbol, token_uri, supply_no, assets)
     }
 }
