@@ -148,11 +148,11 @@ pub struct NFTToken<'info> {
         payer = payer,
         space = 16 + WrapAssetsAccount::INIT_SPACE
     )]
-    pub wrap_assets_account: Box<Account<'info, WrapAssetsAccount>>,
+    pub wrap_assets_account: Account<'info, WrapAssetsAccount>,
 }
 
 #[account]
-#[derive(Default, InitSpace)]
+#[derive(InitSpace)]
 pub struct WrapAssetsAccount {
     pub supply_no: u64,
 
@@ -160,7 +160,8 @@ pub struct WrapAssetsAccount {
     pub assets: Vec<Asset>
 }
 
-#[derive(Default, Clone, Copy, AnchorSerialize, AnchorDeserialize, InitSpace)]
+#[derive(InitSpace)]
+#[account]
 pub struct Asset {
     pub token_address: Pubkey,
     pub amount: u128
