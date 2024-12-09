@@ -23,8 +23,10 @@ pub fn mint(
     assets: Vec<Asset>
 ) -> Result<()> {
     msg!("Minting NFT With Metadata");
-    ctx.accounts.wrap_assets_account.assets = assets;
-    ctx.accounts.wrap_assets_account.supply_no = supply_no;
+    ctx.accounts.wrap_assets_account.set_inner(WrapAssetsAccount{
+        supply_no,
+        assets
+    });
     // Cross Program Invocation (CPI)
     // Invoking the mint_to instruction on the token program
     msg!("Invoking mint_to CPI");
