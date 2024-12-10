@@ -1,5 +1,6 @@
 #![allow(clippy::result_large_err)]
 use anchor_lang::prelude::*;
+pub mod asset;
 pub mod tokens;
 pub mod nft;
 
@@ -33,12 +34,8 @@ pub mod solana_contracts {
         ctx: Context<NFTToken>,
         token_title: String,
         token_symbol: String,
-        token_uri: String,
-        supply_no: u64,
-        assets: Vec<Asset>
+        token_uri: String
     ) -> Result<()> {
-        nft::mint::mint(ctx, token_title, token_symbol, token_uri, supply_no , assets)
-        // nft::mint::mint(ctx, token_title, token_symbol, token_uri, supply_no)
-        // nft::mint::mint(ctx, token_title, token_symbol, token_uri, supply_no, assets)
+        nft::mint::mint(ctx, token_title, token_symbol, token_uri)
     }
 }
