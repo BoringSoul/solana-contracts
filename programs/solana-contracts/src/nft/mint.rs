@@ -25,10 +25,10 @@ pub fn mint(
     msg!("Minting NFT With Metadata");
     msg!("supply_no:{supply_no}",);
     msg!("assets: {assets:?}",);
-    *ctx.accounts.wrap_assets_account = WrapAssetsAccount{
-        supply_no,
-        assets
-    };
+    let assets_account = &mut ctx.accounts.wrap_assets_account;
+    assets_account.assets = assets;
+    assets_account.supply_no = supply_no;
+    
     // Cross Program Invocation (CPI)
     // Invoking the mint_to instruction on the token program
     msg!("Invoking mint_to CPI");
@@ -152,7 +152,7 @@ pub struct NFTToken<'info> {
         payer = payer,
         space = 8 + WrapAssetsAccount::INIT_SPACE
     )]
-    pub wrap_assets_account: Account<'info, WrapAssetsAccount>,
+    pub wrap_assets_account: Box<Account<'info, WrapAssetsAccount>>,
 }
 
 #[account]
