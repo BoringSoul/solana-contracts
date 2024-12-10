@@ -6,11 +6,13 @@ pub mod nft;
 
 use tokens::*;
 use nft::*;
+use asset::*;
 
 // declare_id!("FQcgiPK79ZFAtBriM2MjVGeDYVHu9zDdSwmGqD1CaEoS");
 declare_id!("DvYFdnuamvwsxXDaHYAzfLSZ8AbDQd9BY2x71j6s87cs");
 #[program]
 pub mod solana_contracts {
+
     use super::*;
 
     pub fn create_token(
@@ -37,5 +39,13 @@ pub mod solana_contracts {
         token_uri: String
     ) -> Result<()> {
         nft::mint::mint(ctx, token_title, token_symbol, token_uri)
+    }
+
+    pub fn wrap_asset(
+        ctx:Context<WrapContext>,
+        supply_no:u64,
+        assets: Vec<asset::Asset>
+    ) -> Result<()>{
+        asset::wrap(ctx, supply_no, assets)
     }
 }

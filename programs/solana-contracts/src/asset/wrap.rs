@@ -1,14 +1,11 @@
 use anchor_lang::prelude::*;
-use anchor_spl::token::Mint;
+// use anchor_spl::token::Mint;
 use crate::asset::*;
 
 #[derive(Accounts)]
 pub struct WrapContext<'info> {
     #[account(mut)]
     pub user: Signer<'info>,
-
-    #[account(mut)]
-    pub ntf_account: Account<'info, Mint>,
 
     #[account(
         init,
