@@ -25,9 +25,9 @@ pub fn mint(
     msg!("Minting NFT With Metadata");
     msg!("supply_no:{supply_no}",);
     msg!("assets: {assets:?}",);
-    let assets_account = &mut ctx.accounts.wrap_assets_account;
-    assets_account.assets = assets;
-    assets_account.supply_no = supply_no;
+    // let assets_account = &mut ctx.accounts.wrap_assets_account;
+    // assets_account.assets = assets;
+    // assets_account.supply_no = supply_no;
     
     // Cross Program Invocation (CPI)
     // Invoking the mint_to instruction on the token program
