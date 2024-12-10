@@ -28,7 +28,7 @@ describe('NFT Minter', () => {
       // .createNft(metadata.name, metadata.symbol, metadata.uri, metadata.supply_no, metadata.assets)
       .createNft(metadata.name, metadata.symbol, metadata.uri, metadata.assets)
       // .createNft(metadata.name, metadata.symbol, metadata.uri, metadata.supply_no)
-      .createNft(metadata.name, metadata.symbol, metadata.uri)
+      // .createNft(metadata.name, metadata.symbol, metadata.uri)
       .accounts({
         payer: payer.publicKey,
         mintAccount: mintKeypair.publicKey,
