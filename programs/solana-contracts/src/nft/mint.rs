@@ -19,13 +19,16 @@ pub fn mint(
     nft_name: String,
     nft_symbol: String,
     nft_uri: String,
+    supply_no: u64,
     assets: Vec<Asset>
 ) -> Result<()> {
     msg!("Minting NFT With Metadata");
+    msg!("supply_no:{supply_no}",);
     msg!("assets: {assets:?}",);
-    // ctx.accounts.wrap_assets_account.set_inner(WrapAssetsAccount{
-    //     supply_no
-    // });
+    *ctx.accounts.wrap_assets_account = WrapAssetsAccount{
+        supply_no,
+        assets
+    };
     // Cross Program Invocation (CPI)
     // Invoking the mint_to instruction on the token program
     msg!("Invoking mint_to CPI");
@@ -144,12 +147,12 @@ pub struct NFTToken<'info> {
     pub associated_token_program: Program<'info, AssociatedToken>,
     pub system_program: Program<'info, System>,
     pub rent: Sysvar<'info, Rent>,
-    // #[account(
-    //     init,
-    //     payer = payer,
-    //     space = 16 + WrapAssetsAccount::INIT_SPACE
-    // )]
-    // pub wrap_assets_account: Account<'info, WrapAssetsAccount>,
+    #[account(
+        init_if_needed,
+        payer = payer,
+        space = 16 + WrapAssetsAccount::INIT_SPACE
+    )]
+    pub wrap_assets_account: Account<'info, WrapAssetsAccount>,
 }
 
 #[account]
@@ -157,8 +160,8 @@ pub struct NFTToken<'info> {
 pub struct WrapAssetsAccount {
     pub supply_no: u64,
 
-    // #[max_len(5)]
-    // pub assets: Vec<Asset>
+    #[max_len(5)]
+    pub assets: Vec<Asset>
 }
 
 #[derive(InitSpace, Debug)]
