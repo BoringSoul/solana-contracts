@@ -147,12 +147,12 @@ pub struct NFTToken<'info> {
     pub associated_token_program: Program<'info, AssociatedToken>,
     pub system_program: Program<'info, System>,
     pub rent: Sysvar<'info, Rent>,
-    #[account(
-        init_if_needed,
-        payer = payer,
-        space = 8 + WrapAssetsAccount::INIT_SPACE
-    )]
-    pub wrap_assets_account: Box<Account<'info, WrapAssetsAccount>>,
+    // #[account(
+    //     init_if_needed,
+    //     payer = payer,
+    //     space = 8 + WrapAssetsAccount::INIT_SPACE
+    // )]
+    // pub wrap_assets_account: Box<Account<'info, WrapAssetsAccount>>,
 }
 
 #[account]
