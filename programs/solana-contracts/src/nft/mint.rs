@@ -22,7 +22,7 @@ pub fn mint(
     assets: Vec<Asset>
 ) -> Result<()> {
     msg!("Minting NFT With Metadata");
-    msg!("assets: {assets:?}");
+    msg!("assets: {assets:?}",);
     // ctx.accounts.wrap_assets_account.set_inner(WrapAssetsAccount{
     //     supply_no
     // });
@@ -161,7 +161,7 @@ pub struct WrapAssetsAccount {
     // pub assets: Vec<Asset>
 }
 
-#[derive(InitSpace)]
+#[derive(InitSpace, Debug)]
 #[account]
 pub struct Asset {
     pub token_address: Pubkey,
