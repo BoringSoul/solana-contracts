@@ -20,7 +20,7 @@ describe('wrap asset', () => {
 
   it('WrapAssest', async () => {
     await program.methods
-      .wrap(supply_no, assets)
+      .wrapAssest(supply_no, assets)
       .accounts({
         user: payer.publicKey,
         assetInfoAccount: userAccountAddress,
