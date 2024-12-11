@@ -21,7 +21,8 @@ pub fn mint(
     nft_uri: String,
 ) -> Result<()> {
     msg!("Minting NFT With Metadata");
-    //之前直接传入assets, supply_no，msg打印正常，一旦赋值后，就异常
+    // 之前直接传入assets, supply_no，msg打印正常，一旦赋值后，就异常
+    // 测试文件在 tests/mint/test.ts
     // let assets_account = &mut ctx.accounts.wrap_assets_account;
     // assets_account.assets = assets;
     // assets_account.supply_no = supply_no;
