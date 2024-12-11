@@ -13,7 +13,7 @@ describe('wrap asset', () => {
   const payer = provider.wallet as anchor.Wallet;
 
   // Derive the PDA for the user's account.
-  const [userAccountAddress] = PublicKey.findProgramAddressSync([Buffer.from('USER'), payer.publicKey.toBuffer()], program.programId);
+  const [userAccountAddress] = PublicKey.findProgramAddressSync([Buffer.from('ASSET_INFO'), payer.publicKey.toBuffer()], program.programId);
   // const mintKeypair = new Keypair();
   const supply_no = new anchor.BN(1);
   const assets = [{"amount": new anchor.BN(10000), "tokenAddress": payer.publicKey}];
