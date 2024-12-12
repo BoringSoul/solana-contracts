@@ -13,8 +13,8 @@ describe('wrap asset', () => {
   const payer = provider.wallet as anchor.Wallet;
 
   // Derive the PDA for the user's account.
-  const [assetInfoAccountAddr] = PublicKey.findProgramAddressSync([Buffer.from('ASSET_INFO'), payer.publicKey.toBuffer()], program.programId);
-  // const assetInfoAccountAddr = new Keypair();
+  // const [assetInfoAccountAddr] = PublicKey.findProgramAddressSync([Buffer.from('ASSET_INFO'), payer.publicKey.toBuffer()], program.programId);
+  const assetInfoAccountAddr = new Keypair();
   // const mintKeypair = new Keypair();
   const supply_no = new anchor.BN(1);
   const assets = [{"amount": new anchor.BN(10000), "tokenAddress": payer.publicKey}];
@@ -27,13 +27,13 @@ describe('wrap asset', () => {
       .wrapAsset(supply_no, assets)
       .accounts({
         user: payer.publicKey,
-        assetInfo: assetInfoAccountAddr,
+        assetInfo: assetInfoAccountAddr.publicKey,
       })
-      .signers([Keypair.fromSeed(Buffer.from('ASSET_INFO')), Keypair.fromSeed(payer.publicKey.toBuffer())])
+      .signers([assetInfoAccountAddr])
       .rpc();
 
     // Fetch the account data
-    const assetInfoAccount = await program.account.userState.fetch(assetInfoAccountAddr);
+    const assetInfoAccount = await program.account.userState.fetch(assetInfoAccountAddr.publicKey);
     assert.equal(assetInfoAccount.user.toBase58(), payer.publicKey.toBase58());
     assert.equal(assetInfoAccount.assets, assets);
     assert.equal(assetInfoAccount.supplyNo, supply_no);
