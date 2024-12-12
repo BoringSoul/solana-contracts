@@ -9,8 +9,7 @@ pub struct AssetInfo {
     pub assets: Vec<Asset>
 }
 
-#[derive(InitSpace, Debug)]
-#[account]
+#[derive(InitSpace, Clone, AnchorSerialize, AnchorDeserialize)]
 pub struct Asset {
     pub token_address: Pubkey,
     pub amount: u128

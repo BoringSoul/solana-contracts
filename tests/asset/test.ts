@@ -1,7 +1,7 @@
 import assert from 'node:assert';
 import * as anchor from '@coral-xyz/anchor';
 import type { Program } from '@coral-xyz/anchor';
-import { Keypair } from '@solana/web3.js';
+import {Keypair ,PublicKey } from '@solana/web3.js';
 import type { SolanaContracts } from '../target/types/solana_contracts';
 
 describe('wrap asset', () => {
@@ -13,8 +13,8 @@ describe('wrap asset', () => {
   const payer = provider.wallet as anchor.Wallet;
 
   // Derive the PDA for the user's account.
-  // const [assetInfoAccountAddr] = PublicKey.findProgramAddressSync([Buffer.from('ASSET_INFO'), payer.publicKey.toBuffer()], program.programId);
-  const assetInfoAccountAddr = new Keypair();
+  const [assetInfoAccountAddr] = PublicKey.findProgramAddressSync([Buffer.from('ASSET_INFO'), payer.publicKey.toBuffer()], program.programId);
+  // const assetInfoAccountAddr = new Keypair();
   // const mintKeypair = new Keypair();
   const supply_no = new anchor.BN(1);
   const assets = [{"amount": new anchor.BN(10000), "tokenAddress": payer.publicKey}];
@@ -29,11 +29,11 @@ describe('wrap asset', () => {
         user: payer.publicKey,
         assetInfo: assetInfoAccountAddr,
       })
-      .signers([assetInfoAccountAddr])
+      .signers([Keypair.fromSeed(Buffer.from('ASSET_INFO')), Keypair.fromSeed(payer.publicKey.toBuffer())])
       .rpc();
 
     // Fetch the account data
-    const assetInfoAccount = await program.account.userState.fetch(assetInfoAccountAddr.publicKey);
+    const assetInfoAccount = await program.account.userState.fetch(assetInfoAccountAddr);
     assert.equal(assetInfoAccount.user.toBase58(), payer.publicKey.toBase58());
     assert.equal(assetInfoAccount.assets, assets);
     assert.equal(assetInfoAccount.supplyNo, supply_no);
