@@ -19,6 +19,9 @@ describe('wrap asset', () => {
   const supply_no = new anchor.BN(1);
   const assets = [{"amount": new anchor.BN(10000), "tokenAddress": payer.publicKey}];
 
+  console.log(` Payer : ${payer.publicKey}`);
+  console.log(`  assetInfoAccountAddr : ${assetInfoAccountAddr}`);
+
   it('WrapAssest', async () => {
     await program.methods
       .wrapAsset(supply_no, assets)
