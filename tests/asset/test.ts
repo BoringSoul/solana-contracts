@@ -1,7 +1,7 @@
 import assert from 'node:assert';
 import * as anchor from '@coral-xyz/anchor';
 import type { Program } from '@coral-xyz/anchor';
-import { Keypair } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 import type { SolanaContracts } from '../target/types/solana_contracts';
 
 describe('wrap asset', () => {
@@ -13,8 +13,8 @@ describe('wrap asset', () => {
   const payer = provider.wallet as anchor.Wallet;
 
   // Derive the PDA for the user's account.
-  // const [assetInfoAccountAddr] = PublicKey.findProgramAddressSync([Buffer.from('ASSET_INFO'), payer.publicKey.toBuffer()], program.programId);
-  const assetInfoAccountAddr = new Keypair();
+  const [assetInfoAccountAddr] = PublicKey.findProgramAddressSync([Buffer.from('ASSET_INFO'), payer.publicKey.toBuffer()], program.programId);
+  // const assetInfoAccountAddr = new Keypair();
   // const mintKeypair = new Keypair();
   const supply_no = new anchor.BN(1);
   const assets = [{"amount": new anchor.BN(10000), "tokenAddress": payer.publicKey}];
