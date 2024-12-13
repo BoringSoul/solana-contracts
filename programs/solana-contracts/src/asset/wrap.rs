@@ -26,5 +26,7 @@ pub fn wrap(ctx: Context<WrapContext>,
         supply_no,
         assets
     };
+    let pubkey = ctx.accounts.asset_info.key();
+    msg!("asset_info.key = {}", pubkey);
     Ok(())
 }

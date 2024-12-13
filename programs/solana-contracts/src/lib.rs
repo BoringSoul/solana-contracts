@@ -3,7 +3,7 @@ use anchor_lang::prelude::*;
 pub mod asset;
 pub mod tokens;
 pub mod nft;
-
+pub mod errors;
 use tokens::*;
 use nft::*;
 use asset::*;
@@ -33,12 +33,12 @@ pub mod solana_contracts {
     }
 
     pub fn create_nft(
-        ctx: Context<NFTToken>,
+        ctx: Context<MintNft>,
         token_title: String,
         token_symbol: String,
         token_uri: String
     ) -> Result<()> {
-        nft::mint::mint(ctx, token_title, token_symbol, token_uri)
+        nft::mint_nft::mint_nft(ctx, token_title, token_symbol, token_uri)
     }
 
     pub fn wrap_asset(

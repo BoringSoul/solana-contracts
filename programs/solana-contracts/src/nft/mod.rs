@@ -1,3 +1,3 @@
-pub mod mint;
+pub mod mint_nft;
 
-pub use mint::*;
+pub use mint_nft::*;
