@@ -9,13 +9,19 @@ use solana_program::program::{ invoke, invoke_signed };
 use spl_token_2022::{ extension::ExtensionType, state::Mint };
 
 pub fn mint_nft(
-    ctx: Context<MintNft>, 
-    token_title: String,
-    token_symbol: String,
-    token_uri: String
+        ctx: Context<MintNft>, 
+        token_title: String,
+        token_symbol: String,
+        token_uri: String,
+        supply_no:u64,
+        assets: Vec<crate::asset::Asset>
     ) -> Result<()> {
     msg!("Mint nft with meta data extension and additional meta data");
-
+    *ctx.accounts.asset_info = crate::asset::AssetInfo {
+        user: ctx.accounts.signer.key(),
+        supply_no,
+        assets
+    };
     let space = match
         ExtensionType::try_calculate_account_len::<Mint>(&[ExtensionType::MetadataPointer])
     {
@@ -124,8 +130,8 @@ pub fn mint_nft(
             &spl_token_2022::id(),
             ctx.accounts.mint.key,
             ctx.accounts.nft_authority.to_account_info().key,
-            spl_token_metadata_interface::state::Field::Key("level".to_string()),
-            "1".to_string()
+            spl_token_metadata_interface::state::Field::Key("ASSET_INFO".to_string()),
+            ctx.accounts.asset_info.key().to_string()
         ),
         &[
             ctx.accounts.mint.to_account_info().clone(),
@@ -195,6 +201,7 @@ pub struct MintNft<'info> {
     pub associated_token_program: Program<'info, AssociatedToken>,
     #[account(init_if_needed, seeds = [b"nft_authority".as_ref()], bump, space = 8, payer = signer)]
     pub nft_authority: Account<'info, NftAuthority>,
+    pub asset_info: Account<'info, crate::asset::AssetInfo>
 }
 
 #[account]

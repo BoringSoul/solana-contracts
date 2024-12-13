@@ -43,10 +43,9 @@ pub fn create_token(
     ctx: Context<CreateToken>,
     token_name: String,
     token_symbol: String,
-    token_uri: String,
+    token_uri: String
 ) -> Result<()> {
     msg!("Creating metadata account");
-
     // Cross Program Invocation (CPI)
     // Invoking the create_metadata_account_v3 instruction on the token metadata program
     create_metadata_accounts_v3(
