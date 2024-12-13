@@ -131,7 +131,7 @@ pub fn mint_nft(
             ctx.accounts.mint.key,
             ctx.accounts.nft_authority.to_account_info().key,
             spl_token_metadata_interface::state::Field::Key("ASSET_INFO".to_string()),
-            ctx.accounts.asset_info.key().to_string()
+            "DEBUG".to_string()
         ),
         &[
             ctx.accounts.mint.to_account_info().clone(),
