@@ -36,9 +36,17 @@ describe('extension_nft', () => {
       ASSOCIATED_TOKEN_PROGRAM_ID,
     );
 
+    const metadata = {
+      name: 'Homer NFT',
+      symbol: 'HOMR',
+      uri: 'https://raw.githubusercontent.com/solana-developers/program-examples/new-examples/tokens/tokens/.assets/nft.json',
+      supply_no: new anchor.BN(1),
+      assets: [{"amount": new anchor.BN(10000), "tokenAddress": payer.publicKey}]
+    };
+
     getOrCreateAssociatedTokenAccount;
     const tx = await program.methods
-      .mintNft()
+      .createNft(metadata.name, metadata.symbol, metadata.uri, metadata.supply_no, metadata.assets)
       .accounts({
         signer: payer.publicKey,
         tokenAccount: destinationTokenAccount,
