@@ -1,3 +1,5 @@
+#![allow(clippy::result_large_err)]
+
 pub use crate::errors::ProgramErrorCode;
 use anchor_lang::{ prelude::*, system_program };
 use anchor_spl::{
