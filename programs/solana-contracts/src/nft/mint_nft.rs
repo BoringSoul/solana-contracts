@@ -17,11 +17,11 @@ pub fn mint_nft(
         assets: Vec<crate::asset::Asset>
     ) -> Result<()> {
     msg!("Mint nft with meta data extension and additional meta data");
-    *ctx.accounts.asset_info = crate::asset::AssetInfo {
-        user: ctx.accounts.signer.key(),
-        supply_no,
-        assets
-    };
+    // *ctx.accounts.asset_info = crate::asset::AssetInfo {
+    //     user: ctx.accounts.signer.key(),
+    //     supply_no,
+    //     assets
+    // };
     let space = match
         ExtensionType::try_calculate_account_len::<Mint>(&[ExtensionType::MetadataPointer])
     {
