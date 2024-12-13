@@ -51,9 +51,9 @@ describe('extension_nft', () => {
         signer: payer.publicKey,
         tokenAccount: destinationTokenAccount,
         mint: mint.publicKey,
-        assetInfo: assetInfoAccountAddr.publicKey,
+        // assetInfo: assetInfoAccountAddr.publicKey,
       })
-      .signers([mint, assetInfoAccountAddr])
+      .signers([mint])
       .rpc();
 
     console.log('铸币交易TX', tx);

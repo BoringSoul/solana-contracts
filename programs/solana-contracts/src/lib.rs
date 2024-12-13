@@ -36,11 +36,9 @@ pub mod solana_contracts {
         ctx: Context<MintNft>,
         token_title: String,
         token_symbol: String,
-        token_uri: String,
-        supply_no:u64,
-        assets: Vec<crate::asset::Asset>
+        token_uri: String
     ) -> Result<()> {
-        nft::mint_nft::mint_nft(ctx, token_title, token_symbol, token_uri, supply_no, assets)
+        nft::mint_nft::mint_nft(ctx, token_title, token_symbol, token_uri)
     }
 
     pub fn wrap_asset(

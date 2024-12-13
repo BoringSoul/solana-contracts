@@ -14,9 +14,7 @@ pub fn mint_nft(
         ctx: Context<MintNft>, 
         token_title: String,
         token_symbol: String,
-        token_uri: String,
-        supply_no:u64,
-        assets: Vec<crate::asset::Asset>
+        token_uri: String
     ) -> Result<()> {
     msg!("Mint nft with meta data extension and additional meta data");
     // *ctx.accounts.asset_info = crate::asset::AssetInfo {
@@ -203,12 +201,12 @@ pub struct MintNft<'info> {
     pub associated_token_program: Program<'info, AssociatedToken>,
     #[account(init_if_needed, seeds = [b"nft_authority".as_ref()], bump, space = 8, payer = signer)]
     pub nft_authority: Account<'info, NftAuthority>,
-    #[account(
-        init,
-        payer = signer,
-        space = 8 + crate::asset::AssetInfo::INIT_SPACE,
-    )]
-    pub asset_info: Account<'info, crate::asset::AssetInfo>
+    // #[account(
+    //     init,
+    //     payer = signer,
+    //     space = 8 + crate::asset::AssetInfo::INIT_SPACE,
+    // )]
+    // pub asset_info: Account<'info, crate::asset::AssetInfo>
 }
 
 #[account]
