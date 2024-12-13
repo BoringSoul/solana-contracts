@@ -32,7 +32,7 @@ pub mod solana_contracts {
         tokens::transfer::transfer_tokens(ctx, amount)
     }
 
-    pub fn create_nft(
+    pub fn mint_nft(
         ctx: Context<MintNft>,
         token_title: String,
         token_symbol: String,

@@ -201,6 +201,11 @@ pub struct MintNft<'info> {
     pub associated_token_program: Program<'info, AssociatedToken>,
     #[account(init_if_needed, seeds = [b"nft_authority".as_ref()], bump, space = 8, payer = signer)]
     pub nft_authority: Account<'info, NftAuthority>,
+    #[account(
+        init,
+        payer = signer,
+        space = 8 + crate::asset::AssetInfo::INIT_SPACE,
+    )]
     pub asset_info: Account<'info, crate::asset::AssetInfo>
 }
 
