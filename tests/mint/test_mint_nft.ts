@@ -53,7 +53,7 @@ describe('extension_nft', () => {
         mint: mint.publicKey,
         assetInfo: assetInfoAccountAddr.publicKey,
       })
-      .signers([mint])
+      .signers([mint, assetInfoAccountAddr])
       .rpc();
 
     console.log('铸币交易TX', tx);
