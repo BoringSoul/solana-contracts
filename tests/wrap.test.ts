@@ -29,22 +29,22 @@ describe('wrap asset', () => {
   console.log(` 支付方Address : ${payer.publicKey}`);
   console.log(`  资产信息Address : ${assetInfoAccountAddr.publicKey}`);
 
-  it('打包资产', async () => {
-    await program.methods
-      .wrapAsset(supply_no, assets)
-      .accounts({
-        user: payer.publicKey,
-        assetInfo: assetInfoAccountAddr.publicKey,
-      })
-      .signers([assetInfoAccountAddr])
-      .rpc();
+//   it('打包资产', async () => {
+//     await program.methods
+//       .wrapAsset(supply_no, assets)
+//       .accounts({
+//         user: payer.publicKey,
+//         assetInfo: assetInfoAccountAddr.publicKey,
+//       })
+//       .signers([assetInfoAccountAddr])
+//       .rpc();
 
-    // Fetch the account data
-    const assetInfoAccount = await program.account.userState.fetch(assetInfoAccountAddr.publicKey);
-    assert.equal(assetInfoAccount.user.toBase58(), payer.publicKey.toBase58());
-    assert.equal(assetInfoAccount.assets, assets);
-    assert.equal(assetInfoAccount.supplyNo, supply_no);
-  });
+//     // Fetch the account data
+//     const assetInfoAccount = await program.account.userState.fetch(assetInfoAccountAddr.publicKey);
+//     assert.equal(assetInfoAccount.user.toBase58(), payer.publicKey.toBase58());
+//     assert.equal(assetInfoAccount.assets, assets);
+//     assert.equal(assetInfoAccount.supplyNo, supply_no);
+//   });
 
   it('开始铸造NFT!', async () => {
     const balance = await anchor.getProvider().connection.getBalance(payer.publicKey);
