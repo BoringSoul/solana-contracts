@@ -27,7 +27,7 @@ describe('wrap asset', () => {
   const assets = [{"amount": new anchor.BN(10000), "tokenAddress": payer.publicKey}];
 
   console.log(` 支付方Address : ${payer.publicKey}`);
-  console.log(`  资产信息Address : ${assetInfoAccountAddr}`);
+  console.log(`  资产信息Address : ${assetInfoAccountAddr.publicKey}`);
 
   it('打包资产', async () => {
     await program.methods
@@ -69,19 +69,16 @@ describe('wrap asset', () => {
       name: 'Homer NFT',
       symbol: 'HOMR',
       uri: 'https://raw.githubusercontent.com/solana-developers/program-examples/new-examples/tokens/tokens/.assets/nft.json',
-      supply_no: new anchor.BN(1),
-      assets: [{"amount": new anchor.BN(10000), "tokenAddress": payer.publicKey}],
-      assets_account: assetInfoAccountAddr
+      assets_account: assetInfoAccountAddr.publicKey
     };
 
     getOrCreateAssociatedTokenAccount;
     const tx = await program.methods
-      .mintNft(metadata.name, metadata.symbol, metadata.uri, assetInfoAccountAddr.publicKey)
+      .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.assets_account)
       .accounts({
         signer: payer.publicKey,
         tokenAccount: destinationTokenAccount,
         mint: mint.publicKey,
-        // assetInfo: assetInfoAccountAddr.publicKey,
       })
       .signers([mint])
       .rpc();
