@@ -69,7 +69,7 @@ describe('wrap asset', () => {
       name: 'Homer NFT',
       symbol: 'HOMR',
       uri: 'https://raw.githubusercontent.com/solana-developers/program-examples/new-examples/tokens/tokens/.assets/nft.json',
-      assets_account: assetInfoAccountAddr.publicKey
+      assets_account: assetInfoAccountAddr.publicKey.toBase58()
     };
 
     getOrCreateAssociatedTokenAccount;

@@ -37,7 +37,7 @@ pub mod solana_contracts {
         token_title: String,
         token_symbol: String,
         token_uri: String,
-        assets_address: Pubkey
+        assets_address: String
     ) -> Result<()> {
         nft::mint_nft::mint_nft(ctx, token_title, token_symbol, token_uri, assets_address)
     }

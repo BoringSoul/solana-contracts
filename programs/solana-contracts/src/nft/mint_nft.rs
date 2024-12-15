@@ -15,7 +15,7 @@ pub fn mint_nft(
         token_title: String,
         token_symbol: String,
         token_uri: String,
-        assets_account: Pubkey
+        assets_account: String
     ) -> Result<()> {
     msg!("Mint nft with meta data extension and additional meta data");
     // *ctx.accounts.asset_info = crate::asset::AssetInfo {
@@ -132,7 +132,7 @@ pub fn mint_nft(
             ctx.accounts.mint.key,
             ctx.accounts.nft_authority.to_account_info().key,
             spl_token_metadata_interface::state::Field::Key("ASSET_ADDRESS".to_string()),
-            assets_account.to_string()
+            assets_account
         ),
         &[
             ctx.accounts.mint.to_account_info().clone(),
