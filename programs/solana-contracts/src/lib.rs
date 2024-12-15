@@ -9,8 +9,8 @@ use nft::*;
 use asset::*;
 
 // declare_id!("FQcgiPK79ZFAtBriM2MjVGeDYVHu9zDdSwmGqD1CaEoS");
-declare_id!("DvYFdnuamvwsxXDaHYAzfLSZ8AbDQd9BY2x71j6s87cs");
-// declare_id!("7mQjTQKBv9QzW1xGyqHs4ECDzWRfWp8hMiyq1fTC3MEc");
+// declare_id!("DvYFdnuamvwsxXDaHYAzfLSZ8AbDQd9BY2x71j6s87cs");
+declare_id!("EY9L3yoUv9SV8mqRm2gZz5Etb7g7Z9hkKgz5dHW9ZsNP");
 #[program]
 pub mod solana_contracts {
 

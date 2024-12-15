@@ -46,7 +46,7 @@ describe('extension_nft', () => {
 
     getOrCreateAssociatedTokenAccount;
     const tx = await program.methods
-      .mintNft(metadata.name, metadata.symbol, metadata.uri)
+      .mintNft(metadata.name, metadata.symbol, metadata.uri, "1")
       .accounts({
         signer: payer.publicKey,
         tokenAccount: destinationTokenAccount,
