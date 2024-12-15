@@ -9,7 +9,7 @@ use nft::*;
 use asset::*;
 
 // declare_id!("FQcgiPK79ZFAtBriM2MjVGeDYVHu9zDdSwmGqD1CaEoS");
-declare_id!("DvYFdnuamvwsxXDaHYAzfLSZ8AbDQd9BY2x71j6s87cs");
+declare_id!("7mQjTQKBv9QzW1xGyqHs4ECDzWRfWp8hMiyq1fTC3MEc");
 #[program]
 pub mod solana_contracts {
 
