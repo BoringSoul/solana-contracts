@@ -1,0 +1,12 @@
+/home/kali/Documents/codes/solana-contracts/target/debug/deps/libark_std-b7ecb9f0c18bf7be.rmeta: /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/lib.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/io/mod.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/io/error.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/error.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/rand_helper.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/perf_trace.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/iterable/mod.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/iterable/rev.rs
+
+/home/kali/Documents/codes/solana-contracts/target/debug/deps/ark_std-b7ecb9f0c18bf7be.d: /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/lib.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/io/mod.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/io/error.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/error.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/rand_helper.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/perf_trace.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/iterable/mod.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/iterable/rev.rs
+
+/home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/lib.rs:
+/home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/io/mod.rs:
+/home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/io/error.rs:
+/home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/error.rs:
+/home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/rand_helper.rs:
+/home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/perf_trace.rs:
+/home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/iterable/mod.rs:
+/home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-std-0.4.0/src/iterable/rev.rs:

@@ -1,0 +1,9 @@
+/home/kali/Documents/codes/solana-contracts/target/debug/deps/libspl_transfer_hook_interface-57a1d6814da6dc07.rmeta: /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-transfer-hook-interface-0.6.5/src/lib.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-transfer-hook-interface-0.6.5/src/error.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-transfer-hook-interface-0.6.5/src/instruction.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-transfer-hook-interface-0.6.5/src/offchain.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-transfer-hook-interface-0.6.5/src/onchain.rs
+
+/home/kali/Documents/codes/solana-contracts/target/debug/deps/spl_transfer_hook_interface-57a1d6814da6dc07.d: /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-transfer-hook-interface-0.6.5/src/lib.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-transfer-hook-interface-0.6.5/src/error.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-transfer-hook-interface-0.6.5/src/instruction.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-transfer-hook-interface-0.6.5/src/offchain.rs /home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-transfer-hook-interface-0.6.5/src/onchain.rs
+
+/home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-transfer-hook-interface-0.6.5/src/lib.rs:
+/home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-transfer-hook-interface-0.6.5/src/error.rs:
+/home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-transfer-hook-interface-0.6.5/src/instruction.rs:
+/home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-transfer-hook-interface-0.6.5/src/offchain.rs:
+/home/kali/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-transfer-hook-interface-0.6.5/src/onchain.rs:
