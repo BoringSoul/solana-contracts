@@ -43,6 +43,12 @@ pub mod solana_contracts {
         nft::mint_nft::mint_nft(ctx, token_title, token_symbol, token_uri, assets_address)
     }
 
+    pub fn burn_nft(
+        ctx: Context<BurnNft>
+    ) -> Result<()> {
+        nft::burn_nft::burn_nft(ctx)
+    }
+
     pub fn wrap_asset(
         ctx:Context<WrapContext>,
         supply_no:u64,
