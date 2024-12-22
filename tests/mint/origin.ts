@@ -8,7 +8,7 @@ describe('NFT Minter', () => {
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
   const payer = provider.wallet as anchor.Wallet;
-  const program = anchor.workspace.NftMinter as anchor.Program<SolanaContracts>;
+  const program = anchor.workspace.SolanaContracts as anchor.Program<SolanaContracts>;
 
   // The metadata for our NFT
   const metadata = {
