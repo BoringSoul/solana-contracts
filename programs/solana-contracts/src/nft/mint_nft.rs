@@ -205,7 +205,7 @@ impl<'info> MintNft<'info> {
             ),
             lamports_required,
             space as u64,
-            &self.token_program.key()
+            &self.system_program.key()
         )
     }
 }
