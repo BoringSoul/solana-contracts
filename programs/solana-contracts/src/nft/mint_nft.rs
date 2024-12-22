@@ -195,10 +195,10 @@ impl<'info> MintNft<'info> {
         Ok(())
     }
 
-    // fn add_rent_lamports(&mut self) -> Result<()> {
-    //     let rent_lamports = self.rent.minimum_balance(200 + self.asset_account.key().to_bytes().len() * 2);
-    //     self.rent.add_lamports(rent_lamports)?;
-    //     msg!("lamports after add = {}", self.rent.get_lamports());
-    //     Ok(())
-    // }
+    fn add_rent_lamports(&mut self) -> Result<()> {
+        let rent_lamports = self.rent.minimum_balance(AssetInfo::INIT_SPACE);
+        self.rent.add_lamports(rent_lamports)?;
+        msg!("lamports after add = {}", self.rent.get_lamports());
+        Ok(())
+    }
 }
