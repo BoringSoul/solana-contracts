@@ -35,7 +35,7 @@ describe('NFT Minter', () => {
         associatedTokenAccount: associatedTokenAccountAddress,
         assetAccount: assetAccountKeypaire.publicKey,
       })
-      .signers([mintKeypair])
+      .signers([mintKeypair, assetAccountKeypaire])
       .rpc({ skipPreflight: true });
 
     console.log('Success!');
