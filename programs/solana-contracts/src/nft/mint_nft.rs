@@ -67,7 +67,7 @@ pub struct MintNft<'info> {
     #[account(
         init,
         payer = payer,
-        space = 8 + AssetInfo::INIT_SPACE,
+        space = 8 + AssetInfo::INIT_SPACE + AssetInfo::key_len(),
     )]
     pub asset_account: Account<'info, AssetInfo>,
 
