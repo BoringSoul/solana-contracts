@@ -21,7 +21,7 @@ describe('NFT Minter', () => {
   it('Create an NFT!', async () => {
     // Generate a keypair to use as the address of our mint account
     const mintKeypair = new Keypair();
-
+    const assetAccountKeypaire = new Keypair();
     // Derive the associated token address account for the mint and payer.
     const associatedTokenAccountAddress = getAssociatedTokenAddressSync(mintKeypair.publicKey, payer.publicKey);
     const transactionSignature = await program.methods
@@ -33,6 +33,7 @@ describe('NFT Minter', () => {
         payer: payer.publicKey,
         mintAccount: mintKeypair.publicKey,
         associatedTokenAccount: associatedTokenAccountAddress,
+        assetAccount: assetAccountKeypaire.publicKey,
       })
       .signers([mintKeypair])
       .rpc({ skipPreflight: true });

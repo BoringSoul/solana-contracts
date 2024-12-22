@@ -67,7 +67,7 @@ pub struct MintNft<'info> {
         payer = payer,
         space = 8 + AssetInfo::INIT_SPACE,
     )]
-    pub asset_info: Account<'info, AssetInfo>,
+    pub asset_account: Account<'info, AssetInfo>,
 
     pub token_program: Program<'info, Token>,
     pub token_metadata_program: Program<'info, Metadata>,
@@ -85,8 +85,8 @@ impl<'info> MintNft<'info> {
         assets: Vec<Asset>,
         // bumps: &MintNftBumps, 
     ) -> Result<()> {
-        self.asset_info.assets = assets;
-        self.asset_info.supply_no = supply_no;
+        self.asset_account.assets = assets;
+        self.asset_account.supply_no = supply_no;
         msg!("Minting Token");
         // Cross Program Invocation (CPI)
         // Invoking the mint_to instruction on the token program
@@ -141,7 +141,7 @@ impl<'info> MintNft<'info> {
                 creators: None,
                 collection: Some(Collection {
                     verified: false,
-                    key: self.asset_info.key(),
+                    key: self.asset_account.key(),
                 }),
                 uses: None,
             },
