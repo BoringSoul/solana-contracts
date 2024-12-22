@@ -92,7 +92,7 @@ impl<'info> MintNft<'info> {
             supply_no,
             assets
         });
-        msg!("Create Data Account");
+        msg!("lamports = {}", self.rent.get_lamports());
         self.create_data_account()?;
 
         self.add_rent_lamports()?;
@@ -207,13 +207,14 @@ impl<'info> MintNft<'info> {
             ),
             lamports_required,
             space as u64,
-            &self.system_program.key()
+            &self.token_program.key()
         )
     }
 
     fn add_rent_lamports(&mut self) -> Result<()> {
         let rent_lamports = self.rent.minimum_balance(self.asset_account.key().to_bytes().len() * 2);
         self.rent.add_lamports(rent_lamports)?;
+        msg!("lamports after add = {}", self.rent.get_lamports());
         Ok(())
     }
 }
