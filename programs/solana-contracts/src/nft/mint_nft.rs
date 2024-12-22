@@ -149,10 +149,7 @@ impl<'info> MintNft<'info> {
                 uri: nft_uri,
                 seller_fee_basis_points: 0,
                 creators: None,
-                collection: Some(Collection {
-                    verified: false,
-                    key: self.asset_account.key(),
-                }),
+                collection: None,
                 uses: None,
             },
             false, // Is mutable
