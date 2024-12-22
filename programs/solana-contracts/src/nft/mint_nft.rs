@@ -69,7 +69,7 @@ pub struct MintNft<'info> {
         payer = payer,
         space = 8 + AssetInfo::INIT_SPACE + AssetInfo::key_len(),
     )]
-    pub asset_account: Account<'info, AssetInfo>,
+    pub asset_account: Box<Account<'info, AssetInfo>>,
 
     pub token_program: Program<'info, Token>,
     pub token_metadata_program: Program<'info, Metadata>,
