@@ -25,11 +25,12 @@ describe('NFT Minter', () => {
     const associatedTokenAccountAddress = getAssociatedTokenAddressSync(mintKeypair.publicKey, payer.publicKey);
 
     const transactionSignature = await program.methods
-      .mintNft(metadata.name, metadata.symbol, metadata.uri, new Keypair().publicKey)
+      .mintNft(metadata.name, metadata.symbol, metadata.uri)
       .accounts({
         payer: payer.publicKey,
         mintAccount: mintKeypair.publicKey,
         associatedTokenAccount: associatedTokenAccountAddress,
+        assetAccount: new Keypair().publicKey,
       })
       .signers([mintKeypair])
       .rpc({ skipPreflight: true });
