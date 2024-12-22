@@ -79,8 +79,6 @@ pub struct MintNft<'info> {
 }
 
 impl<'info> MintNft<'info> {
-
-    #[inline(never)]
     pub fn mint(&mut self, 
         nft_name:String, 
         nft_symbol:String, 
