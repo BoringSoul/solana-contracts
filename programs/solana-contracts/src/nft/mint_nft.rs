@@ -92,7 +92,7 @@ impl<'info> MintNft<'info> {
         // msg!("lamports = {}", self.rent.get_lamports());
         self.set_data_account(supply_no, assets)?;
 
-        // self.add_rent_lamports()?;
+        self.add_rent_lamports()?;
 
         msg!("Minting Token");
         // Cross Program Invocation (CPI)
