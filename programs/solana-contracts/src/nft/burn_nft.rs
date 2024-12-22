@@ -13,6 +13,8 @@ pub struct BurnNft<'info> {
     pub token_account: Account<'info, TokenAccount>,
     #[account(mut)]
     pub mint_account: AccountInfo<'info>,
+
+    /// CHECK: Validate address by deriving pda
     #[account(
         mut,
         seeds = [b"metadata", token_metadata_program.key().as_ref(), mint_account.key().as_ref()],
