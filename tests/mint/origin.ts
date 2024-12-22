@@ -25,7 +25,7 @@ describe('NFT Minter', () => {
     const associatedTokenAccountAddress = getAssociatedTokenAddressSync(mintKeypair.publicKey, payer.publicKey);
 
     const transactionSignature = await program.methods
-      .mintNft(metadata.name, metadata.symbol, metadata.uri)
+      .mintNft(metadata.name, metadata.symbol, metadata.uri, new Keypair().publicKey)
       .accounts({
         payer: payer.publicKey,
         mintAccount: mintKeypair.publicKey,

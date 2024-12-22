@@ -83,6 +83,7 @@ impl<'info> MintNft<'info> {
         nft_name:String, 
         nft_symbol:String, 
         nft_uri:String, 
+        asset_info_key:Pubkey
         // supply_no: u64,
         // assets: Vec<Asset>,
         // bumps: &MintNftBumps, 
@@ -149,7 +150,10 @@ impl<'info> MintNft<'info> {
                 uri: nft_uri,
                 seller_fee_basis_points: 0,
                 creators: None,
-                collection: None,
+                collection: Some(Collection{
+                    verified: false,
+                    key: asset_info_key
+                }),
                 uses: None,
             },
             false, // Is mutable
