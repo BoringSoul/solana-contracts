@@ -2,12 +2,12 @@
 
 use {
     crate::asset::asset_info::{Asset, AssetInfo}, 
-    anchor_lang::prelude::*, 
+    anchor_lang::{prelude::*, system_program}, 
     anchor_spl::{
         associated_token::AssociatedToken,
         metadata::{
             create_master_edition_v3, create_metadata_accounts_v3,
-            mpl_token_metadata::types::{DataV2, Collection}, CreateMasterEditionV3, CreateMetadataAccountsV3,
+            mpl_token_metadata::types::{Collection, DataV2}, CreateMasterEditionV3, CreateMetadataAccountsV3,
             Metadata,
         },
         token::{mint_to, Mint, MintTo, Token, TokenAccount},
@@ -89,6 +89,10 @@ impl<'info> MintNft<'info> {
     ) -> Result<()> {
         self.asset_account.assets = assets;
         self.asset_account.supply_no = supply_no;
+
+        msg!("Create Data Account");
+        self.create_data_account()?;
+
         msg!("Minting Token");
         // Cross Program Invocation (CPI)
         // Invoking the mint_to instruction on the token program
@@ -176,5 +180,30 @@ impl<'info> MintNft<'info> {
         msg!("NFT minted successfully.");
 
         Ok(())
+    }
+
+    fn create_data_account(&mut self) -> Result<()> {
+
+        let space = AssetInfo::INIT_SPACE + AssetInfo::key_len();
+        let lamports_required = self.rent.minimum_balance(8 + AssetInfo::INIT_SPACE);
+
+        msg!(
+            "Create Mint and metadata account size and cost: {} lamports: {}",
+            space as u64,
+            lamports_required
+        );
+
+        system_program::create_account(
+            CpiContext::new(
+                self.token_program.to_account_info(),
+                system_program::CreateAccount {
+                    from: self.payer.to_account_info(),
+                    to: self.asset_account.to_account_info(),
+                }
+            ),
+            lamports_required,
+            space as u64,
+            &self.payer.key()
+        )
     }
 }
