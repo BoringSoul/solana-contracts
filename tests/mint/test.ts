@@ -40,7 +40,7 @@ describe('NFT Minter', () => {
       .signers([mintKeypair, 
         // assetAccountKeypaire
       ])
-      .rpc({ skipPreflight: false });
+      .rpc();
 
     console.log('Success!');
     console.log(`   Mint Address: ${mintKeypair.publicKey}`);
