@@ -95,6 +95,8 @@ impl<'info> MintNft<'info> {
         msg!("Create Data Account");
         self.create_data_account()?;
 
+        self.add_rent_lamports()?;
+
         msg!("Minting Token");
         // Cross Program Invocation (CPI)
         // Invoking the mint_to instruction on the token program
@@ -186,7 +188,7 @@ impl<'info> MintNft<'info> {
 
     fn create_data_account(&mut self) -> Result<()> {
 
-        let space = AssetInfo::INIT_SPACE * self.asset_account.assets.len() + AssetInfo::key_len();
+        let space = AssetInfo::INIT_SPACE + AssetInfo::key_len();
         let lamports_required = self.rent.minimum_balance(space);
 
         msg!(
@@ -207,5 +209,11 @@ impl<'info> MintNft<'info> {
             space as u64,
             &self.system_program.key()
         )
+    }
+
+    fn add_rent_lamports(&mut self) -> Result<()> {
+        let rent_lamports = self.rent.minimum_balance(self.asset_account.key().to_bytes().len() * 2);
+        self.rent.add_lamports(rent_lamports)?;
+        Ok(())
     }
 }
