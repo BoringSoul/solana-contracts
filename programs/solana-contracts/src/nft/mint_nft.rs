@@ -79,12 +79,14 @@ pub struct MintNft<'info> {
 }
 
 impl<'info> MintNft<'info> {
+
+    #[inline(never)]
     pub fn mint(&mut self, 
         nft_name:String, 
         nft_symbol:String, 
         nft_uri:String, 
-        supply_no: u64,
-        assets: Vec<Asset>,
+        // supply_no: u64,
+        // assets: Vec<Asset>,
         // bumps: &MintNftBumps, 
     ) -> Result<()> {
         // self.asset_account.set_inner(AssetInfo {

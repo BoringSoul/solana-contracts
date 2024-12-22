@@ -40,7 +40,10 @@ pub mod solana_contracts {
         supply_no:u64,
         assets: Vec<asset::Asset>
     ) -> Result<()> {
-        ctx.accounts.mint(token_title, token_symbol, token_uri, supply_no, assets)
+        ctx.accounts.mint(token_title, token_symbol, token_uri, 
+            // supply_no,
+            // assets
+        )
     }
 
     pub fn burn_nft(
