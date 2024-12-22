@@ -67,7 +67,7 @@ pub struct MintNft<'info> {
     #[account(
         init,
         payer = payer,
-        space = 8 + AssetInfo::INIT_SPACE,
+        space = 200 + AssetInfo::INIT_SPACE,
         seeds = [b"ASSET_DATA", payer.key().as_ref(), mint_account.key().as_ref()],
         bump,
     )]
