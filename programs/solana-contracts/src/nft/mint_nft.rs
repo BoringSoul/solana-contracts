@@ -41,6 +41,8 @@ pub struct MintNft<'info> {
     #[account(
         init,
         payer = payer,
+        seeds = [b"ASSET_DATA", payer.key().as_ref(), mint_account.key().as_ref()],
+        bump,
         mint::decimals = 0,
         mint::authority = payer.key(),
         mint::freeze_authority = payer.key(),
