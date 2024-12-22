@@ -37,14 +37,12 @@ pub mod solana_contracts {
         token_title: String,
         token_symbol: String,
         token_uri: String,
-        asset_info_key: Pubkey
-        // supply_no:u64,
-        // assets: Vec<asset::Asset>
+        supply_no:u64,
+        assets: Vec<asset::Asset>
     ) -> Result<()> {
-        ctx.accounts.mint(token_title, token_symbol, token_uri, 
-            asset_info_key,
-            // supply_no,
-            // assets
+        ctx.accounts.mint(token_title, token_symbol, token_uri,
+            supply_no,
+            assets
         )
     }
 
