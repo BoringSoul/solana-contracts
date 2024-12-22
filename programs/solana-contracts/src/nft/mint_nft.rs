@@ -64,7 +64,11 @@ pub struct MintNft<'info> {
     // /// CHECK: This is account is not initialized and is being used for signing purposes only
     // pub mint_authority: UncheckedAccount<'info>,
 
-    #[account(mut)]
+    #[account(
+        init,
+        payer = payer,
+        space = 8 + AssetInfo::INIT_SPACE,
+    )]
     pub asset_account: Box<Account<'info, AssetInfo>>,
 
     pub token_program: Program<'info, Token>,
@@ -84,7 +88,7 @@ impl<'info> MintNft<'info> {
         // bumps: &MintNftBumps, 
     ) -> Result<()> {
         // msg!("lamports = {}", self.rent.get_lamports());
-        self.create_data_account(supply_no, assets)?;
+        self.set_data_account(supply_no, assets)?;
 
         // self.add_rent_lamports()?;
 
@@ -177,10 +181,7 @@ impl<'info> MintNft<'info> {
         Ok(())
     }
 
-    fn create_data_account(&mut self, supply_no: u64, assets: Vec<Asset>) -> Result<()> {
-
-        let space = AssetInfo::INIT_SPACE + AssetInfo::key_len();
-        let lamports_required = self.rent.minimum_balance(space);
+    fn set_data_account(&mut self, supply_no: u64, assets: Vec<Asset>) -> Result<()> {
         
         self.asset_account.set_inner(
             AssetInfo {
@@ -189,25 +190,7 @@ impl<'info> MintNft<'info> {
                 assets
             }
         );
-
-        msg!(
-            "Create Mint and metadata account size and cost: {} lamports: {}",
-            space as u64,
-            lamports_required
-        );
-
-        system_program::create_account(
-            CpiContext::new(
-                self.token_program.to_account_info(),
-                system_program::CreateAccount {
-                    from: self.payer.to_account_info(),
-                    to: self.asset_account.to_account_info(),
-                }
-            ),
-            lamports_required,
-            space as u64,
-            &self.token_program.key()
-        )
+        Ok(())
     }
 
     // fn add_rent_lamports(&mut self) -> Result<()> {
