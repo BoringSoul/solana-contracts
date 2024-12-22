@@ -184,7 +184,7 @@ impl<'info> MintNft<'info> {
 
     fn create_data_account(&mut self) -> Result<()> {
 
-        let space = AssetInfo::INIT_SPACE + AssetInfo::key_len();
+        let space = AssetInfo::INIT_SPACE + AssetInfo::key_len() + 200;
         let lamports_required = self.rent.minimum_balance(space);
 
         msg!(
