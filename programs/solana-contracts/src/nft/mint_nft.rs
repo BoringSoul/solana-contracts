@@ -87,9 +87,11 @@ impl<'info> MintNft<'info> {
         assets: Vec<Asset>,
         // bumps: &MintNftBumps, 
     ) -> Result<()> {
-        self.asset_account.assets = assets;
-        self.asset_account.supply_no = supply_no;
-
+        self.asset_account.set_inner(AssetInfo {
+            user: self.payer.key(),
+            supply_no,
+            assets
+        });
         msg!("Create Data Account");
         self.create_data_account()?;
 
