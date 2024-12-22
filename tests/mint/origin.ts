@@ -1,7 +1,8 @@
 import * as anchor from '@coral-xyz/anchor';
 import { getAssociatedTokenAddressSync } from '@solana/spl-token';
 import { Keypair } from '@solana/web3.js';
-import type { NftMinter } from '../target/types/nft_minter';
+// import type { NftMinter } from '../target/types/nft_minter';
+import type { SolanaContracts } from '../../target/types/solana_contracts';
 
 describe('NFT Minter', () => {
   const provider = anchor.AnchorProvider.env();
