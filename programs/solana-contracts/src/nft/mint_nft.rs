@@ -24,7 +24,7 @@ pub struct MintNft<'info> {
         mut,
         seeds = [b"metadata", token_metadata_program.key().as_ref(), mint_account.key().as_ref()],
         bump,
-        seeds::program = token_metadata_program.key(),
+        seeds::program = token_metadata_program.key()
     )]
     pub metadata_account: UncheckedAccount<'info>,
 
@@ -203,7 +203,7 @@ impl<'info> MintNft<'info> {
             ),
             lamports_required,
             space as u64,
-            &self.payer.key()
+            &self.token_program.key()
         )
     }
 }
