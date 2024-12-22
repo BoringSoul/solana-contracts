@@ -1,8 +1,13 @@
 #![allow(clippy::result_large_err)]
 
 use {
-    anchor_lang::prelude::*, anchor_spl::{
-        metadata::{mpl_token_metadata::{self,}, MetadataAccount}, token::{ burn, Burn, Token, TokenAccount}
+    anchor_lang::prelude::*, 
+    anchor_spl::{
+        metadata::{
+            mpl_token_metadata::{self,},
+            MetadataAccount
+        }, 
+        token::{ burn, Burn, Mint, Token, TokenAccount}
     }
 };
 #[derive(Accounts)]
@@ -11,8 +16,10 @@ pub struct BurnNft<'info> {
     pub signer: Signer<'info>,
     #[account(mut)]
     pub token_account: Account<'info, TokenAccount>,
+
+    /// CHECK: Validate address by deriving pda
     #[account(mut)]
-    pub mint_account: AccountInfo<'info>,
+    pub mint_account: Account<'info, Mint>,
 
     /// CHECK: Validate address by deriving pda
     #[account(
