@@ -4,9 +4,8 @@ use {
     anchor_lang::prelude::*, 
     anchor_spl::{
         metadata::{
-            mpl_token_metadata::{self,},
-            MetadataAccount
-        }, 
+            mpl_token_metadata::{self,}, Metadata, MetadataAccount
+        },
         token::{ burn, Burn, Mint, Token, TokenAccount}
     }
 };
@@ -40,7 +39,7 @@ pub struct BurnNft<'info> {
         },
     )]
     pub asset_info: Account<'info, crate::asset::AssetInfo>,
-    pub token_metadata_program: Program<'info, anchor_spl::metadata::Metadata>,
+    pub token_metadata_program: Program<'info, Metadata>,
     pub system_program: Program<'info, System>,
     pub token_program: Program<'info, Token>
 }
