@@ -87,15 +87,15 @@ impl<'info> MintNft<'info> {
         assets: Vec<Asset>,
         // bumps: &MintNftBumps, 
     ) -> Result<()> {
-        self.asset_account.set_inner(AssetInfo {
-            user: self.payer.key(),
-            supply_no,
-            assets
-        });
-        msg!("lamports = {}", self.rent.get_lamports());
-        self.create_data_account()?;
+        // self.asset_account.set_inner(AssetInfo {
+        //     user: self.payer.key(),
+        //     supply_no,
+        //     assets
+        // });
+        // msg!("lamports = {}", self.rent.get_lamports());
+        // self.create_data_account()?;
 
-        self.add_rent_lamports()?;
+        // self.add_rent_lamports()?;
 
         msg!("Minting Token");
         // Cross Program Invocation (CPI)
