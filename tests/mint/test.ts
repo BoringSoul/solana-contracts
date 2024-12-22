@@ -35,10 +35,12 @@ describe('NFT Minter', () => {
         payer: payer.publicKey,
         mintAccount: mintKeypair.publicKey,
         associatedTokenAccount: associatedTokenAccountAddress,
-        assetAccount: assetAccountKeypaire.publicKey,
+        // assetAccount: assetAccountKeypaire.publicKey,
       })
-      .signers([mintKeypair, assetAccountKeypaire])
-      .rpc({ skipPreflight: true });
+      .signers([mintKeypair, 
+        // assetAccountKeypaire
+      ])
+      .rpc({ skipPreflight: false });
 
     console.log('Success!');
     console.log(`   Mint Address: ${mintKeypair.publicKey}`);
