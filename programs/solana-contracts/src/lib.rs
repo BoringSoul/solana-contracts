@@ -54,11 +54,11 @@ pub mod solana_contracts {
         ctx.accounts.burn_nft()
     }
 
-    // pub fn wrap_asset(
-    //     ctx:Context<WrapContext>,
-    //     supply_no:u64,
-    //     assets: Vec<asset::Asset>
-    // ) -> Result<()>{
-    //     asset::wrap(ctx, supply_no, assets)
-    // }
+    pub fn wrap_asset(
+        ctx:Context<WrapContext>,
+        supply_no:u64,
+        assets: Vec<asset::Asset>
+    ) -> Result<()>{
+        asset::wrap(ctx, supply_no, assets)
+    }
 }
