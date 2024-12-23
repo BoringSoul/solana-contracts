@@ -9,7 +9,7 @@ pub mod errors;
 use nft::*;
 use asset::*;
 
-declare_id!("7isF9L3EAkkbrncrwxkmqVvkVUFuFpHMZ7YwGpntDPkP");
+declare_id!("A8rXvAU6Ea6qPmjGgCdSJVu5AfbCqQXQFo7xSkpw33dY");
 #[program]
 pub mod solana_contracts {
 
