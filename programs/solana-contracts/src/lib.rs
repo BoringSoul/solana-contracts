@@ -7,7 +7,7 @@ pub mod nft;
 pub mod errors;
 // use tokens::*;
 use nft::*;
-// use asset::*;
+use asset::*;
 
 declare_id!("7isF9L3EAkkbrncrwxkmqVvkVUFuFpHMZ7YwGpntDPkP");
 #[program]
