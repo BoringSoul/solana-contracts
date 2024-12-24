@@ -5,28 +5,16 @@ use anchor_lang::prelude::*;
 use crate::asset::*;
 
 #[derive(Accounts)]
-pub struct WrapContext<'info> {
+pub struct UnwrapContext<'info> {
     #[account(mut)]
     pub user: Signer<'info>,
 
-    #[account(
-        init,
-        payer = user,
-        space = 8 + AssetInfo::INIT_SPACE,
-    )]
-    pub asset_info: Account<'info, AssetInfo>,
-    pub system_program: Program<'info, System>,
+    #[account(mut)]
+    pub asset_info: Account<'info, AssetInfo>
 }
 
-pub fn unwrap(ctx: Context<WrapContext>, 
-    supply_no: u64,
-    assets: Vec<Asset>) -> Result<()> {
-    *ctx.accounts.asset_info = AssetInfo {
-        user: ctx.accounts.user.key(),
-        supply_no,
-        assets
-    };
-    let pubkey = ctx.accounts.asset_info.key();
-    msg!("asset_info.key = {}", pubkey);
-    Ok(())
+impl<'info> UnwrapContext<'info> {
+    pub fn unwrap(&mut self) -> Result<()> {
+        self.asset_info.close(self.user.to_account_info())
+    }
 }

@@ -77,28 +77,27 @@ describe('wrap asset', () => {
 
 
 
-  // it('unwrap', async () => {
-  //   // Generate a keypair to use as the address of our mint account
-  //   console.log(`  mintKeypair : ${mintKeypair.publicKey}`);
+  it('unwrap', async () => {
+    // Generate a keypair to use as the address of our mint account
+    console.log(`  mintKeypair : ${mintKeypair.publicKey}`);
 
-  //   console.log(` Token Account Address is  : ${associatedTokenAccountAddress}`);
-  //   const transactionSignature = await program.methods
-  //     // .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.supply_no, metadata.assets)
-  //     // .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.assets)
-  //     // .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.supply_no)
-  //     .burnNft()
-  //     .accounts({
-  //       payer: payer.publicKey,
-  //       mintAccount: mintKeypair.publicKey,
-  //       tokenAccount: associatedTokenAccountAddress,
-  //       // assetInfo: assetInfoAccountAddr.publicKey,
-  //       // assetAccount: assetAccountKeypaire.publicKey,
-  //     })
-  //   .rpc({ skipPreflight: true });
+    console.log(` Token Account Address is  : ${associatedTokenAccountAddress}`);
+    const transactionSignature = await program.methods
+      // .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.supply_no, metadata.assets)
+      // .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.assets)
+      // .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.supply_no)
+      .unwrapAsset()
+      .accounts({
+        user: payer.publicKey,
+        assetInfo: assetInfoAccountAddr.publicKey,
+        // assetInfo: assetInfoAccountAddr.publicKey,
+        // assetAccount: assetAccountKeypaire.publicKey,
+      })
+    .rpc({ skipPreflight: true });
 
-  //   console.log('Success!');
-  //   console.log(`Close Transaction Signature: ${transactionSignature}`);
-  // });
+    console.log('Success!');
+    console.log(`Close Transaction Signature: ${transactionSignature}`);
+  });
 
 
   it('burn', async () => {
