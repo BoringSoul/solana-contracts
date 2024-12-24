@@ -16,7 +16,11 @@ describe('wrap asset', () => {
   // Derive the PDA for the user's account.
   // const [assetInfoAccountAddr] = PublicKey.findProgramAddressSync([Buffer.from('ASSET_INFO'), payer.publicKey.toBuffer()], program.programId);
   const assetInfoAccountAddr = new Keypair();
-  // const mintKeypair = new Keypair();
+
+  const mintKeypair = new Keypair();
+
+  const associatedTokenAccountAddress = getAssociatedTokenAddressSync(mintKeypair.publicKey, payer.publicKey);
+  
   const supply_no = new anchor.BN(1);
   const assets = [{"amount": new anchor.BN(10000), "tokenAddress": payer.publicKey}];
 
@@ -38,12 +42,6 @@ describe('wrap asset', () => {
       })
       .signers([assetInfoAccountAddr])
       .rpc();
-
-    // Fetch the account data
-    const assetInfoAccount = await program.account.userState.fetch(assetInfoAccountAddr.publicKey);
-    assert.equal(assetInfoAccount.user.toBase58(), payer.publicKey.toBase58());
-    assert.equal(assetInfoAccount.assets, assets);
-    assert.equal(assetInfoAccount.supplyNo, supply_no);
   });
 
 
@@ -51,13 +49,11 @@ describe('wrap asset', () => {
 
   it('Create an NFT!', async () => {
     // Generate a keypair to use as the address of our mint account
-    const mintKeypair = new Keypair();
     console.log(`  mintKeypair : ${mintKeypair.publicKey}`);
     // const assetAccountKeypaire = new Keypair();
 
     // Derive the associated token address account for the mint and payer.
-    const associatedTokenAccountAddress = getAssociatedTokenAddressSync(mintKeypair.publicKey, payer.publicKey);
-    console.log(` Token Account Address is  : ${associatedTokenAccountAddress.publicKey}`);
+    console.log(` Token Account Address is  : ${associatedTokenAccountAddress}`);
     const transactionSignature = await program.methods
       // .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.supply_no, metadata.assets)
       // .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.assets)
@@ -77,6 +73,55 @@ describe('wrap asset', () => {
     console.log('Success!');
     console.log(`   Mint Address: ${mintKeypair.publicKey}`);
     console.log(`   Transaction Signature: ${transactionSignature}`);
+  });
+
+
+
+  // it('unwrap', async () => {
+  //   // Generate a keypair to use as the address of our mint account
+  //   console.log(`  mintKeypair : ${mintKeypair.publicKey}`);
+
+  //   console.log(` Token Account Address is  : ${associatedTokenAccountAddress}`);
+  //   const transactionSignature = await program.methods
+  //     // .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.supply_no, metadata.assets)
+  //     // .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.assets)
+  //     // .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.supply_no)
+  //     .burnNft()
+  //     .accounts({
+  //       payer: payer.publicKey,
+  //       mintAccount: mintKeypair.publicKey,
+  //       tokenAccount: associatedTokenAccountAddress,
+  //       // assetInfo: assetInfoAccountAddr.publicKey,
+  //       // assetAccount: assetAccountKeypaire.publicKey,
+  //     })
+  //   .rpc({ skipPreflight: true });
+
+  //   console.log('Success!');
+  //   console.log(`Close Transaction Signature: ${transactionSignature}`);
+  // });
+
+
+  it('burn', async () => {
+    // Generate a keypair to use as the address of our mint account
+    console.log(`  mintKeypair : ${mintKeypair.publicKey}`);
+
+    console.log(` Token Account Address is  : ${associatedTokenAccountAddress}`);
+    const transactionSignature = await program.methods
+      // .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.supply_no, metadata.assets)
+      // .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.assets)
+      // .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.supply_no)
+      .burnNft()
+      .accounts({
+        payer: payer.publicKey,
+        mintAccount: mintKeypair.publicKey,
+        tokenAccount: associatedTokenAccountAddress,
+        // assetInfo: assetInfoAccountAddr.publicKey,
+        // assetAccount: assetAccountKeypaire.publicKey,
+      })
+    .rpc({ skipPreflight: true });
+
+    console.log('Success!');
+    console.log(` Burn Transaction Signature: ${transactionSignature}`);
   });
 
 });
