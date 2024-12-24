@@ -57,7 +57,10 @@ impl<'info> BurnNft<'info> {
         ];
         let (_metadata_pda, _bump) =
             Pubkey::find_program_address(metadata_seeds, &self.token_metadata_program.key());
-        let metadata_seeds: &[&[u8]] = &[b"metadata", token_metadata_program.as_ref(), mint_account.as_ref(), &[_bump]];
+        let metadata_seeds: &[&[u8]] = &[b"metadata",
+            token_metadata_program.as_ref(),
+            mint_account.as_ref(), 
+            &[_bump]];
 
         let master_edition_seeds = &[
             b"metadata",
@@ -67,7 +70,11 @@ impl<'info> BurnNft<'info> {
         ];
         let (_master_edition_pda, _bump) =
             Pubkey::find_program_address(master_edition_seeds, &self.token_metadata_program.key());
-        let master_edition_seeds = &[b"metadata", token_metadata_program.as_ref(), mint_account.as_ref(), b"edition", &[_bump]];
+        let master_edition_seeds = &[b"metadata", 
+        token_metadata_program.as_ref(),
+         mint_account.as_ref(), 
+         b"edition",
+        &[_bump]];
     
 
         // 将所有的 signer_seeds 放在一个数组中
@@ -88,60 +95,6 @@ impl<'info> BurnNft<'info> {
             &ToAccountInfos::to_account_infos(self),
             signer_seeds
         )?;
-
-    //     // Step 1: Burn the token
-    //     burn(
-    //         CpiContext::new(
-    //             self.token_program.to_account_info(),
-    //             Burn {
-    //                 mint: self.mint_account.to_account_info(),
-    //                 from: self.token_account.to_account_info(),
-    //                 authority: self.signer.to_account_info(),
-    //             },
-    //         ),
-    //         1,
-    //     )?;
-
-    //     // Step 2: Close the Token Account
-    //     close_account(CpiContext::new(
-    //         self.token_program.to_account_info(),
-    //         CloseAccount {
-    //             account: self.token_account.to_account_info(),
-    //             destination: self.signer.to_account_info(),
-    //             authority: self.signer.to_account_info(),
-    //         },
-    //     ))?;
-
-    //    // Step 3: Close the Metadata Account
-    //    invoke(
-    //     &system_instruction::transfer(
-    //         self.metadata_account.key,
-    //         self.signer.key,
-    //         self.metadata_account.lamports(),
-    //     ),
-    //     &[
-    //         self.metadata_account.to_account_info(),
-    //         self.signer.to_account_info(),
-    //         self.system_program.to_account_info(),
-    //     ],
-    //     )?;
-    //     **self.metadata_account.to_account_info().lamports.borrow_mut() = 0;
-
-    //     // Step 4: Close the Master Edition Account
-    //     invoke(
-    //         &system_instruction::transfer(
-    //             self.edition_account.key,
-    //             self.signer.key,
-    //             self.edition_account.lamports(),
-    //         ),
-    //         &[
-    //             self.edition_account.to_account_info(),
-    //             self.signer.to_account_info(),
-    //             self.system_program.to_account_info()
-    //         ],
-    //     )?;
-    //     **self.edition_account.to_account_info().lamports.borrow_mut() = 0;
-        
         Ok(())
     }
 }
