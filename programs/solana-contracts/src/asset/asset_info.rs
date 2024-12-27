@@ -6,7 +6,8 @@ pub struct AssetInfo {
     pub user:Pubkey,
     pub supply_no: u64,
     #[max_len(5)]
-    pub assets: Vec<Asset>
+    pub assets: Vec<Asset>,
+    pub start_time: i64
 }
 
 #[derive(InitSpace, Clone, AnchorSerialize, AnchorDeserialize)]

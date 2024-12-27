@@ -1,20 +1,21 @@
 
 #![allow(clippy::result_large_err)]
 use anchor_lang::prelude::*;
+pub mod manager;
 pub mod asset;
-pub mod tokens;
 pub mod nft;
 pub mod errors;
+
+use manager::*;
 use nft::*;
 use asset::*;
 
-declare_id!("D8q5HBdGEkm9wVMVs75FP38D2BXD665f7xCmL9K2v5Dq");
+declare_id!("Aq4BEEu9pFDoVbabVHNmbBTqT4tLLDi2GgvSBScuCGWy");
 #[program]
 pub mod solana_contracts {
 
+
     use super::*;
-
-
     pub fn mint_nft(
         ctx: Context<MintNft>,
         token_title: String,
@@ -29,6 +30,16 @@ pub mod solana_contracts {
             // supply_no,
             // assets
         )
+    }
+
+
+    pub fn init_asset_manager(ctx: Context<InitContext>, limit:u128, contract_uri:String, start_time:i64, end_time:i64, wrap_fee:u64, unwrap_fee:u64) -> Result<()> {
+        ctx.accounts.init(limit, contract_uri, start_time, end_time, wrap_fee, unwrap_fee)
+    }
+
+
+    pub fn update_asset(ctx: Context<UpdateAssetManagerContext>) -> Result<AssetManager> {
+        ctx.accounts.add_asset()
     }
 
     pub fn burn_nft(
