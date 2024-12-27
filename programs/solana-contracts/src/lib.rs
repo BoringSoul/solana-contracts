@@ -10,7 +10,7 @@ use manager::*;
 use nft::*;
 use asset::*;
 
-declare_id!("Aq4BEEu9pFDoVbabVHNmbBTqT4tLLDi2GgvSBScuCGWy");
+declare_id!("2HjXiq4PGKKXTdBsdQe9CxRr5mCHa8N87wUWauZqbZfi");
 #[program]
 pub mod solana_contracts {
 

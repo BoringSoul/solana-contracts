@@ -1,11 +1,9 @@
-use std::borrow::{Borrow, BorrowMut};
 
 use anchor_lang::prelude::*;
 
-use crate::Asset;
 
 #[account]
-#[derive(InitSpace)]
+#[derive(InitSpace, Debug)]
 pub struct AssetManager {
     //总供应量
     pub total_supply: u128,
@@ -32,7 +30,7 @@ pub struct InitContext<'info> {
     #[account(
         init,
         payer = owner,
-        seeds = [b"asset_manager"],
+        seeds = [b"asset_manager", owner.key().as_ref()],
         bump,
         space = 8 + std::mem::size_of::<AssetManager>()
     )]
@@ -62,7 +60,7 @@ pub struct UpdateAssetManagerContext<'info> {
 
     #[account(
         mut,
-        seeds = [b"asset_manager"],
+        seeds = [b"asset_manager", owner.key().as_ref()],
         bump,
     )]
     pub asset_manager: Account<'info, AssetManager>,
@@ -81,6 +79,7 @@ impl<'info> UpdateAssetManagerContext<'info> {
             wrap_fee: self.asset_manager.wrap_fee,
             unwrap_fee: self.asset_manager.unwrap_fee
         };
+        msg!("{:?}", data);
         Ok(data)
     }
 }

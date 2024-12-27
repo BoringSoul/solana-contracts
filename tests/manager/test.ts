@@ -13,39 +13,39 @@ describe('wrap asset', () => {
   const payer = provider.wallet as anchor.Wallet;
 
   // Derive the PDA for the user's account.
-  // const [assetInfoAccountAddr] = PublicKey.findProgramAddressSync([Buffer.from('ASSET_INFO'), payer.publicKey.toBuffer()], program.programId);
-  const assetInfoAccountAddr = new Keypair();
+  const [assetInfoAccountAddr] = PublicKey.findProgramAddressSync([Buffer.from('asset_manager'), payer.publicKey.toBuffer()], program.programId);
+  // const assetInfoAccountAddr = new Keypair();
   // const mintKeypair = new Keypair();
 
   console.log(` Payer : ${payer.publicKey}`);
   console.log(`  assetInfoAccountAddr : ${assetInfoAccountAddr}`);
 
-  it('initAssetManager', async () => {
-    await program.methods
-      .initAssetManager(new anchor.BN(2000), 
-      "baidu.com", 
-      new anchor.BN(1735277947523), 
-      new anchor.BN(1735278947523),
-      new anchor.BN(3), 
-      new anchor.BN(3),
-    )
-      .accounts({
-        onwer: payer.publicKey
-      })
-      .rpc();
-  });
-
-  // it('Close Account', async () => {
+  // it('initAssetManager', async () => {
   //   await program.methods
-  //     .closeUser()
+  //     .initAssetManager(new anchor.BN(2000), 
+  //     "baidu.com", 
+  //     new anchor.BN(1735277947523), 
+  //     new anchor.BN(1735278947523),
+  //     new anchor.BN(3), 
+  //     new anchor.BN(3),
+  //   )
   //     .accounts({
-  //       user: payer.publicKey,
-  //       userAccount: userAccountAddress,
+  //       owner: payer.publicKey,
+  //       assetManager:assetInfoAccountAddr
   //     })
   //     .rpc();
-
-  //   // The account should no longer exist, returning null.
-  //   const userAccount = await program.account.userState.fetchNullable(userAccountAddress);
-  //   assert.equal(userAccount, null);
   // });
+
+  it('update AssetManager', async () => {
+    let result =await program.methods
+      .updateAsset()
+      .accounts({
+        owner: payer.publicKey,
+        assetManager: assetInfoAccountAddr,
+      })
+      .rpc();
+      console.log(result);
+
+    // The account should no longer exist, returning null.
+  });
 });
