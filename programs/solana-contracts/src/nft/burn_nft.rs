@@ -4,11 +4,10 @@ use {
     anchor_lang::prelude::*,
     anchor_spl::{
         metadata::{
-            self, mpl_token_metadata::{self}, Metadata
+            mpl_token_metadata::{self}, Metadata
         },
-        token::{burn, close_account, Burn, CloseAccount, Mint, Token, TokenAccount},
+        token::{Mint, Token, TokenAccount},
     },
-    solana_program::{program::invoke, system_instruction},
 };
 
 #[derive(Accounts)]
