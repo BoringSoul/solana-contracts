@@ -57,7 +57,7 @@ pub struct MintNft<'info> {
         associated_token::mint = mint_account,
         associated_token::authority = payer
     )]
-    pub associated_token_account: Account<'info, TokenAccount>,
+    pub associated_token_account: Box<Account<'info, TokenAccount>>,
 
     // #[account(
     //     seeds = [b"authority"],
