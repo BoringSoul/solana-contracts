@@ -26,7 +26,7 @@ pub struct MintNft<'info> {
         payer = payer,
         space = 8 + common::CustomMetadata::INIT_SPACE
     )]
-    pub metadata_account: Account<'info, common::CustomMetadata>,
+    pub metadata_account: Box<Account<'info, common::CustomMetadata>>,
 
     /// CHECK: Validate address by deriving pda
     #[account(
@@ -37,7 +37,7 @@ pub struct MintNft<'info> {
         space = 8 + common::CustomEdition::INIT_SPACE
 
     )]
-    pub edition_account: Account<'info, common::CustomEdition>,
+    pub edition_account: Box<Account<'info, common::CustomEdition>>,
 
     // Create new mint account, NFTs have 0 decimals
     #[account(
