@@ -1,7 +1,7 @@
 #![allow(clippy::result_large_err)]
 
 use {
-    super::common, anchor_lang::prelude::*, anchor_spl::{
+    anchor_lang::prelude::*, anchor_spl::{
         metadata::Metadata,
         token::{burn, close_account, Burn, CloseAccount, Mint, Token, TokenAccount},
     }
@@ -23,20 +23,18 @@ pub struct BurnNft<'info> {
         mut,
         seeds = [b"metadata", token_metadata_program.key().as_ref(), mint_account.key().as_ref()],
         bump,
-        seeds::program = token_metadata_program.key(),
-        close = signer
+        seeds::program = token_metadata_program.key()
     )]
-    pub metadata_account:Account<'info, common::CustomMetadata>,
+    pub metadata_account: UncheckedAccount<'info>,
 
     /// CHECK: Validate address by deriving pda
     #[account(
         mut,
         seeds = [b"metadata", token_metadata_program.key().as_ref(), mint_account.key().as_ref(), b"edition"],
         bump,
-        seeds::program = token_metadata_program.key(),
-        close = signer
+        seeds::program = token_metadata_program.key()
     )]
-    pub edition_account:  Account<'info, common::CustomEdition>,
+    pub edition_account:  UncheckedAccount<'info>,
 
     pub token_metadata_program: Program<'info, Metadata>,
     pub system_program: Program<'info, System>,
@@ -64,6 +62,22 @@ impl<'info> BurnNft<'info> {
             self.token_program.to_account_info(),
             CloseAccount {
                 account: self.token_account.to_account_info(),
+                destination: self.signer.to_account_info(),
+                authority: self.signer.to_account_info(),
+            },
+        ))?;
+        close_account(CpiContext::new(
+            self.token_metadata_program.to_account_info(),
+            CloseAccount {
+                account: self.metadata_account.to_account_info(),
+                destination: self.signer.to_account_info(),
+                authority: self.signer.to_account_info(),
+            },
+        ))?;
+        close_account(CpiContext::new(
+            self.token_metadata_program.to_account_info(),
+            CloseAccount {
+                account: self.edition_account.to_account_info(),
                 destination: self.signer.to_account_info(),
                 authority: self.signer.to_account_info(),
             },
