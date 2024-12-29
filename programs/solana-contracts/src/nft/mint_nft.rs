@@ -20,19 +20,22 @@ pub struct MintNft<'info> {
 
     /// CHECK: Validate address by deriving pda
     #[account(
-        mut,
+        init_if_needed,
         seeds = [b"metadata", token_metadata_program.key().as_ref(), mint_account.key().as_ref()],
         bump,
-        seeds::program = token_metadata_program.key()
+        payer = payer,
+        space = 8 + common::CustomMetadata::INIT_SPACE
     )]
     pub metadata_account: Account<'info, common::CustomMetadata>,
 
     /// CHECK: Validate address by deriving pda
     #[account(
-        mut,
+        init_if_needed,
         seeds = [b"metadata", token_metadata_program.key().as_ref(), mint_account.key().as_ref(), b"edition"],
         bump,
-        seeds::program = token_metadata_program.key(),
+        payer = payer,
+        space = 8 + common::CustomEdition::INIT_SPACE
+
     )]
     pub edition_account: Account<'info, common::CustomEdition>,
 
