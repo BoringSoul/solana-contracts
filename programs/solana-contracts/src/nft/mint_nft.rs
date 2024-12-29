@@ -52,10 +52,10 @@ pub struct MintNft<'info> {
     // Create associated token account, if needed
     // This is the account that will hold the NFT
     #[account(
-        init_if_needed,
+        init,
         payer = payer,
         associated_token::mint = mint_account,
-        associated_token::authority = payer,
+        associated_token::authority = payer
     )]
     pub associated_token_account: Account<'info, TokenAccount>,
 
