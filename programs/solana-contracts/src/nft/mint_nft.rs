@@ -20,7 +20,7 @@ pub struct MintNft<'info> {
 
     /// CHECK: Validate address by deriving pda
     #[account(
-        init_if_needed,
+        init,
         seeds = [b"metadata", token_metadata_program.key().as_ref(), mint_account.key().as_ref()],
         bump,
         payer = payer,
@@ -30,7 +30,7 @@ pub struct MintNft<'info> {
 
     /// CHECK: Validate address by deriving pda
     #[account(
-        init_if_needed,
+        init,
         seeds = [b"metadata", token_metadata_program.key().as_ref(), mint_account.key().as_ref(), b"edition"],
         bump,
         payer = payer,
