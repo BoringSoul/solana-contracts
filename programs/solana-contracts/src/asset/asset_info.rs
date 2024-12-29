@@ -3,11 +3,13 @@ use anchor_lang::prelude::*;
 #[account]
 #[derive(InitSpace)]
 pub struct AssetInfo {
-    pub user:Pubkey,
+    pub owner:Pubkey,
     pub supply_no: u64,
     #[max_len(5)]
     pub assets: Vec<Asset>,
-    pub start_time: i64
+    pub start_time: i64,
+    pub mint_account: Pubkey,
+    pub token_account: Pubkey,
 }
 
 #[derive(InitSpace, Clone, AnchorSerialize, AnchorDeserialize)]

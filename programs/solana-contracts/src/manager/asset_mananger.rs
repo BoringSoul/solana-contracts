@@ -1,14 +1,16 @@
 
 use anchor_lang::prelude::*;
 
+use crate::asset::*;
+
 
 #[account]
 #[derive(InitSpace, Debug)]
 pub struct AssetManager {
     //总供应量
-    pub total_supply: u128,
+    pub current_supply: u64,
     //限制供应量
-    pub limit: u128,
+    pub limit: u64,
     //合约的uri
     #[max_len(100)]
     pub contract_uri: String,
@@ -39,9 +41,9 @@ pub struct InitContext<'info> {
 }
 
 impl<'info> InitContext<'info> {
-    pub fn init(&mut self, limit:u128, contract_uri:String, start_time:i64, end_time:i64, wrap_fee:u64, unwrap_fee:u64) -> Result<()> {
+    pub fn init(&mut self, limit:u64, contract_uri:String, start_time:i64, end_time:i64, wrap_fee:u64, unwrap_fee:u64) -> Result<()> {
         self.asset_manager.set_inner(AssetManager {
-            total_supply: 0,
+            current_supply: 0,
             limit,
             contract_uri,
             start_time,
@@ -54,7 +56,7 @@ impl<'info> InitContext<'info> {
 }
 
 #[derive(Accounts)]
-pub struct UpdateAssetManagerContext<'info> {
+pub struct UpdateSupplyNoContext<'info> {
     #[account(mut)]
     pub owner: Signer<'info>,
 
@@ -66,12 +68,12 @@ pub struct UpdateAssetManagerContext<'info> {
     pub asset_manager: Account<'info, AssetManager>,
 }
 
-impl<'info> UpdateAssetManagerContext<'info> {
-    pub fn add_asset(&mut self) -> Result<AssetManager> {
-        let supply_no = self.asset_manager.total_supply;
-        self.asset_manager.total_supply = supply_no + 1;
+impl<'info> UpdateSupplyNoContext<'info> {
+    pub fn update_supply_no(&mut self) -> Result<AssetManager> {
+        let supply_no = self.asset_manager.current_supply;
+        self.asset_manager.current_supply = supply_no + 1;
         let data = AssetManager {
-            total_supply: supply_no,
+            current_supply: supply_no,
             limit: self.asset_manager.limit,
             contract_uri: self.asset_manager.contract_uri.clone(),
             start_time: self.asset_manager.start_time,

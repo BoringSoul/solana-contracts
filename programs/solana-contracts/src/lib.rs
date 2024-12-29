@@ -33,13 +33,13 @@ pub mod solana_contracts {
     }
 
 
-    pub fn init_asset_manager(ctx: Context<InitContext>, limit:u128, contract_uri:String, start_time:i64, end_time:i64, wrap_fee:u64, unwrap_fee:u64) -> Result<()> {
+    pub fn init_asset_manager(ctx: Context<InitContext>, limit:u64, contract_uri:String, start_time:i64, end_time:i64, wrap_fee:u64, unwrap_fee:u64) -> Result<()> {
         ctx.accounts.init(limit, contract_uri, start_time, end_time, wrap_fee, unwrap_fee)
     }
 
 
-    pub fn update_asset(ctx: Context<UpdateAssetManagerContext>) -> Result<AssetManager> {
-        ctx.accounts.add_asset()
+    pub fn update_supply_no(ctx: Context<UpdateSupplyNoContext>) -> Result<AssetManager> {
+        ctx.accounts.update_supply_no()
     }
 
     pub fn burn_nft(
@@ -50,15 +50,15 @@ pub mod solana_contracts {
 
     pub fn wrap_asset(
         ctx:Context<WrapContext>,
-        supply_no:u64,
         assets: Vec<asset::Asset>
     ) -> Result<()>{
-        asset::wrap(ctx, supply_no, assets)
+        asset::wrap(ctx, assets)
     }
 
     pub fn unwrap_asset(
-        ctx:Context<UnwrapContext>
+        ctx:Context<UnwrapContext>,
+        supply_no:u64
     ) -> Result<()>{
-        ctx.accounts.unwrap()
+        ctx.accounts.unwrap(supply_no)
     }
 }

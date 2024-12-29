@@ -33,21 +33,21 @@ describe('wrap asset', () => {
     uri: 'https://raw.githubusercontent.com/solana-developers/program-examples/new-examples/tokens/tokens/.assets/nft.json',
   };
 
-  it('WrapAssest', async () => {
-    await program.methods
-      .wrapAsset(supply_no, assets)
-      .accounts({
-        user: payer.publicKey,
-        assetInfo: assetInfoAccountAddr.publicKey,
-      })
-      .signers([assetInfoAccountAddr])
-      .rpc();
-  });
+  // it('WrapAssest', async () => {
+  //   await program.methods
+  //     .wrapAsset(supply_no, assets)
+  //     .accounts({
+  //       user: payer.publicKey,
+  //       assetInfo: assetInfoAccountAddr.publicKey,
+  //     })
+  //     .signers([assetInfoAccountAddr])
+  //     .rpc();
+  // });
 
 
   
 
-  it('Create an NFT!', async () => {
+  it('mint!', async () => {
     // Generate a keypair to use as the address of our mint account
     console.log(`  mintKeypair : ${mintKeypair.publicKey}`);
     // const assetAccountKeypaire = new Keypair();
@@ -100,27 +100,27 @@ describe('wrap asset', () => {
   // });
 
 
-  // it('burn', async () => {
-  //   // Generate a keypair to use as the address of our mint account
-  //   console.log(`  mintKeypair : ${mintKeypair.publicKey}`);
+  it('burn', async () => {
+    // Generate a keypair to use as the address of our mint account
+    console.log(`  mintKeypair : ${mintKeypair.publicKey}`);
 
-  //   console.log(` Token Account Address is  : ${associatedTokenAccountAddress}`);
-  //   const transactionSignature = await program.methods
-  //     // .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.supply_no, metadata.assets)
-  //     // .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.assets)
-  //     // .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.supply_no)
-  //     .burnNft()
-  //     .accounts({
-  //       payer: payer.publicKey,
-  //       mintAccount: mintKeypair.publicKey,
-  //       tokenAccount: associatedTokenAccountAddress,
-  //       // assetInfo: assetInfoAccountAddr.publicKey,
-  //       // assetAccount: assetAccountKeypaire.publicKey,
-  //     })
-  //   .rpc({ skipPreflight: true });
+    console.log(` Token Account Address is  : ${associatedTokenAccountAddress}`);
+    const transactionSignature = await program.methods
+      // .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.supply_no, metadata.assets)
+      // .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.assets)
+      // .mintNft(metadata.name, metadata.symbol, metadata.uri, metadata.supply_no)
+      .burnNft()
+      .accounts({
+        payer: payer.publicKey,
+        mintAccount: mintKeypair.publicKey,
+        tokenAccount: associatedTokenAccountAddress,
+        // assetInfo: assetInfoAccountAddr.publicKey,
+        // assetAccount: assetAccountKeypaire.publicKey,
+      })
+    .rpc({ skipPreflight: true });
 
-  //   console.log('Success!');
-  //   console.log(` Burn Transaction Signature: ${transactionSignature}`);
-  // });
+    console.log('Success!');
+    console.log(` Burn Transaction Signature: ${transactionSignature}`);
+  });
 
 });

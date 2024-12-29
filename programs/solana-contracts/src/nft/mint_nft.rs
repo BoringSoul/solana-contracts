@@ -1,8 +1,7 @@
 #![allow(clippy::result_large_err)]
 
 use {
-    anchor_lang::prelude::*, 
-    anchor_spl::{
+    super::common, anchor_lang::prelude::*, anchor_spl::{
         associated_token::AssociatedToken,
         metadata::{
             create_master_edition_v3, create_metadata_accounts_v3,
@@ -11,6 +10,7 @@ use {
         },
         token::{mint_to, Mint, MintTo, Token, TokenAccount},
     }
+    
 };
 
 #[derive(Accounts)]
@@ -25,7 +25,7 @@ pub struct MintNft<'info> {
         bump,
         seeds::program = token_metadata_program.key()
     )]
-    pub metadata_account: UncheckedAccount<'info>,
+    pub metadata_account: Account<'info, common::CustomMetadata>,
 
     /// CHECK: Validate address by deriving pda
     #[account(
@@ -34,7 +34,7 @@ pub struct MintNft<'info> {
         bump,
         seeds::program = token_metadata_program.key(),
     )]
-    pub edition_account: UncheckedAccount<'info>,
+    pub edition_account: Account<'info, common::CustomEdition>,
 
     // Create new mint account, NFTs have 0 decimals
     #[account(

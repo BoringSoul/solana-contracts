@@ -7,14 +7,18 @@ use crate::asset::*;
 #[derive(Accounts)]
 pub struct UnwrapContext<'info> {
     #[account(mut)]
-    pub user: Signer<'info>,
+    pub owner: Signer<'info>,
+    
 
-    #[account(mut)]
-    pub asset_info: Account<'info, AssetInfo>
+    #[account(
+        mut,
+        close = owner
+    )]
+    pub asset: Account<'info, AssetInfo>
 }
 
 impl<'info> UnwrapContext<'info> {
-    pub fn unwrap(&mut self) -> Result<()> {
-        self.asset_info.close(self.user.to_account_info())
+    pub fn unwrap(&mut self, supply_no:u64) -> Result<()> {
+        Ok(())
     }
 }
