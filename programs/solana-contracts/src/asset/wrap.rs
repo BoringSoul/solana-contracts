@@ -21,10 +21,12 @@ pub struct WrapContext<'info> {
 pub fn wrap(ctx: Context<WrapContext>, 
     supply_no: u64,
     assets: Vec<Asset>) -> Result<()> {
+    let clock = Clock::get()?;
     *ctx.accounts.asset_info = AssetInfo {
         user: ctx.accounts.user.key(),
         supply_no,
-        assets
+        assets,
+        start_time: clock.unix_timestamp,
     };
     let pubkey = ctx.accounts.asset_info.key();
     msg!("asset_info.key = {}", pubkey);

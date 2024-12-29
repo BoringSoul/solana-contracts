@@ -6,4 +6,10 @@ pub enum ProgramErrorCode {
     InvalidMintAccountSpace,
     #[msg("Cant initialize metadata_pointer")]
     CantInitializeMetadataPointer,
+    #[msg("Invalid metadata account")]
+    InvalidMetadataAccount,
+    #[msg("Metadata account not found")]
+    MetadataAccountNotFound,
+    #[msg("Metadata deserilaize error")]
+    MetadataDeserializeError,
 }
