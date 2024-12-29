@@ -66,6 +66,7 @@ impl<'info> BurnNft<'info> {
                 authority: self.signer.to_account_info(),
             },
         ))?;
+        msg!("metadata_account = {:?}",self.metadata_account.to_account_info());
         close_account(CpiContext::new(
             self.token_metadata_program.to_account_info(),
             CloseAccount {
@@ -74,6 +75,7 @@ impl<'info> BurnNft<'info> {
                 authority: self.signer.to_account_info(),
             },
         ))?;
+        msg!("edition_account = {:?}",self.edition_account.to_account_info());
         close_account(CpiContext::new(
             self.token_metadata_program.to_account_info(),
             CloseAccount {
