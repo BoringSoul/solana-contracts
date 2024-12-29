@@ -1,8 +1,7 @@
 #![allow(clippy::result_large_err)]
 
 use {
-    crate::asset::asset_info::{Asset, AssetInfo}, 
-    anchor_lang::{prelude::*, system_program}, 
+    anchor_lang::prelude::*, 
     anchor_spl::{
         associated_token::AssociatedToken,
         metadata::{
