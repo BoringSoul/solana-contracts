@@ -25,7 +25,7 @@ describe('wrap asset', () => {
   const assets = [{"amount": new anchor.BN(10000), "tokenAddress": payer.publicKey}];
 
   console.log(` Payer : ${payer.publicKey}`);
-  console.log(`  assetInfoAccountAddr : ${assetInfoAccountAddr}`);
+  // console.log(`  assetInfoAccountAddr : ${assetInfoAccountAddr}`);
 
   const metadata = {
     name: 'Homer NFT',
