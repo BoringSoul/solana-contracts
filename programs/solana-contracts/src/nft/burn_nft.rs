@@ -55,48 +55,5 @@ impl<'info> BurnNftContext<'info> {
                 token: self.token_account.to_account_info(),
             }
         ), None)
-
-
-        // // Step 1: Burn the token
-        // burn(
-        //     CpiContext::new(
-        //         self.token_program.to_account_info(),
-        //         Burn {
-        //             mint: self.mint_account.to_account_info(),
-        //             from: self.token_account.to_account_info(),
-        //             authority: self.owner.to_account_info(),
-        //         },
-        //     ),
-        //     1,
-        // )?;
-
-        // // Step 2: Close the Token Account
-        // close_account(CpiContext::new(
-        //     self.token_program.to_account_info(),
-        //     CloseAccount {
-        //         account: self.token_account.to_account_info(),
-        //         destination: self.owner.to_account_info(),
-        //         authority: self.owner.to_account_info(),
-        //     },
-        // ))?;
-        // msg!("metadata_account = {:?}",self.metadata_account.to_account_info());
-        // close_account(CpiContext::new(
-        //     self.token_metadata_program.to_account_info(),
-        //     CloseAccount {
-        //         account: self.metadata_account.to_account_info(),
-        //         destination: self.owner.to_account_info(),
-        //         authority: self.owner.to_account_info(),
-        //     },
-        // ))?;
-        // msg!("edition_account = {:?}",self.edition_account.to_account_info());
-        // close_account(CpiContext::new(
-        //     self.token_metadata_program.to_account_info(),
-        //     CloseAccount {
-        //         account: self.edition_account.to_account_info(),
-        //         destination: self.owner.to_account_info(),
-        //         authority: self.owner.to_account_info(),
-        //     },
-        // ))?;
-        // Ok(())
     }
 }
