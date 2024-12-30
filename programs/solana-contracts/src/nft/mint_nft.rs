@@ -179,36 +179,4 @@ impl<'info> MintNft<'info> {
 
         Ok(())
     }
-
-    // fn create_data_account(&mut self) -> Result<()> {
-
-    //     let space = AssetInfo::INIT_SPACE + AssetInfo::key_len();
-    //     let lamports_required = self.rent.minimum_balance(space);
-
-    //     msg!(
-    //         "Create Mint and metadata account size and cost: {} lamports: {}",
-    //         space as u64,
-    //         lamports_required
-    //     );
-
-    //     system_program::create_account(
-    //         CpiContext::new(
-    //             self.token_program.to_account_info(),
-    //             system_program::CreateAccount {
-    //                 from: self.payer.to_account_info(),
-    //                 to: self.asset_account.to_account_info(),
-    //             }
-    //         ),
-    //         lamports_required,
-    //         space as u64,
-    //         &self.token_program.key()
-    //     )
-    // }
-
-    // fn add_rent_lamports(&mut self) -> Result<()> {
-    //     let rent_lamports = self.rent.minimum_balance(200 + self.asset_account.key().to_bytes().len() * 2);
-    //     self.rent.add_lamports(rent_lamports)?;
-    //     msg!("lamports after add = {}", self.rent.get_lamports());
-    //     Ok(())
-    // }
 }

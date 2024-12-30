@@ -10,7 +10,7 @@ use manager::*;
 use nft::*;
 use asset::*;
 
-declare_id!("J7NfYmxgsvEQKC2kZhLpizyLQ7ucXC6KHW3dtpf7rtPF");
+declare_id!("2HjXiq4PGKKXTdBsdQe9CxRr5mCHa8N87wUWauZqbZfi");
 #[program]
 pub mod solana_contracts {
 
@@ -43,7 +43,7 @@ pub mod solana_contracts {
     }
 
     pub fn burn_nft(
-        ctx: Context<BurnNft>,
+        ctx: Context<BurnNftContext>,
     ) -> Result<()> {
         ctx.accounts.burn_nft()
     }
