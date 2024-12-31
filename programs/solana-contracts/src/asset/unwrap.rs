@@ -18,7 +18,7 @@ pub struct UnwrapContext<'info> {
 }
 
 impl<'info> UnwrapContext<'info> {
-    pub fn unwrap(&mut self) -> Result<()> {
+    pub fn unwrap(&mut self, supply_no:u64) -> Result<()> {
         Ok(())
     }
 }
