@@ -1,9 +1,6 @@
 
 use anchor_lang::prelude::*;
 
-use crate::asset::*;
-
-
 #[account]
 #[derive(InitSpace, Debug)]
 pub struct AssetManager {

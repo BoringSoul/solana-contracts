@@ -1,12 +1,10 @@
 
 #![allow(clippy::result_large_err)]
 use anchor_lang::prelude::*;
-pub mod manager;
 pub mod asset;
 pub mod nft;
 pub mod errors;
 
-use manager::*;
 use nft::*;
 use asset::*;
 

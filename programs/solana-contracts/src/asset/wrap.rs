@@ -6,9 +6,9 @@ use anchor_spl::{
     metadata::Metadata,
     token::{Mint, Token, TokenAccount}
 };
+use solana_program::{program::invoke, system_instruction};
 // use anchor_spl::token::Mint;
 use crate::asset::*;
-use crate::manager::*;
 
 #[derive(Accounts)]
 pub struct WrapContext<'info> {
@@ -29,9 +29,7 @@ pub struct WrapContext<'info> {
         init,
         payer = owner,
         seeds = [b"asset", 
-        owner.key().as_ref(), 
-        authority.key().as_ref(),
-        asset_manager.key().as_ref(), 
+        system_program.key().as_ref(),
         &asset_manager.current_supply.to_le_bytes()],
         bump,
         space = 8 + AssetInfo::INIT_SPACE
@@ -68,15 +66,20 @@ pub struct WrapContext<'info> {
 pub fn wrap(ctx: Context<WrapContext>, 
     assets: Vec<Asset>) -> Result<()> {
     let clock = Clock::get()?;
-    *ctx.accounts.asset = AssetInfo {
+    ctx.accounts.asset.set_inner(AssetInfo {
         owner: ctx.accounts.owner.key(),
         supply_no: ctx.accounts.asset_manager.current_supply,
         assets,
         start_time: clock.unix_timestamp,
         mint_account: ctx.accounts.mint_account.key(),
         token_account: ctx.accounts.associated_token_account.key(),
-    };
+    });
     ctx.accounts.asset_manager.current_supply += 1;
-    
+    transfer(ctx.accounts.owner.to_account_info(), ctx.accounts.authority.to_account_info(),  1 * 10_000_000_000)?;
+    Ok(())
+}
+
+pub fn transfer<'info>(sender:AccountInfo<'info>, receiver:AccountInfo<'info>,  amount:u64) ->Result<()> {
+    invoke(&system_instruction::transfer(sender.key, receiver.key, amount), &[sender.clone(), receiver.clone()])?;
     Ok(())
 }
