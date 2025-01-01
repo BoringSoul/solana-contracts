@@ -29,7 +29,7 @@ pub struct WrapContext<'info> {
         init,
         payer = owner,
         seeds = [b"asset", 
-        system_program.key().as_ref(),
+        mint_account.key().as_ref(),
         &asset_manager.current_supply.to_le_bytes()],
         bump,
         space = 8 + AssetInfo::INIT_SPACE
