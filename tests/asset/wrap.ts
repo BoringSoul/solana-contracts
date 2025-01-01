@@ -23,7 +23,7 @@ describe('wrap asset', () => {
   const authority = Keypair.fromSecretKey(new Uint8Array(authoritySeed));
 
   const [assetInfoAccountAddr] = PublicKey.findProgramAddressSync([Buffer.from('asset_manager'), authority.publicKey.toBuffer()], program.programId);
-  
+  const [assetAddress ] = PublicKey.findProgramAddressSync([Buffer.from('asset'), program.publicKey.toBuffer(), Buffer.from('1')]);
   it('WrapAssest', async () => {
     await program.methods
       .wrapAsset(assets)
@@ -32,6 +32,7 @@ describe('wrap asset', () => {
         authority: authority.publicKey,
         mint_account: mintKeypair.publicKey,
         asset_manager: assetInfoAccountAddr,
+        asset: assetAddress,
       })
       .signers([authority])
       .rpc();
