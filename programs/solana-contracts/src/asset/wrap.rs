@@ -29,54 +29,55 @@ pub struct WrapContext<'info> {
         init,
         payer = owner,
         seeds = [b"asset", 
-        mint_account.key().as_ref(),
+        asset_manager.key().as_ref(),
         &asset_manager.current_supply.to_le_bytes()],
         bump,
         space = 8 + AssetInfo::INIT_SPACE
     )]
     pub asset: Account<'info, AssetInfo>,
 
-    // Create new mint account, NFTs have 0 decimals
-    #[account(
-        init,
-        payer = owner,
-        mint::decimals = 0,
-        mint::authority = authority.key(),
-        mint::freeze_authority = authority.key(),
-    )]
-    pub mint_account: Account<'info, Mint>,
+    // // Create new mint account, NFTs have 0 decimals
+    // #[account(
+    //     init,
+    //     payer = owner,
+    //     mint::decimals = 0,
+    //     mint::authority = authority.key(),
+    //     mint::freeze_authority = authority.key(),
+    // )]
+    // pub mint_account: Account<'info, Mint>,
 
-    // Create associated token account, if needed
-    // This is the account that will hold the NFT
-    #[account(
-        init_if_needed,
-        payer = owner,
-        associated_token::mint = mint_account,
-        associated_token::authority = authority,
-    )]
-    pub associated_token_account: Account<'info, TokenAccount>,
+    // // Create associated token account, if needed
+    // // This is the account that will hold the NFT
+    // #[account(
+    //     init_if_needed,
+    //     payer = owner,
+    //     associated_token::mint = mint_account,
+    //     associated_token::authority = authority,
+    // )]
+    // pub associated_token_account: Account<'info, TokenAccount>,
 
     pub system_program: Program<'info,System>,
-    pub token_program: Program<'info, Token>,
-    pub token_metadata_program: Program<'info, Metadata>,
-    pub associated_token_program: Program<'info, AssociatedToken>,
+    // pub token_program: Program<'info, Token>,
+    // pub token_metadata_program: Program<'info, Metadata>,
+    // pub associated_token_program: Program<'info, AssociatedToken>,
     pub rent: Sysvar<'info, Rent>,
 }
 
 pub fn wrap(ctx: Context<WrapContext>, 
-    assets: Vec<Asset>) -> Result<()> {
+    assets: Vec<Asset>) -> Result<AssetInfo> {
     let clock = Clock::get()?;
-    ctx.accounts.asset.set_inner(AssetInfo {
+    let data = AssetInfo {
         owner: ctx.accounts.owner.key(),
         supply_no: ctx.accounts.asset_manager.current_supply,
         assets,
-        start_time: clock.unix_timestamp,
-        mint_account: ctx.accounts.mint_account.key(),
-        token_account: ctx.accounts.associated_token_account.key(),
-    });
+        start_time: clock.unix_timestamp
+    };
+    ctx.accounts.asset.set_inner(data.clone());
     ctx.accounts.asset_manager.current_supply += 1;
-    transfer(ctx.accounts.owner.to_account_info(), ctx.accounts.authority.to_account_info(),  1 * 10_000_000_000)?;
-    Ok(())
+    // transfer(ctx.accounts.owner.to_account_info(), ctx.accounts.authority.to_account_info(),  1 * 10_000_000_000)?;
+    msg!("currentSupply:{:?}", ctx.accounts.asset_manager.current_supply);
+    msg!("assetInfo:{:?}", data);
+    Ok(data)
 }
 
 pub fn transfer<'info>(sender:AccountInfo<'info>, receiver:AccountInfo<'info>,  amount:u64) ->Result<()> {

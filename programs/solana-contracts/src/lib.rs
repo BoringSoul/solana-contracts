@@ -49,7 +49,7 @@ pub mod solana_contracts {
     pub fn wrap_asset(
         ctx:Context<WrapContext>,
         assets: Vec<asset::Asset>
-    ) -> Result<()>{
+    ) -> Result<AssetInfo>{
         asset::wrap(ctx, assets)
     }
 

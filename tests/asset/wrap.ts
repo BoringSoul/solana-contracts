@@ -3,7 +3,7 @@ import * as anchor from '@coral-xyz/anchor';
 import type { Program } from '@coral-xyz/anchor';
 import {Keypair ,PublicKey } from '@solana/web3.js';
 import type { SolanaContracts } from '../target/types/solana_contracts';
-import { mintTo } from '@solana/spl-token';
+import { getAssociatedTokenAddressSync } from '@solana/spl-token';
 
 describe('wrap asset', () => {
   // Configure the client to use the local cluster.
@@ -24,15 +24,14 @@ describe('wrap asset', () => {
   const authority = Keypair.fromSecretKey(new Uint8Array(authoritySeed));
 
   const [assetInfoAccountAddr] = PublicKey.findProgramAddressSync([Buffer.from('asset_manager'), authority.publicKey.toBuffer()], program.programId);
-  const [assetAddress ] = PublicKey.findProgramAddressSync([Buffer.from('asset'), payer.publicKey.toBuffer(), new anchor.BN(0).toBuffer("le", 8)], program.programId);
-  
+  // const [assetAddress ] = PublicKey.findProgramAddressSync([Buffer.from('asset'), mintKeypair.publicKey.toBuffer(), new anchor.BN(0).toBuffer("le", 8)], program.programId);
+  const assetAddress = new Keypair();
   console.log(`payer: ${payer.publicKey}`);
   console.log(`mintKeypair: ${mintKeypair.publicKey}`);
   console.log(`authority: ${authority.publicKey}`);
+  console.log(`assetAddress: ${assetAddress.publicKey}`);
 
-
-  console.log(`assetInfoAccountAddr: ${assetAddress}`);
-  console.log(`assetAddress: ${assetAddress}`);
+  const associatedTokenAccountAddress = getAssociatedTokenAddressSync(mintKeypair.publicKey, payer.publicKey);
   
   
   
@@ -42,9 +41,10 @@ describe('wrap asset', () => {
       .accounts({
         owner: payer.publicKey,
         authority: authority.publicKey,
-        mint_account: mintKeypair.publicKey,
-        asset_manager: assetInfoAccountAddr,
+        assetManager: assetInfoAccountAddr,
         asset: assetAddress,
+        // mintAccount: mintKeypair.publicKey,
+        // associatedTokenAccount:associatedTokenAccountAddress
       })
       .signers([payer, authority])
       .rpc();
