@@ -35,52 +35,52 @@ describe('Stake And Unstake Test', () => {
   const ownerTokenAccountAddress = getAssociatedTokenAddressSync(mintAddress, payer.publicKey);
   const authorityTokenAddress = getAssociatedTokenAddressSync(mintAddress, authority.publicKey);
 
-  // it('WrapAssest', async () => {
-  //   const assets = [{"amount": new anchor.BN(10000), "tokenAddress": payer.publicKey}];
-  //   await program.methods
-  //     .wrapAsset(assets)
-  //     .accounts({
-  //       owner: payer.publicKey,
-  //       authority: authority.publicKey,
-  //       assetManager: assetManagerAddress,
-  //     })
-  //     .signers([payer, authority])
-  //     .rpc();
-  // });
+  it('WrapAssest', async () => {
+    const assets = [{"amount": new anchor.BN(10000), "tokenAddress": payer.publicKey}];
+    await program.methods
+      .wrapAsset(assets)
+      .accounts({
+        owner: payer.publicKey,
+        authority: authority.publicKey,
+        assetManager: assetManagerAddress,
+      })
+      .signers([payer, authority])
+      .rpc();
+  });
 
    
-  // it('mint!', async () => {
-  //   const metadata = {
-  //     name: 'Homer NFT',
-  //     symbol: 'HOMR',
-  //     uri: 'https://raw.githubusercontent.com/solana-developers/program-examples/new-examples/tokens/tokens/.assets/nft.json',
-  //   };
-  //   const transactionSignature = await program.methods
-  //     .mintNft(metadata.name, metadata.symbol, metadata.uri)
-  //     .accounts({
-  //       payer: payer.publicKey,
-  //       authority: authority.publicKey,
-  //       assetManager: assetManagerAddress,
-  //       asset: assetAddress,
-  //     })
-  //     .signers([payer, 
-  //       authority
-  //     ])
-  //     .rpc({ skipPreflight: true });
-  // });
+  it('mint!', async () => {
+    const metadata = {
+      name: 'Homer NFT',
+      symbol: 'HOMR',
+      uri: 'https://raw.githubusercontent.com/solana-developers/program-examples/new-examples/tokens/tokens/.assets/nft.json',
+    };
+    const transactionSignature = await program.methods
+      .mintNft(metadata.name, metadata.symbol, metadata.uri)
+      .accounts({
+        payer: payer.publicKey,
+        authority: authority.publicKey,
+        assetManager: assetManagerAddress,
+        asset: assetAddress,
+      })
+      .signers([payer, 
+        authority
+      ])
+      .rpc({ skipPreflight: true });
+  });
 
-  // it('Stake', async () => {
-  //   await program.methods
-  //     .stake(new anchor.BN(2))
-  //     .accounts({
-  //       owner: payer.publicKey,
-  //       authority: authority.publicKey,
-  //       assetManager: assetManagerAddress,
-  //       asset: assetAddress
-  //     })
-  //     .signers([payer, authority])
-  //     .rpc();
-  //   });
+  it('Stake', async () => {
+    await program.methods
+      .stake(new anchor.BN(2))
+      .accounts({
+        owner: payer.publicKey,
+        authority: authority.publicKey,
+        assetManager: assetManagerAddress,
+        asset: assetAddress
+      })
+      .signers([payer, authority])
+      .rpc();
+    });
   it('Unstake', async () => {
     const [stakeAddress ] = PublicKey.findProgramAddressSync([Buffer.from('stake'), assetAddress.toBuffer()], program.programId);
     console.log(`stakeAddress: ${stakeAddress}`);
