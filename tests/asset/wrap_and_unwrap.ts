@@ -24,12 +24,11 @@ describe('wrap asset', () => {
   const authority = Keypair.fromSecretKey(new Uint8Array(authoritySeed));
 
   const [assetInfoAccountAddr] = PublicKey.findProgramAddressSync([Buffer.from('asset_manager'), authority.publicKey.toBuffer()], program.programId);
-  // const [assetAddress ] = PublicKey.findProgramAddressSync([Buffer.from('asset'), mintKeypair.publicKey.toBuffer(), new anchor.BN(0).toBuffer("le", 8)], program.programId);
-  const assetAddress = new Keypair();
+  //MjadGGZfdowLjJbhf2xXUmGuydYtRV2AtCzbfzA9RCs
+  // const assetAddress = new Keypair();
   console.log(`payer: ${payer.publicKey}`);
   console.log(`mintKeypair: ${mintKeypair.publicKey}`);
   console.log(`authority: ${authority.publicKey}`);
-  console.log(`assetAddress: ${assetAddress.publicKey}`);
 
   const associatedTokenAccountAddress = getAssociatedTokenAddressSync(mintKeypair.publicKey, payer.publicKey);
   
@@ -42,18 +41,28 @@ describe('wrap asset', () => {
         owner: payer.publicKey,
         authority: authority.publicKey,
         assetManager: assetInfoAccountAddr,
-        asset: assetAddress,
+        // asset: assetAddress,
         // mintAccount: mintKeypair.publicKey,
         // associatedTokenAccount:associatedTokenAccountAddress
       })
       .signers([payer, authority])
       .rpc();
     });
-//     // Fetch the account data
-//     const assetInfoAccount = await program.account.userState.fetch(assetInfoAccountAddr.publicKey);
-//     assert.equal(assetInfoAccount.user.toBase58(), payer.publicKey.toBase58());
-//     assert.equal(assetInfoAccount.assets, assets);
-//     assert.equal(assetInfoAccount.supplyNo, supply_no);
-//   });
+    it('UnwrapAssest', async () => {
+      const [assetAddress ] = PublicKey.findProgramAddressSync([Buffer.from('asset'), assetInfoAccountAddr.toBuffer(), new anchor.BN(5).toBuffer("le", 8)], program.programId);
+      console.log(`assetAddress: ${assetAddress}`);
+      await program.methods
+      .unwrapAsset(new anchor.BN(5))
+      .accounts({
+        owner: payer.publicKey,
+        authority: authority.publicKey,
+        asset: assetAddress,
+        assetManager: assetInfoAccountAddr,
+        // mintAccount: mintKeypair.publicKey,
+        // associatedTokenAccount:associatedTokenAccountAddress
+      })
+      .signers([payer, authority])
+      .rpc();
+    });
 
 });

@@ -70,13 +70,15 @@ pub fn wrap(ctx: Context<WrapContext>,
         owner: ctx.accounts.owner.key(),
         supply_no: ctx.accounts.asset_manager.current_supply,
         assets,
-        start_time: clock.unix_timestamp
+        start_time: clock.unix_timestamp,
+        mint_account: Pubkey::default(),
+        token_account:Pubkey::default(),
     };
     ctx.accounts.asset.set_inner(data.clone());
     ctx.accounts.asset_manager.current_supply += 1;
     // transfer(ctx.accounts.owner.to_account_info(), ctx.accounts.authority.to_account_info(),  1 * 10_000_000_000)?;
     msg!("currentSupply:{:?}", ctx.accounts.asset_manager.current_supply);
-    msg!("assetInfo:{:?}", data);
+    msg!("assetInfo:{:?}, assetKey:{:?}", data, ctx.accounts.asset.key());
     Ok(data)
 }
 
