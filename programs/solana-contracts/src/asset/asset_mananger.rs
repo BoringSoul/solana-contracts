@@ -5,7 +5,7 @@ use anchor_lang::prelude::*;
 #[derive(InitSpace, Debug)]
 pub struct AssetManager {
     //总供应量
-    pub current_supply: u64,
+    pub current_supply_no: u64,
     //限制供应量
     pub limit: u64,
     //合约的uri
@@ -40,7 +40,7 @@ pub struct InitContext<'info> {
 impl<'info> InitContext<'info> {
     pub fn init(&mut self, limit:u64, contract_uri:String, start_time:i64, end_time:i64, wrap_fee:u64, unwrap_fee:u64) -> Result<()> {
         self.asset_manager.set_inner(AssetManager {
-            current_supply: 0,
+            current_supply_no: 1,
             limit,
             contract_uri,
             start_time,

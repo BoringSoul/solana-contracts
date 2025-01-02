@@ -23,7 +23,7 @@ describe('wrap asset', () => {
   const authority = Keypair.fromSecretKey(new Uint8Array(authoritySeed));
 
   const [assetInfoAccountAddr] = PublicKey.findProgramAddressSync([Buffer.from('asset_manager'), authority.publicKey.toBuffer()], program.programId);
-  const [assetAddress ] = PublicKey.findProgramAddressSync([Buffer.from('asset'), assetInfoAccountAddr.toBuffer(), new anchor.BN(1).toBuffer("le", 8)], program.programId);
+  const [assetAddress ] = PublicKey.findProgramAddressSync([Buffer.from('asset'), assetInfoAccountAddr.toBuffer(), new anchor.BN(9).toBuffer("le", 8)], program.programId);
   // const [mintPubKey] = PublicKey.findProgramAddressSync([Buffer.from('mint'), assetInfoAccountAddr.toBuffer(), new anchor.BN(6).toBuffer("le", 8)], program.programId);
   
 
@@ -45,18 +45,18 @@ describe('wrap asset', () => {
   };
 
   
-  // it('WrapAssest', async () => {
-  //   const transactionSignature = await program.methods
-  //     .wrapAsset(assets)
-  //     .accounts({
-  //       owner: payer.publicKey,
-  //       authority: authority.publicKey,
-  //       assetManager: assetInfoAccountAddr,
-  //       // asset: assetAddress,
-  //     })
-  //     .signers([payer, authority])
-  //     .rpc();
-  // });
+  it('WrapAssest', async () => {
+    const transactionSignature = await program.methods
+      .wrapAsset(assets)
+      .accounts({
+        owner: payer.publicKey,
+        authority: authority.publicKey,
+        assetManager: assetInfoAccountAddr,
+        // asset: assetAddress,
+      })
+      .signers([payer, authority])
+      .rpc();
+  });
               
   it('mint!', async () => {
     // Generate a keypair to use as the address of our mint account

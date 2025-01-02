@@ -61,7 +61,7 @@ pub struct MintNft<'info> {
         payer = payer,
         seeds = [b"mint", 
         asset_manager.key().as_ref(),
-        &asset_manager.current_supply.to_le_bytes()],
+        &asset.supply_no.to_le_bytes()],
         bump,
         mint::decimals = 0,
         mint::authority = authority.key(),

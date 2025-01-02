@@ -23,7 +23,7 @@ pub struct WrapContext<'info> {
         payer = owner,
         seeds = [b"asset", 
         asset_manager.key().as_ref(),
-        &(asset_manager.current_supply + 1).to_le_bytes()],
+        &asset_manager.current_supply_no.to_le_bytes()],
         bump,
         space = 8 + AssetInfo::INIT_SPACE
     )]
@@ -38,14 +38,14 @@ pub fn wrap(ctx: Context<WrapContext>,
     let clock = Clock::get()?;
     let data = AssetInfo {
         owner: ctx.accounts.owner.key(),
-        supply_no: ctx.accounts.asset_manager.current_supply + 1,
+        supply_no: ctx.accounts.asset_manager.current_supply_no,
         assets,
         start_time: clock.unix_timestamp,
         mint_account: Pubkey::default(),
         token_account:Pubkey::default(),
     };
     ctx.accounts.asset.set_inner(data.clone());
-    ctx.accounts.asset_manager.current_supply += 1;
+    ctx.accounts.asset_manager.current_supply_no += 1;
     // transfer(ctx.accounts.owner.to_account_info(), ctx.accounts.authority.to_account_info(),  1 * 10_000_000_000)?;
     msg!("assetInfo:{:?}, assetKey:{:?}", data, ctx.accounts.asset.key());
     Ok(data)
