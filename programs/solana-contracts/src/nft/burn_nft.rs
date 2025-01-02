@@ -3,7 +3,7 @@
 use {
     crate::{AssetInfo, AssetManager}, anchor_lang::prelude::*, anchor_spl::{
         metadata::{burn_nft, BurnNft, Metadata},
-        token::{burn, close_account, Burn, CloseAccount, Mint, Token, TokenAccount},
+        token::{Mint, Token, TokenAccount},
     }
 };
 
