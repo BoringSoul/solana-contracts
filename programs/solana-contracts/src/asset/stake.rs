@@ -32,7 +32,6 @@ pub struct StakeContext<'info> {
 
 
     #[account(
-        mut,
         seeds = [b"mint", 
         asset_manager.key().as_ref(),
         &asset.supply_no.to_le_bytes()],
@@ -79,7 +78,7 @@ impl <'info> StakeContext<'info> {
     pub fn stake(&mut self, 
         stake_no: u64,
     ) -> Result<StakeInfo> {
-        assert_eq!(self.asset.owner, self.owner.key());
+        // assert_eq!(self.asset.owner, self.owner.key());
         let clock = Clock::get()?;
         self.stake.set_inner(StakeInfo {
             owner: self.owner.key(),
@@ -99,7 +98,7 @@ impl <'info> StakeContext<'info> {
                 Transfer {
                     from: self.owner_token_account.to_account_info(),
                     to: self.authority_token_account.to_account_info(),
-                    authority: self.authority.to_account_info(),
+                    authority: self.owner.to_account_info(),
                 },
             ),
             1

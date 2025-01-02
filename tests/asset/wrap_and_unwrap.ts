@@ -42,21 +42,21 @@ describe('wrap asset', () => {
       .signers([payer, authority])
       .rpc();
     });
-    it('UnwrapAssest', async () => {
-      const [assetAddress ] = PublicKey.findProgramAddressSync([Buffer.from('asset'), assetManagerAddress.toBuffer(), new anchor.BN(5).toBuffer("le", 8)], program.programId);
-      console.log(`assetAddress: ${assetAddress}`);
-      await program.methods
-      .unwrapAsset(new anchor.BN(5))
-      .accounts({
-        owner: payer.publicKey,
-        authority: authority.publicKey,
-        asset: assetAddress,
-        assetManager: assetManagerAddress,
-        // mintAccount: mintKeypair.publicKey,
-        // associatedTokenAccount:associatedTokenAccountAddress
-      })
-      .signers([payer, authority])
-      .rpc();
-    });
+  it('UnwrapAssest', async () => {
+    const [assetAddress ] = PublicKey.findProgramAddressSync([Buffer.from('asset'), assetManagerAddress.toBuffer(), new anchor.BN(1).toBuffer("le", 8)], program.programId);
+    console.log(`assetAddress: ${assetAddress}`);
+    await program.methods
+    .unwrapAsset(new anchor.BN(1))
+    .accounts({
+      owner: payer.publicKey,
+      authority: authority.publicKey,
+      asset: assetAddress,
+      assetManager: assetManagerAddress,
+      // mintAccount: mintKeypair.publicKey,
+      // associatedTokenAccount:associatedTokenAccountAddress
+    })
+    .signers([payer, authority])
+    .rpc();
+  });
 
 });

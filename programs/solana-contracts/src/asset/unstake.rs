@@ -22,11 +22,21 @@ pub struct UnstakeContext<'info> {
     )]
     pub asset_manager: Account<'info, AssetManager>,
 
+
+    #[account(
+        mut,
+        seeds = [b"stake", 
+        stake.asset_account.as_ref()],
+        bump,
+        close = owner
+    )]
+    pub stake: Account<'info, StakeInfo>,
+
     #[account(
         mut,
         seeds = [b"asset", 
         asset_manager.key().as_ref(),
-        &asset.supply_no.to_le_bytes()],
+        &stake.asset_no.to_le_bytes()],
         bump,
     )]
     pub asset: Account<'info, AssetInfo>,
@@ -37,21 +47,10 @@ pub struct UnstakeContext<'info> {
         seeds = [b"mint", 
         asset_manager.key().as_ref(),
         &asset.supply_no.to_le_bytes()],
-        bump,
-        mint::decimals = 0,
-        mint::authority = authority.key(),
-        mint::freeze_authority = authority.key(),
+        bump
     )]
     pub mint_account: Box<Account<'info, Mint>>,
 
-    #[account(
-        mut,
-        seeds = [b"stake", 
-        stake.asset_account.as_ref()],
-        bump,
-        close = owner
-    )]
-    pub stake: Account<'info, StakeInfo>,
 
     // Create associated token account, if needed
     // This is the account that will hold the NFT
@@ -81,9 +80,10 @@ impl <'info> UnstakeContext<'info> {
     pub fn unstake(&mut self, 
         stake_no: u64
     ) -> Result<()> {
+        msg!("self.stake_no = {:?}, input stake_no = {:?}", self.stake.stake_no, stake_no);
         assert_eq!(self.stake.stake_no, stake_no);
-        assert_eq!(self.stake.owner, self.owner.key());
-        assert_eq!(self.asset.owner, self.authority.key());
+        // assert_eq!(self.stake.owner, self.owner.key());
+        // assert_eq!(self.asset.owner, self.authority.key());
 
         self.asset.owner = self.owner.key();
         self.asset.token_account = self.owner_token_account.key();

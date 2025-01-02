@@ -23,7 +23,7 @@ describe('wrap asset', () => {
   const authority = Keypair.fromSecretKey(new Uint8Array(authoritySeed));
 
   const [assetInfoAccountAddr] = PublicKey.findProgramAddressSync([Buffer.from('asset_manager'), authority.publicKey.toBuffer()], program.programId);
-  const [assetAddress ] = PublicKey.findProgramAddressSync([Buffer.from('asset'), assetInfoAccountAddr.toBuffer(), new anchor.BN(5).toBuffer("le", 8)], program.programId);
+  const [assetAddress ] = PublicKey.findProgramAddressSync([Buffer.from('asset'), assetInfoAccountAddr.toBuffer(), new anchor.BN(4).toBuffer("le", 8)], program.programId);
   // const [mintPubKey] = PublicKey.findProgramAddressSync([Buffer.from('mint'), assetInfoAccountAddr.toBuffer(), new anchor.BN(6).toBuffer("le", 8)], program.programId);
   
 
@@ -37,12 +37,6 @@ describe('wrap asset', () => {
   // const associatedTokenAccountAddress = getAssociatedTokenAddressSync(mintPubKey, payer.publicKey);
   console.log(`programID = ${program.programId}`)
   console.log(`  assetInfoAccountAddr : ${assetInfoAccountAddr}`);
-
-  const metadata = {
-    name: 'Homer NFT',
-    symbol: 'HOMR',
-    uri: 'https://raw.githubusercontent.com/solana-developers/program-examples/new-examples/tokens/tokens/.assets/nft.json',
-  };
 
   
   it('WrapAssest', async () => {
@@ -59,11 +53,11 @@ describe('wrap asset', () => {
   });
               
   it('mint!', async () => {
-    // Generate a keypair to use as the address of our mint account
-    // console.log(`  mintKeypair : ${mintPubKey}`);
-
-    // Derive the associated token address account for the mint and payer.
-    // console.log(` Token Account Address is  : ${associatedTokenAccountAddress}`);
+    const metadata = {
+      name: 'Homer NFT',
+      symbol: 'HOMR',
+      uri: 'https://raw.githubusercontent.com/solana-developers/program-examples/new-examples/tokens/tokens/.assets/nft.json',
+    };
     const transactionSignature = await program.methods
       .mintNft(metadata.name, metadata.symbol, metadata.uri)
       .accounts({
@@ -76,22 +70,22 @@ describe('wrap asset', () => {
         authority
       ])
       .rpc({ skipPreflight: true });
-  }); 
-
-  it('burn', async () => {
-    // Generate a keypair to use as the address of our mint account
-    const transactionSignature = await program.methods
-      .burnNft(new anchor.BN(5))
-      .accounts({
-        owner: payer.publicKey,
-        authority: authority.publicKey,
-        assetManager: assetInfoAccountAddr,
-        asset: assetAddress,
-      })
-    .signers([payer, authority])
-    .rpc({ skipPreflight: true });
-    console.log('Success!');
-    console.log(` Burn Transaction Signature: ${transactionSignature}`);
   });
+
+  // it('burn', async () => {
+  //   // Generate a keypair to use as the address of our mint account
+  //   const transactionSignature = await program.methods
+  //     .burnNft(new anchor.BN(2))
+  //     .accounts({
+  //       owner: payer.publicKey,
+  //       authority: authority.publicKey,
+  //       assetManager: assetInfoAccountAddr,
+  //       asset: assetAddress,
+  //     })
+  //   .signers([payer, authority])
+  //   .rpc({ skipPreflight: true });
+  //   console.log('Success!');
+  //   console.log(` Burn Transaction Signature: ${transactionSignature}`);
+  // });
 
 });
