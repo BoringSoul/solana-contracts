@@ -5,7 +5,7 @@ import {Keypair ,PublicKey } from '@solana/web3.js';
 import type { SolanaContracts } from '../target/types/solana_contracts';
 import { getAssociatedTokenAddressSync } from '@solana/spl-token';
 
-describe('wrap asset', () => {
+describe('Stake And Unstake Test', () => {
   // Configure the client to use the local cluster.
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
@@ -23,13 +23,13 @@ describe('wrap asset', () => {
   const authoritySeed  = [124,247,111,86,69,22,243,227,110,29,54,161,239,132,170,253,72,105,113,100,66,59,213,229,22,66,62,68,5,241,98,168,164,129,238,19,203,65,76,173,153,230,208,0,254,62,123,163,8,44,142,208,150,74,245,209,159,211,123,137,100,76,84,97];
   const authority = Keypair.fromSecretKey(new Uint8Array(authoritySeed));
 
-  const [assetInfoAccountAddr] = PublicKey.findProgramAddressSync([Buffer.from('asset_manager'), authority.publicKey.toBuffer()], program.programId);
+  const [assetManagerAddress] = PublicKey.findProgramAddressSync([Buffer.from('asset_manager'), authority.publicKey.toBuffer()], program.programId);
   //MjadGGZfdowLjJbhf2xXUmGuydYtRV2AtCzbfzA9RCs
   console.log(`payer: ${payer.publicKey}`);
   console.log(`authority: ${authority.publicKey}`);
-  console.log(`assetInfoAccountAddr: ${assetInfoAccountAddr}`);
+  console.log(`assetManagerAddress: ${assetManagerAddress}`);
   
-  const [assetAddress ] = PublicKey.findProgramAddressSync([Buffer.from('asset'), assetInfoAccountAddr.toBuffer(), new anchor.BN(5).toBuffer("le", 8)], program.programId);
+  const [assetAddress ] = PublicKey.findProgramAddressSync([Buffer.from('asset'), assetManagerAddress.toBuffer(), new anchor.BN(5).toBuffer("le", 8)], program.programId);
 
   it('Stake', async () => {
     await program.methods
@@ -37,21 +37,21 @@ describe('wrap asset', () => {
       .accounts({
         owner: payer.publicKey,
         authority: authority.publicKey,
-        assetManager: assetInfoAccountAddr,
+        assetManager: assetManagerAddress,
         asset: assetAddress
       })
       .signers([payer, authority])
       .rpc();
     });
     it('Unstake', async () => {
-      const [stakeAddress ] = PublicKey.findProgramAddressSync([Buffer.from('stake'), assetInfoAccountAddr.toBuffer(), new anchor.BN(5).toBuffer("le", 8)], program.programId);
+      const [stakeAddress ] = PublicKey.findProgramAddressSync([Buffer.from('stake'), assetInfoAccountAddr.toBuffer()], program.programId);
       console.log(`stakeAddress: ${stakeAddress}`);
       await program.methods
       .unstake(new anchor.BN(5))
       .accounts({
         owner: payer.publicKey,
         authority: authority.publicKey,
-        assetManager: assetInfoAccountAddr,
+        assetManager: assetManagerAddress,
         stake:stakeAddress
         // mintAccount: mintKeypair.publicKey,
         // associatedTokenAccount:associatedTokenAccountAddress

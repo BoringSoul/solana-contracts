@@ -36,10 +36,7 @@ pub struct StakeContext<'info> {
         seeds = [b"mint", 
         asset_manager.key().as_ref(),
         &asset.supply_no.to_le_bytes()],
-        bump,
-        mint::decimals = 0,
-        mint::authority = authority.key(),
-        mint::freeze_authority = authority.key(),
+        bump
     )]
     pub mint_account: Box<Account<'info, Mint>>,
 
