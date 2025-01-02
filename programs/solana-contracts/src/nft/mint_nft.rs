@@ -1,11 +1,11 @@
 #![allow(clippy::result_large_err)]
 
 use {
-    super::common, anchor_lang::prelude::*, anchor_spl::{
+    crate::{Asset, AssetInfo, AssetManager}, anchor_lang::prelude::*, anchor_spl::{
         associated_token::AssociatedToken,
         metadata::{
             create_master_edition_v3, create_metadata_accounts_v3,
-            mpl_token_metadata::types::{Collection, DataV2}, CreateMasterEditionV3, CreateMetadataAccountsV3,
+            mpl_token_metadata::types::DataV2, CreateMasterEditionV3, CreateMetadataAccountsV3,
             Metadata,
         },
         token::{mint_to, Mint, MintTo, Token, TokenAccount},
@@ -17,6 +17,25 @@ use {
 pub struct MintNft<'info> {
     #[account(mut)]
     pub payer: Signer<'info>,
+
+    #[account(mut)]
+    pub authority: Signer<'info>,
+
+    #[account(
+        seeds = [b"asset_manager", authority.key().as_ref()],
+        bump,
+    )]
+    pub asset_manager: Box<Account<'info, AssetManager>>,
+
+    #[account(
+        mut,
+        seeds = [b"asset", 
+        asset_manager.key().as_ref(),
+        &asset.supply_no.to_le_bytes()],
+        bump,
+    )]
+    pub asset: Box<Account<'info, AssetInfo>>,
+
 
     /// CHECK: Validate address by deriving pda
     #[account(
@@ -40,11 +59,15 @@ pub struct MintNft<'info> {
     #[account(
         init,
         payer = payer,
+        seeds = [b"mint", 
+        asset_manager.key().as_ref(),
+        &asset_manager.current_supply.to_le_bytes()],
+        bump,
         mint::decimals = 0,
-        mint::authority = payer.key(),
-        mint::freeze_authority = payer.key(),
+        mint::authority = authority.key(),
+        mint::freeze_authority = authority.key(),
     )]
-    pub mint_account: Account<'info, Mint>,
+    pub mint_account: Box<Account<'info, Mint>>,
 
     // Create associated token account, if needed
     // This is the account that will hold the NFT
@@ -56,12 +79,6 @@ pub struct MintNft<'info> {
     )]
     pub associated_token_account: Box<Account<'info, TokenAccount>>,
 
-    // #[account(
-    //     seeds = [b"authority"],
-    //     bump,
-    // )]
-    // /// CHECK: This is account is not initialized and is being used for signing purposes only
-    // pub mint_authority: UncheckedAccount<'info>,
 
 
     pub token_program: Program<'info, Token>,
@@ -75,23 +92,16 @@ impl<'info> MintNft<'info> {
     pub fn mint(&mut self, 
         nft_name:String, 
         nft_symbol:String, 
-        nft_uri:String, 
-        asset_info_key:Pubkey
-        // supply_no: u64,
-        // assets: Vec<Asset>,
-        // bumps: &MintNftBumps, 
+        nft_uri:String
     ) -> Result<()> {
-        // self.asset_account.set_inner(AssetInfo {
-        //     user: self.payer.key(),
-        //     supply_no,
-        //     assets
-        // });
-        // msg!("lamports = {}", self.rent.get_lamports());
-        // self.create_data_account()?;
 
-        // self.add_rent_lamports()?;
+        self.asset.token_account = self.associated_token_account.key();
+        self.asset.mint_account = self.mint_account.key();
+        self.asset_manager.current_supply = self.asset.supply_no;
+        // msg!("currentSupply:{:?}", self.asset_manager.current_supply);
+        // msg!("assetInfo:{:?}, assetKey:{:?}", data, self.asset.key());
 
-        msg!("Minting Token");
+        // msg!("Minting Token");
         // Cross Program Invocation (CPI)
         // Invoking the mint_to instruction on the token program
         mint_to(
@@ -100,28 +110,13 @@ impl<'info> MintNft<'info> {
                 MintTo {
                     mint: self.mint_account.to_account_info(),
                     to: self.associated_token_account.to_account_info(),
-                    authority: self.payer.to_account_info(),
+                    authority: self.authority.to_account_info(),
                 },
             ),
             1,
         )?;
-
-        // let seeds = &[
-        //     &b"authority"[..], 
-        //     &[bumps.mint_authority]
-        // ];
-        // let signer_seeds = &[&seeds[..]];
-
-        // let cpi_program = self.token_program.to_account_info();
-        // let cpi_accounts = MintTo {
-        //     mint: self.mint_account.to_account_info(),
-        //     to: self.associated_token_account.to_account_info(),
-        //     authority: self.mint_authority.to_account_info(),
-        // };
-        // let cpi_ctx = CpiContext::new_with_signer(cpi_program, cpi_accounts, signer_seeds);
-        // mint_to(cpi_ctx, 1)?;
         
-        msg!("Creating metadata account");
+        // msg!("Creating metadata account");
         // Cross Program Invocation (CPI)
         // Invoking the create_metadata_account_v3 instruction on the token metadata program
         create_metadata_accounts_v3(
@@ -130,8 +125,8 @@ impl<'info> MintNft<'info> {
                 CreateMetadataAccountsV3 {
                     metadata: self.metadata_account.to_account_info(),
                     mint: self.mint_account.to_account_info(),
-                    mint_authority: self.payer.to_account_info(),
-                    update_authority: self.payer.to_account_info(),
+                    mint_authority: self.authority.to_account_info(),
+                    update_authority: self.authority.to_account_info(),
                     payer: self.payer.to_account_info(),
                     system_program: self.system_program.to_account_info(),
                     rent: self.rent.to_account_info(),
@@ -143,18 +138,15 @@ impl<'info> MintNft<'info> {
                 uri: nft_uri,
                 seller_fee_basis_points: 0,
                 creators: None,
-                collection: Some(Collection{
-                    verified: false,
-                    key: asset_info_key
-                }),
+                collection: None,
                 uses: None,
             },
             false, // Is mutable
-            true,  // Update authority is signer
+            false,  // Update authority is signer
             None,  // Collection details
         )?;
 
-        msg!("Creating master edition account");
+        // msg!("Creating master edition account");
         // Cross Program Invocation (CPI)
         // Invoking the create_master_edition_v3 instruction on the token metadata program
         create_master_edition_v3(
@@ -163,8 +155,8 @@ impl<'info> MintNft<'info> {
                 CreateMasterEditionV3 {
                     edition: self.edition_account.to_account_info(),
                     mint: self.mint_account.to_account_info(),
-                    update_authority: self.payer.to_account_info(),
-                    mint_authority: self.payer.to_account_info(),
+                    update_authority: self.authority.to_account_info(),
+                    mint_authority: self.authority.to_account_info(),
                     payer: self.payer.to_account_info(),
                     metadata: self.metadata_account.to_account_info(),
                     token_program: self.token_program.to_account_info(),
@@ -174,8 +166,6 @@ impl<'info> MintNft<'info> {
             ),
             None, // Max Supply
         )?;
-
-        msg!("NFT minted successfully.");
 
         Ok(())
     }
