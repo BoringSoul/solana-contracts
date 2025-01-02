@@ -25,7 +25,7 @@ pub struct MintNft<'info> {
         seeds = [b"asset_manager", authority.key().as_ref()],
         bump,
     )]
-    pub asset_manager: Box<Account<'info, AssetManager>>,
+    pub asset_manager: Account<'info, AssetManager>,
 
     #[account(
         mut,
@@ -97,9 +97,6 @@ impl<'info> MintNft<'info> {
 
         self.asset.token_account = self.associated_token_account.key();
         self.asset.mint_account = self.mint_account.key();
-        self.asset_manager.current_supply = self.asset.supply_no;
-        // msg!("currentSupply:{:?}", self.asset_manager.current_supply);
-        // msg!("assetInfo:{:?}, assetKey:{:?}", data, self.asset.key());
 
         // msg!("Minting Token");
         // Cross Program Invocation (CPI)

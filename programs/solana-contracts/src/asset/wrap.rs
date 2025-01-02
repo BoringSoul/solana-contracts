@@ -23,7 +23,7 @@ pub struct WrapContext<'info> {
         payer = owner,
         seeds = [b"asset", 
         asset_manager.key().as_ref(),
-        &asset_manager.current_supply.to_le_bytes()],
+        &(asset_manager.current_supply + 1).to_le_bytes()],
         bump,
         space = 8 + AssetInfo::INIT_SPACE
     )]
