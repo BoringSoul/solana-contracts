@@ -67,10 +67,9 @@ pub struct UpdateSupplyNoContext<'info> {
 
 impl<'info> UpdateSupplyNoContext<'info> {
     pub fn update_supply_no(&mut self) -> Result<AssetManager> {
-        let supply_no = self.asset_manager.current_supply;
-        self.asset_manager.current_supply = supply_no + 1;
+        self.asset_manager.current_supply_no += 1;
         let data = AssetManager {
-            current_supply: supply_no,
+            current_supply_no: self.asset_manager.current_supply_no,
             limit: self.asset_manager.limit,
             contract_uri: self.asset_manager.contract_uri.clone(),
             start_time: self.asset_manager.start_time,

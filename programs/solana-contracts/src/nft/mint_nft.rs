@@ -94,7 +94,8 @@ impl<'info> MintNft<'info> {
         nft_symbol:String, 
         nft_uri:String
     ) -> Result<()> {
-
+        assert_eq!(self.asset.mint_account, Pubkey::default());
+        assert_eq!(self.asset.token_account, Pubkey::default());
         self.asset.token_account = self.associated_token_account.key();
         self.asset.mint_account = self.mint_account.key();
 
