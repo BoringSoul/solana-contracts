@@ -13,6 +13,8 @@ declare_id!("2HjXiq4PGKKXTdBsdQe9CxRr5mCHa8N87wUWauZqbZfi");
 pub mod solana_contracts {
 
 
+    use std::future;
+
     use super::*;
     pub fn mint_nft(
         ctx: Context<MintNft>,
@@ -54,5 +56,13 @@ pub mod solana_contracts {
         supply_no:u64
     ) -> Result<()>{
         ctx.accounts.unwrap(supply_no)
+    }
+
+    pub fn stake(ctx:Context<StakeContext>, stake_no:u64) -> Result<StakeInfo>{
+        ctx.accounts.stake(stake_no)
+    }
+
+    pub fn unstake(ctx:Context<UnstakeContext>, stake_no:u64) -> Result<()>{
+        ctx.accounts.unstake(stake_no)
     }
 }
