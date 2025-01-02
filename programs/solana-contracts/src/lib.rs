@@ -12,9 +12,6 @@ declare_id!("2HjXiq4PGKKXTdBsdQe9CxRr5mCHa8N87wUWauZqbZfi");
 #[program]
 pub mod solana_contracts {
 
-
-    use std::future;
-
     use super::*;
     pub fn mint_nft(
         ctx: Context<MintNft>,

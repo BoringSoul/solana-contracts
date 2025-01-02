@@ -3,10 +3,8 @@ use anchor_lang::prelude::*;
 use anchor_spl::{
     associated_token::AssociatedToken, 
     metadata::Metadata, 
-    token::{transfer, Mint, Token, TokenAccount, Transfer}};
-use solana_program::stake::state::Stake;
-
-
+    token::{transfer, Mint, Token, TokenAccount, Transfer}
+};
 
 #[derive(Accounts)]
 pub struct StakeContext<'info> {
