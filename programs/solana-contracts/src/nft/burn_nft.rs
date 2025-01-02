@@ -12,10 +12,19 @@ pub struct BurnNftContext<'info> {
     #[account(mut)]
     pub owner: Signer<'info>,
     
-    #[account(mut)]
+    #[account(
+        mut,
+        associated_token::mint = mint_account,
+        associated_token::authority = owner
+    )]
     pub token_account: Account<'info, TokenAccount>,
 
-    #[account(mut)]
+    #[account(mut,
+        seeds = [b"mint", 
+        asset_manager.key().as_ref(),
+        &asset.supply_no.to_le_bytes()],
+        bump,
+    )]
     pub mint_account: Account<'info, Mint>,
 
      /// CHECK: Validate address by deriving pda
@@ -64,6 +73,7 @@ pub struct BurnNftContext<'info> {
 
 impl<'info> BurnNftContext<'info> {
     pub fn burn_nft(&mut self, supply_no:u64) -> Result<()> {
+        assert_eq!(self.asset.supply_no, supply_no);
 
         burn_nft(CpiContext::new(
             self.token_metadata_program.to_account_info(), 
