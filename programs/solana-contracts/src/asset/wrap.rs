@@ -35,6 +35,7 @@ pub struct WrapContext<'info> {
 
 pub fn wrap(ctx: Context<WrapContext>, 
     assets: Vec<Asset>) -> Result<AssetInfo> {
+    assert!(ctx.accounts.asset_manager.current_supply_no <= ctx.accounts.asset_manager.limit);
     let clock = Clock::get()?;
     let data = AssetInfo {
         owner: ctx.accounts.owner.key(),
