@@ -32,8 +32,7 @@ describe('wrap asset', () => {
       new anchor.BN(3),
     )
     .accounts({
-      owner: authority.publicKey,
-      assetManager: assetInfoAccountAddr
+      owner: authority.publicKey
     })
     .signers([authority])
     .rpc();
