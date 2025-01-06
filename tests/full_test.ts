@@ -96,5 +96,4 @@ describe('Wrap -> Mint -> Stake-> Unstake', () => {
     .signers([payer, authority])
     .rpc();
   });
-
 });
