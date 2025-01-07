@@ -5,13 +5,13 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-solana_contracts = "2HjXiq4PGKKXTdBsdQe9CxRr5mCHa8N87wUWauZqbZfi"
+solana_contracts = "AbCFJLirBCwCJUprnGXBgSuMEtVQQiQYmEDsmsVAfFSB"
 
 [programs.devnet]
-solana_contracts = "2HjXiq4PGKKXTdBsdQe9CxRr5mCHa8N87wUWauZqbZfi"
+solana_contracts = "AbCFJLirBCwCJUprnGXBgSuMEtVQQiQYmEDsmsVAfFSB"
 
 [programs.mainnet]
-solana_contracts = "2HjXiq4PGKKXTdBsdQe9CxRr5mCHa8N87wUWauZqbZfi"
+solana_contracts = "AbCFJLirBCwCJUprnGXBgSuMEtVQQiQYmEDsmsVAfFSB"
 
 [registry]
 url = "https://api.apr.dev"

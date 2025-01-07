@@ -2,6 +2,7 @@
 
 use anchor_lang::prelude::*;
 use crate::asset::*;
+use crate::events::wrap::WrapEvent;
 
 #[derive(Accounts)]
 pub struct WrapContext<'info> {
@@ -34,7 +35,7 @@ pub struct WrapContext<'info> {
 }
 
 pub fn wrap(ctx: Context<WrapContext>, 
-    assets: Vec<Asset>) -> Result<AssetInfo> {
+    assets: Vec<Asset>) -> Result<String> {
     assert!(ctx.accounts.asset_manager.current_supply_no <= ctx.accounts.asset_manager.limit);
     let clock = Clock::get()?;
     let data = AssetInfo {
@@ -48,8 +49,11 @@ pub fn wrap(ctx: Context<WrapContext>,
     ctx.accounts.asset.set_inner(data.clone());
     ctx.accounts.asset_manager.current_supply_no += 1;
     // transfer(ctx.accounts.owner.to_account_info(), ctx.accounts.authority.to_account_info(),  1 * 10_000_000_000)?;
-    msg!("assetInfo:{:?}, assetKey:{:?}", data, ctx.accounts.asset.key());
-    Ok(data)
+    emit!(WrapEvent {
+        asset_info: data.clone(),
+        asset_key: ctx.accounts.asset.key()
+    });
+    Ok(ctx.accounts.asset.key().to_string())
 }
 
 // pub fn transfer<'info>(sender:AccountInfo<'info>, receiver:AccountInfo<'info>,  amount:u64) ->Result<()> {

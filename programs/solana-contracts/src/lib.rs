@@ -4,11 +4,12 @@ use anchor_lang::prelude::*;
 pub mod asset;
 pub mod nft;
 pub mod errors;
+pub mod events;
 
 use nft::*;
 use asset::*;
 
-declare_id!("2HjXiq4PGKKXTdBsdQe9CxRr5mCHa8N87wUWauZqbZfi");
+declare_id!("AbCFJLirBCwCJUprnGXBgSuMEtVQQiQYmEDsmsVAfFSB");
 #[program]
 pub mod solana_contracts {
 
@@ -44,7 +45,7 @@ pub mod solana_contracts {
     pub fn wrap_asset(
         ctx:Context<WrapContext>,
         assets: Vec<asset::Asset>
-    ) -> Result<AssetInfo>{
+    ) -> Result<String>{
         asset::wrap(ctx, assets)
     }
 
