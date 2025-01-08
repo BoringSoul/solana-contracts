@@ -30,11 +30,9 @@ pub struct StakeContext<'info> {
     )]
     pub asset: Account<'info, AssetInfo>,
 
-
     #[account(
-        seeds = [b"mint", 
-        asset_manager.key().as_ref(),
-        &asset.supply_no.to_le_bytes()],
+        mut,
+        seeds = [b"mint", asset.key().as_ref()],
         bump
     )]
     pub mint_account: Box<Account<'info, Mint>>,
@@ -42,8 +40,7 @@ pub struct StakeContext<'info> {
     #[account(
         init,
         payer = owner,
-        seeds = [b"stake", 
-        asset.key().as_ref()],
+        seeds = [b"stake", asset.key().as_ref()],
         bump,
         space = 8 + StakeInfo::INIT_SPACE
     )]

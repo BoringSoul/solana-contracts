@@ -22,6 +22,14 @@ pub struct UnstakeContext<'info> {
     )]
     pub asset_manager: Account<'info, AssetManager>,
 
+    #[account(
+        mut,
+        seeds = [b"asset", 
+        asset_manager.key().as_ref(),
+        &asset.supply_no.to_le_bytes()],
+        bump,
+    )]
+    pub asset: Account<'info, AssetInfo>,
 
     #[account(
         mut,
@@ -32,21 +40,10 @@ pub struct UnstakeContext<'info> {
     )]
     pub stake: Account<'info, StakeInfo>,
 
-    #[account(
-        mut,
-        seeds = [b"asset", 
-        asset_manager.key().as_ref(),
-        &stake.asset_no.to_le_bytes()],
-        bump,
-    )]
-    pub asset: Account<'info, AssetInfo>,
-
 
     #[account(
         mut,
-        seeds = [b"mint", 
-        asset_manager.key().as_ref(),
-        &asset.supply_no.to_le_bytes()],
+        seeds = [b"mint", stake.asset_account.as_ref()],
         bump
     )]
     pub mint_account: Box<Account<'info, Mint>>,

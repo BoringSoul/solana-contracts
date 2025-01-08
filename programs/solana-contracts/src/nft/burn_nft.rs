@@ -20,9 +20,7 @@ pub struct BurnNftContext<'info> {
     pub token_account: Account<'info, TokenAccount>,
 
     #[account(mut,
-        seeds = [b"mint", 
-        asset_manager.key().as_ref(),
-        &asset.supply_no.to_le_bytes()],
+        seeds = [b"mint", asset.key().as_ref()],
         bump,
     )]
     pub mint_account: Account<'info, Mint>,
