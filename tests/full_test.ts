@@ -27,12 +27,12 @@ describe('Wrap -> Mint -> Stake-> Unstake', () => {
   const [assetManagerAddress] = PublicKey.findProgramAddressSync([Buffer.from('asset_manager'), authority.publicKey.toBuffer()], program.programId);
   console.log(`assetManagerAddress: ${assetManagerAddress}`);
 
-  const supplyNo = new anchor.BN(1);
+  const supplyNo = new anchor.BN(2);
   //MjadGGZfdowLjJbhf2xXUmGuydYtRV2AtCzbfzA9RCs
   const [assetAddress ] = PublicKey.findProgramAddressSync([Buffer.from('asset'), assetManagerAddress.toBuffer(), supplyNo.toBuffer("le", 8)], program.programId);
   console.log(`assetAddress: ${assetAddress}`);
   
-  const stakeNo = new anchor.BN(1);
+  const stakeNo = new anchor.BN(2);
 
   it('WrapAssest', async () => {
     const assets = [{"amount": new anchor.BN(10000), "tokenAddress": payer.publicKey}];
