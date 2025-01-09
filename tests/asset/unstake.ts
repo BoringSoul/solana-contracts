@@ -37,7 +37,7 @@ describe('Stake And Unstake Test', () => {
       owner: payer.publicKey,
       authority: authority.publicKey,
       assetManager: assetManagerAddress,
-      assert:assetAddress
+      asset:assetAddress
     })
     .signers([payer, authority])
     .rpc();
