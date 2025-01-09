@@ -14,7 +14,7 @@ pub use events::burn::*;
 pub use events::stake::*;
 pub use events::unstake::*;
 
-declare_id!("AbCFJLirBCwCJUprnGXBgSuMEtVQQiQYmEDsmsVAfFSB");
+declare_id!("E6qJKiFiq2f23Qf9Zx4cuqJTeJasi5XVrV1wvge6BZjc");
 #[program]
 pub mod solana_contracts {
 
