@@ -59,7 +59,7 @@ pub struct MintNft<'info> {
 
     // Create new mint account, NFTs have 0 decimals
     #[account(
-        init,
+        init_if_needed,
         payer = payer,
         seeds = [b"mint", asset.key().as_ref()],
         bump,
@@ -72,7 +72,7 @@ pub struct MintNft<'info> {
     // Create associated token account, if needed
     // This is the account that will hold the NFT
     #[account(
-        init,
+        init_if_needed,
         payer = payer,
         associated_token::mint = mint_account,
         associated_token::authority = payer
