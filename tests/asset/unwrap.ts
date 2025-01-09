@@ -32,7 +32,7 @@ describe('Stake And Unstake Test', () => {
   console.log(`assetAddress: ${assetAddress}`);
   it('解包', async () => {
     await program.methods
-    .unwrap(supplyNo)
+    .unwrapAsset(supplyNo)
     .accounts({
       owner: payer.publicKey,
       authority: authority.publicKey,
