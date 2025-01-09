@@ -79,7 +79,6 @@ impl <'info> UnstakeContext<'info> {
     pub fn unstake(&mut self, 
         stake_no: u64
     ) -> Result<()> {
-        msg!("self.stake_no = {:?}, input stake_no = {:?}", self.stake.stake_no, stake_no);
         assert_eq!(self.stake.stake_no, stake_no);
         // assert_eq!(self.stake.owner, self.owner.key());
         // assert_eq!(self.asset.owner, self.authority.key());

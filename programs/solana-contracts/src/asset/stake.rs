@@ -40,7 +40,7 @@ pub struct StakeContext<'info> {
     pub mint_account: Box<Account<'info, Mint>>,
 
     #[account(
-        init,
+        init_if_needed,
         payer = owner,
         seeds = [b"stake", asset.key().as_ref()],
         bump,
