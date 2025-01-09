@@ -36,7 +36,7 @@ pub struct UnstakeContext<'info> {
     #[account(
         mut,
         seeds = [b"stake", 
-        stake.asset_account.as_ref()],
+        &stake.asset_account.as_ref()],
         bump,
         close = owner
     )]
