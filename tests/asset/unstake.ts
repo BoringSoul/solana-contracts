@@ -31,8 +31,6 @@ describe('Stake And Unstake Test', () => {
   const [assetAddress ] = PublicKey.findProgramAddressSync([Buffer.from('asset'), assetManagerAddress.toBuffer(), supplyNo.toBuffer("le", 8)], program.programId);
   console.log(`assetAddress: ${assetAddress}`);
   it('Unstake', async () => {
-    const [stakeAddress ] = PublicKey.findProgramAddressSync([Buffer.from('stake'), assetAddress.toBuffer()], program.programId);
-    console.log(`stakeAddress: ${stakeAddress}`);
     await program.methods
     .unstake(supplyNo)
     .accounts({
