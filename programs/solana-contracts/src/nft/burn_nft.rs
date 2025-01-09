@@ -1,7 +1,8 @@
 #![allow(clippy::result_large_err)]
 
 use {
-    crate::{AssetInfo, AssetManager}, anchor_lang::prelude::*, anchor_spl::{
+    crate::{AssetInfo, AssetManager, events::BurnEvent},
+    anchor_lang::prelude::*, anchor_spl::{
         metadata::{burn_nft, BurnNft, Metadata},
         token::{Mint, Token, TokenAccount},
     }
@@ -83,6 +84,14 @@ impl<'info> BurnNftContext<'info> {
                 spl_token: self.token_program.to_account_info(),
                 token: self.token_account.to_account_info(),
             }
-        ), None)
+        ), None)?;
+
+        emit!(BurnEvent {
+            asset_account: self.asset.key(),
+            mint_account: self.mint_account.key(),
+            token_account: self.token_account.key(),
+        });
+
+        Ok(())
     }
 }

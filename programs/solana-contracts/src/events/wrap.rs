@@ -4,5 +4,6 @@ use crate::asset::AssetInfo;
 #[event]
 pub struct WrapEvent {
     pub asset_info: AssetInfo,
-    pub asset_key: Pubkey,
+    pub asset_account: Pubkey,
+    pub owner: Pubkey,
 }

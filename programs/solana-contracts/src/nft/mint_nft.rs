@@ -1,7 +1,7 @@
 #![allow(clippy::result_large_err)]
 
 use {
-    crate::{AssetInfo, AssetManager}, 
+    crate::{AssetInfo, AssetManager, events::MintEvent},
     anchor_lang::prelude::*, 
     anchor_spl::{
         associated_token::AssociatedToken,
@@ -162,6 +162,12 @@ impl<'info> MintNft<'info> {
             ),
             None, // Max Supply
         )?;
+
+        emit!(MintEvent {
+            asset_account: self.asset.key(),
+            mint_account: self.mint_account.key(),
+            token_account: self.associated_token_account.key(),
+        });
 
         Ok(())
     }

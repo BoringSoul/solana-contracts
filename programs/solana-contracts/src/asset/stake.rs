@@ -1,9 +1,11 @@
-use crate::asset::*;
-use anchor_lang::prelude::*;
-use anchor_spl::{
-    associated_token::AssociatedToken, 
-    metadata::Metadata, 
-    token::{transfer, Mint, Token, TokenAccount, Transfer}
+use {
+    crate::{asset::*, events::StakeEvent},
+    anchor_lang::prelude::*,
+    anchor_spl::{
+        associated_token::AssociatedToken, 
+        metadata::Metadata, 
+        token::{transfer, Mint, Token, TokenAccount, Transfer}
+    },
 };
 
 #[derive(Accounts)]
@@ -100,6 +102,15 @@ impl <'info> StakeContext<'info> {
             ),
             1
         )?;
+        emit!(StakeEvent {
+            asset_account: self.asset.key(),
+            stake_account: self.stake.key(),
+            mint_account: self.mint_account.key(),
+            owner_account: self.owner.key(),
+            authority_account: self.authority.key(),
+            owner_token_account: self.owner_token_account.key(),
+            staker_token_account: self.authority_token_account.key(),
+        });
         Ok(self.stake.clone().into_inner())
     }
     

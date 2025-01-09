@@ -1,4 +1,3 @@
-
 #![allow(clippy::result_large_err)]
 use anchor_lang::prelude::*;
 pub mod asset;
@@ -9,6 +8,12 @@ pub mod events;
 use nft::*;
 use asset::*;
 
+pub use events::wrap::*;
+pub use events::mint::*;
+pub use events::burn::*;
+pub use events::stake::*;
+pub use events::unstake::*;
+
 declare_id!("AbCFJLirBCwCJUprnGXBgSuMEtVQQiQYmEDsmsVAfFSB");
 #[program]
 pub mod solana_contracts {
@@ -18,9 +23,7 @@ pub mod solana_contracts {
         ctx: Context<MintNft>,
         token_title: String,
         token_symbol: String,
-        token_uri: String,
-        // supply_no:u64,
-        // assets: Vec<asset::Asset>
+        token_uri: String
     ) -> Result<()> {
         ctx.accounts.mint(token_title, token_symbol, token_uri)
     }

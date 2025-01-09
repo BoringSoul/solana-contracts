@@ -1,10 +1,12 @@
-use crate::asset::*;
-use anchor_lang::prelude::*;
-use anchor_spl::{
-    associated_token::AssociatedToken, 
-    metadata::Metadata, 
-    token::{transfer, Mint, Token, TokenAccount, Transfer}};
-
+use {
+    crate::{asset::*, events::UnstakeEvent},
+    anchor_lang::prelude::*,
+    anchor_spl::{
+        associated_token::AssociatedToken, 
+        metadata::Metadata, 
+        token::{transfer, Mint, Token, TokenAccount, Transfer}
+    },
+};
 
 
 #[derive(Accounts)]
@@ -96,6 +98,15 @@ impl <'info> UnstakeContext<'info> {
             ),
             1
         )?;
+        emit!(UnstakeEvent {
+            asset_account: self.asset.key(),
+            stake_account: self.stake.key(),
+            mint_account: self.mint_account.key(),
+            owner_account: self.owner.key(),
+            authority_account: self.authority.key(),
+            owner_token_account: self.owner_token_account.key(),
+            staker_token_account: self.authority_token_account.key(),
+        });
         Ok(())
     }
     

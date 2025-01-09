@@ -51,7 +51,8 @@ pub fn wrap(ctx: Context<WrapContext>,
     // transfer(ctx.accounts.owner.to_account_info(), ctx.accounts.authority.to_account_info(),  1 * 10_000_000_000)?;
     emit!(WrapEvent {
         asset_info: data.clone(),
-        asset_key: ctx.accounts.asset.key()
+        asset_account: ctx.accounts.asset.key(),
+        owner: ctx.accounts.owner.key(),
     });
     Ok(ctx.accounts.asset.key().to_string())
 }
