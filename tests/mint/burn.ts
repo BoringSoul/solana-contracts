@@ -31,7 +31,7 @@ describe('wrap asset', () => {
   it('burn', async () => {
     // Generate a keypair to use as the address of our mint account
     const transactionSignature = await program.methods
-      .burnNft()
+      .burnNft(supplyNo)
       .accounts({
         owner: payer.publicKey,
         authority: authority.publicKey,
