@@ -30,10 +30,10 @@ describe('Stake And Unstake Test', () => {
   //MjadGGZfdowLjJbhf2xXUmGuydYtRV2AtCzbfzA9RCs
   const [assetAddress ] = PublicKey.findProgramAddressSync([Buffer.from('asset'), assetManagerAddress.toBuffer(), supplyNo.toBuffer("le", 8)], program.programId);
   console.log(`assetAddress: ${assetAddress}`);
-  it('解押', async () => {
+  it('质押', async () => {
     const stakeNo = new anchor.BN(1);
     await program.methods
-    .unstake(stakeNo)
+    .stake(stakeNo)
     .accounts({
       owner: payer.publicKey,
       authority: authority.publicKey,
