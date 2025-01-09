@@ -36,7 +36,7 @@ pub struct UnstakeContext<'info> {
     #[account(
         mut,
         seeds = [b"stake", 
-        &stake.asset_account.as_ref()],
+        asset.key().as_ref()],
         bump,
         close = owner
     )]
@@ -45,7 +45,7 @@ pub struct UnstakeContext<'info> {
 
     #[account(
         mut,
-        seeds = [b"mint", stake.asset_account.as_ref()],
+        seeds = [b"mint", asset.key().as_ref()],
         bump
     )]
     pub mint_account: Box<Account<'info, Mint>>,
