@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package substreams.v1.program;
+
+message Data {
+    repeated BurnEvent burn_event_list = 1;
+    repeated MintEvent mint_event_list = 2;
+    repeated StakeEvent stake_event_list = 3;
+    repeated UnstakeEvent unstake_event_list = 4;
+    repeated WrapEvent wrap_event_list = 5;
+    repeated InitAssetManager init_asset_manager_list = 6;
+    repeated Stake stake_list = 7;
+    repeated Unstake unstake_list = 8;
+    repeated WrapAsset wrap_asset_list = 9;
+    repeated UnwrapAsset unwrap_asset_list = 10;
+}
+message BurnEvent {
+  string trx_hash = 1;
+      string asset_account = 2;
+      string mint_account = 3;
+      string token_account = 4;
+}message MintEvent {
+  string trx_hash = 1;
+      string asset_account = 2;
+      string mint_account = 3;
+      string token_account = 4;
+}message StakeEvent {
+  string trx_hash = 1;
+      string asset_account = 2;
+      string stake_account = 3;
+      string mint_account = 4;
+      string owner_account = 5;
+      string authority_account = 6;
+      string owner_token_account = 7;
+      string staker_token_account = 8;
+}message UnstakeEvent {
+  string trx_hash = 1;
+      string asset_account = 2;
+      string stake_account = 3;
+      string mint_account = 4;
+      string owner_account = 5;
+      string authority_account = 6;
+      string owner_token_account = 7;
+      string staker_token_account = 8;
+}message WrapEvent {
+  string trx_hash = 1;
+      AssetInfo asset_info = 2;
+      string asset_account = 3;
+      string owner = 4;
+}
+
+message InitAssetManager {
+  string trx_hash = 1;
+    uint64 limit = 2;
+    string contract_uri = 3;
+    int64 start_time = 4;
+    int64 end_time = 5;
+    uint64 wrap_fee = 6;
+    uint64 unwrap_fee = 7;
+    string acct_owner = 8;
+    string acct_asset_manager = 9;
+}
+message Stake {
+  string trx_hash = 1;
+    uint64 stake_no = 2;
+    string acct_owner = 3;
+    string acct_authority = 4;
+    string acct_asset_manager = 5;
+    string acct_asset = 6;
+    string acct_stake = 7;
+    string acct_mint_account = 8;
+    string acct_owner_token_account = 9;
+    string acct_authority_token_account = 10;
+}
+message Unstake {
+  string trx_hash = 1;
+    uint64 stake_no = 2;
+    string acct_owner = 3;
+    string acct_authority = 4;
+    string acct_asset_manager = 5;
+    string acct_asset = 6;
+    string acct_stake = 7;
+    string acct_mint_account = 8;
+    string acct_owner_token_account = 9;
+    string acct_authority_token_account = 10;
+}
+message WrapAsset {
+  string trx_hash = 1;
+    repeated Asset assets = 2;
+    string acct_owner = 3;
+    string acct_authority = 4;
+    string acct_asset_manager = 5;
+    string acct_asset = 6;
+}
+message UnwrapAsset {
+  string trx_hash = 1;
+    uint64 supply_no = 2;
+    string acct_owner = 3;
+    string acct_authority = 4;
+    string acct_asset_manager = 5;
+    string acct_asset = 6;
+}
+
+
+message AssetInfo {
+      string owner = 1;
+      uint64 supply_no = 2;
+}
