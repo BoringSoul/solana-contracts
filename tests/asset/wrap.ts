@@ -5,7 +5,7 @@ import {Keypair ,PublicKey } from '@solana/web3.js';
 import type { SolanaContracts } from '../target/types/solana_contracts';
 import { getAssociatedTokenAddressSync } from '@solana/spl-token';
 
-describe('wrap asset', () => {
+describe('打包资产', () => {
   // Configure the client to use the local cluster.
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
@@ -16,25 +16,17 @@ describe('wrap asset', () => {
   const payer = Keypair.fromSecretKey(new Uint8Array(payerSeed));
   console.log(`payer: ${payer.publicKey}`);
 
-  // const mintKeypair = Keypair.fromSecretKey(new Uint8Array([6,228,116,176,184,251,15,87,10,226,14,84,30,119,2,141,147,191,50,161,150,176,158,131,98,77,157,108,87,169,250,207,38,110,92,181,25,227,103,240,156,104,148,209,32,181,189,58,248,161,239,37,232,156,124,158,130,104,211,183,120,123,105,69]));
- 
+  const assetCollection = PublicKey.from("9ZRVL57MtSDk26k6oSy1Zbm1n1XXXFm7dePSgqeNr6Kq");
 
-  const authoritySeed  = [124,247,111,86,69,22,243,227,110,29,54,161,239,132,170,253,72,105,113,100,66,59,213,229,22,66,62,68,5,241,98,168,164,129,238,19,203,65,76,173,153,230,208,0,254,62,123,163,8,44,142,208,150,74,245,209,159,211,123,137,100,76,84,97];
-  const authority = Keypair.fromSecretKey(new Uint8Array(authoritySeed));
-  console.log(`authority: ${authority.publicKey}`);
-
-  const [assetManagerAddress] = PublicKey.findProgramAddressSync([Buffer.from('asset_manager'), authority.publicKey.toBuffer()], program.programId);
-  console.log(`assetManagerAddress: ${assetManagerAddress}`);
   it('打包', async () => {
   const assets = [{"amount": new anchor.BN(10000), "tokenAddress": payer.publicKey}];
     await program.methods
       .wrapAsset(assets)
       .accounts({
         owner: payer.publicKey,
-        authority: authority.publicKey,
-        assetManager: assetManagerAddress,
+        assetCollection: assetCollection,
       })
-      .signers([payer, authority])
+      .signers([payer])
       .rpc();
     });
 
