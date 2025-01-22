@@ -15,7 +15,7 @@ describe('nft集合相关的智能合约', () => {
   const authority = Keypair.fromSecretKey(new Uint8Array(authoritySeed));
   console.log(` authority : ${authority.publicKey}`);
 
-  const assetCollectionAddr = PublicKey.generate();
+  const assetCollectionAddr = Keypair.generate();
   // const assetInfoAccountAddr = new Keypair();
   // const mintKeypair = new Keypair();
   // const assetInfoAccount = Keypair.generate();
@@ -31,7 +31,8 @@ describe('nft集合相关的智能合约', () => {
       new anchor.BN(3),
     )
     .accounts({
-      owner: authority.publicKey
+      owner: authority.publicKey,
+      assetCollection: assetCollectionAddr.publicKey,
     })
     .signers([authority])
     .rpc();
