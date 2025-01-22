@@ -1,7 +1,7 @@
 #![allow(clippy::result_large_err)]
 
 use {
-    crate::{AssetInfo, AssetCollection, events::MintEvent},
+    crate::{AssetInfo, events::MintEvent},
     anchor_lang::prelude::*, 
     anchor_spl::{
         associated_token::AssociatedToken,
