@@ -27,7 +27,7 @@ pub struct MintNft<'info> {
         mut,
         seeds = [b"asset", 
         asset_collection.key().as_ref(),
-        &asset_collection.next_supply_no.to_le_bytes()],
+        &asset.supply_no.to_le_bytes()],
         bump,
     )]
     pub asset: Box<Account<'info, AssetInfo>>,
