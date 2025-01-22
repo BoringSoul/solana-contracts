@@ -34,7 +34,7 @@ describe('nft集合相关的智能合约', () => {
       owner: authority.publicKey,
       assetCollection: assetCollectionAddr.publicKey,
     })
-    .signers([authority])
+    .signers([authority, assetCollectionAddr])
     .rpc();
   });
 });
