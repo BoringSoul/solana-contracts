@@ -1,7 +1,7 @@
 #![allow(clippy::result_large_err)]
 
 use {
-    crate::{AssetInfo, AssetManager, events::MintEvent},
+    crate::{AssetInfo, AssetCollection, events::MintEvent},
     anchor_lang::prelude::*, 
     anchor_spl::{
         associated_token::AssociatedToken,
@@ -21,19 +21,13 @@ pub struct MintNft<'info> {
     pub payer: Signer<'info>,
 
     #[account(mut)]
-    pub authority: Signer<'info>,
-
-    #[account(
-        seeds = [b"asset_manager", authority.key().as_ref()],
-        bump,
-    )]
-    pub asset_manager: Account<'info, AssetManager>,
+    pub asset_collection: Account<'info, AssetCollection>,
 
     #[account(
         mut,
         seeds = [b"asset", 
-        asset_manager.key().as_ref(),
-        &asset.supply_no.to_le_bytes()],
+        asset_collection.key().as_ref(),
+        &asset_collection.next_supply_no.to_le_bytes()],
         bump,
     )]
     pub asset: Box<Account<'info, AssetInfo>>,
@@ -64,8 +58,8 @@ pub struct MintNft<'info> {
         seeds = [b"mint", asset.key().as_ref()],
         bump,
         mint::decimals = 0,
-        mint::authority = authority.key(),
-        mint::freeze_authority = authority.key(),
+        mint::authority = asset_collection.key(),
+        mint::freeze_authority = asset_collection.key(),
     )]
     pub mint_account: Box<Account<'info, Mint>>,
 
@@ -106,7 +100,7 @@ impl<'info> MintNft<'info> {
                 MintTo {
                     mint: self.mint_account.to_account_info(),
                     to: self.associated_token_account.to_account_info(),
-                    authority: self.authority.to_account_info(),
+                    authority: self.asset_collection.to_account_info(),
                 },
             ),
             1,
@@ -121,8 +115,8 @@ impl<'info> MintNft<'info> {
                 CreateMetadataAccountsV3 {
                     metadata: self.metadata_account.to_account_info(),
                     mint: self.mint_account.to_account_info(),
-                    mint_authority: self.authority.to_account_info(),
-                    update_authority: self.authority.to_account_info(),
+                    mint_authority: self.asset_collection.to_account_info(),
+                    update_authority: self.asset_collection.to_account_info(),
                     payer: self.payer.to_account_info(),
                     system_program: self.system_program.to_account_info(),
                     rent: self.rent.to_account_info(),
@@ -151,8 +145,8 @@ impl<'info> MintNft<'info> {
                 CreateMasterEditionV3 {
                     edition: self.edition_account.to_account_info(),
                     mint: self.mint_account.to_account_info(),
-                    update_authority: self.authority.to_account_info(),
-                    mint_authority: self.authority.to_account_info(),
+                    update_authority: self.asset_collection.to_account_info(),
+                    mint_authority: self.asset_collection.to_account_info(),
                     payer: self.payer.to_account_info(),
                     metadata: self.metadata_account.to_account_info(),
                     token_program: self.token_program.to_account_info(),

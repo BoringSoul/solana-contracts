@@ -13,20 +13,14 @@ pub struct StakeContext<'info> {
     #[account(mut)]
     pub owner: Signer<'info>,
 
+    /// CHECK: Not Validated
     #[account(mut)]
-    pub authority: Signer<'info>,
-
-    #[account(
-        mut,
-        seeds = [b"asset_manager", authority.key().as_ref()],
-        bump,
-    )]
-    pub asset_manager: Account<'info, AssetManager>,
+    pub authority: UncheckedAccount<'info>,
 
     #[account(
         mut,
         seeds = [b"asset", 
-        asset_manager.key().as_ref(),
+        asset.collection_id.as_ref(),
         &asset.supply_no.to_le_bytes()],
         bump,
     )]

@@ -12,26 +12,13 @@ pub struct UnwrapContext<'info> {
     #[account(mut)]
     pub owner: Signer<'info>,
 
-    /// 权限账户，必须签名，可变
-    #[account(mut)]
-    pub authority: Signer<'info>,
-    
-    /// 资产管理器账户，使用PDA派生
-    /// seeds为："asset_manager" 和 authority的公钥
-    #[account(
-        mut,
-        seeds = [b"asset_manager", authority.key().as_ref()],
-        bump,
-    )]
-    pub asset_manager: Account<'info, AssetManager>,
-
     /// 要解包的资产账户，使用PDA派生
     /// seeds为："asset"、asset_manager的地址和supply序号
     /// close = owner 表示账户将被关闭，租金返还给owner
     #[account(
         mut,
         seeds = [b"asset", 
-        asset_manager.key().as_ref(),
+        asset.collection_id.as_ref(),
         &asset.supply_no.to_le_bytes()],
         bump,
         close = owner,

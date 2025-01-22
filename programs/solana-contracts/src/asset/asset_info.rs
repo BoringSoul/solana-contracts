@@ -4,6 +4,7 @@ use anchor_lang::prelude::*;
 #[derive(InitSpace, Debug)]
 pub struct AssetInfo {
     pub owner:Pubkey,
+    pub collection_id: Pubkey,
     pub supply_no: u64,
     #[max_len(5)]
     pub assets: Vec<Asset>,

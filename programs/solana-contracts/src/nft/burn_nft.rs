@@ -1,7 +1,7 @@
 #![allow(clippy::result_large_err)]
 
 use {
-    crate::{AssetInfo, AssetManager, events::BurnEvent},
+    crate::{AssetInfo, events::BurnEvent},
     anchor_lang::prelude::*, anchor_spl::{
         metadata::{burn_nft, BurnNft, Metadata},
         token::{Mint, Token, TokenAccount},
@@ -43,22 +43,11 @@ pub struct BurnNftContext<'info> {
         seeds::program = token_metadata_program.key()
     )]
     pub edition_account:  UncheckedAccount<'info>,
-
-    #[account(mut)]
-    pub authority: Signer<'info>,
     
     #[account(
         mut,
-        seeds = [b"asset_manager", authority.key().as_ref()],
-        bump,
-    )]
-    pub asset_manager: Account<'info, AssetManager>,
-
-
-    #[account(
-        mut,
         seeds = [b"asset", 
-        asset_manager.key().as_ref(),
+        asset.collection_id.as_ref(),
         &asset.supply_no.to_le_bytes()],
         bump,
         close = owner,

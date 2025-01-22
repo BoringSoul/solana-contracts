@@ -11,18 +11,9 @@ pub struct WrapContext<'info> {
     #[account(mut)]
     pub owner: Signer<'info>,
 
-    /// 权限账户，必须签名，可变
+    /// 资产管理器账户, 必传
     #[account(mut)]
-    pub authority: Signer<'info>,
-
-    /// 资产管理器账户，使用PDA派生
-    /// seeds为："asset_manager" 和 authority的公钥
-    #[account(
-        mut,
-        seeds = [b"asset_manager", authority.key().as_ref()],
-        bump,
-    )]
-    pub asset_manager: Account<'info, AssetManager>,
+    pub asset_collection: Account<'info, AssetCollection>,
 
     /// 新建的资产账户，使用PDA派生
     /// seeds为："asset"、asset_manager的地址和当前supply序号
@@ -32,8 +23,8 @@ pub struct WrapContext<'info> {
         init,
         payer = owner,
         seeds = [b"asset", 
-        asset_manager.key().as_ref(),
-        &asset_manager.current_supply_no.to_le_bytes()],
+        asset_collection.key().as_ref(),
+        &asset_collection.next_supply_no.to_le_bytes()],
         bump,
         space = 8 + AssetInfo::INIT_SPACE
     )]
@@ -53,7 +44,7 @@ pub struct WrapContext<'info> {
 pub fn wrap(ctx: Context<WrapContext>, 
     assets: Vec<Asset>) -> Result<String> {
     // 确保当前supply数量未超过限制
-    assert!(ctx.accounts.asset_manager.current_supply_no <= ctx.accounts.asset_manager.limit);
+    assert!(ctx.accounts.asset_collection.next_supply_no <= ctx.accounts.asset_collection.limit);
     
     // 获取当前时间戳
     let clock = Clock::get()?;
@@ -61,7 +52,8 @@ pub fn wrap(ctx: Context<WrapContext>,
     // 创建新的资产信息
     let data = AssetInfo {
         owner: ctx.accounts.owner.key(),          // 设置所有者
-        supply_no: ctx.accounts.asset_manager.current_supply_no,  // 设置供应序号
+        collection_id: ctx.accounts.asset_collection.key(),
+        supply_no: ctx.accounts.asset_collection.next_supply_no,  // 设置供应序号
         assets,                                   // 设置资产列表
         start_time: clock.unix_timestamp,         // 设置开始时间
         mint_account: Pubkey::default(),         // 设置默认mint账户
@@ -72,7 +64,7 @@ pub fn wrap(ctx: Context<WrapContext>,
     ctx.accounts.asset.set_inner(data.clone());
     
     // 增加资产管理器的供应计数
-    ctx.accounts.asset_manager.current_supply_no += 1;
+    ctx.accounts.asset_collection.next_supply_no += 1;
     
     // 发出包装事件
     emit!(WrapEvent {
