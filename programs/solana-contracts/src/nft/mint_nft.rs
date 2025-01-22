@@ -20,13 +20,10 @@ pub struct MintNft<'info> {
     #[account(mut)]
     pub payer: Signer<'info>,
 
-    #[account(mut)]
-    pub asset_collection: Account<'info, AssetCollection>,
-
     #[account(
         mut,
         seeds = [b"asset", 
-        asset_collection.key().as_ref(),
+        asset.collection_id.as_ref(),
         &asset.supply_no.to_le_bytes()],
         bump,
     )]
@@ -58,8 +55,8 @@ pub struct MintNft<'info> {
         seeds = [b"mint", asset.key().as_ref()],
         bump,
         mint::decimals = 0,
-        mint::authority = asset_collection.key(),
-        mint::freeze_authority = asset_collection.key(),
+        mint::authority = payer.key(),
+        mint::freeze_authority = payer.key(),
     )]
     pub mint_account: Box<Account<'info, Mint>>,
 
@@ -100,7 +97,7 @@ impl<'info> MintNft<'info> {
                 MintTo {
                     mint: self.mint_account.to_account_info(),
                     to: self.associated_token_account.to_account_info(),
-                    authority: self.asset_collection.to_account_info(),
+                    authority: self.payer.to_account_info(),
                 },
             ),
             1,
@@ -115,8 +112,8 @@ impl<'info> MintNft<'info> {
                 CreateMetadataAccountsV3 {
                     metadata: self.metadata_account.to_account_info(),
                     mint: self.mint_account.to_account_info(),
-                    mint_authority: self.asset_collection.to_account_info(),
-                    update_authority: self.asset_collection.to_account_info(),
+                    mint_authority: self.payer.to_account_info(),
+                    update_authority: self.payer.to_account_info(),
                     payer: self.payer.to_account_info(),
                     system_program: self.system_program.to_account_info(),
                     rent: self.rent.to_account_info(),
@@ -145,8 +142,8 @@ impl<'info> MintNft<'info> {
                 CreateMasterEditionV3 {
                     edition: self.edition_account.to_account_info(),
                     mint: self.mint_account.to_account_info(),
-                    update_authority: self.asset_collection.to_account_info(),
-                    mint_authority: self.asset_collection.to_account_info(),
+                    update_authority: self.payer.to_account_info(),
+                    mint_authority: self.payer.to_account_info(),
                     payer: self.payer.to_account_info(),
                     metadata: self.metadata_account.to_account_info(),
                     token_program: self.token_program.to_account_info(),
