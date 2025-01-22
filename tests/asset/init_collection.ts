@@ -19,7 +19,7 @@ describe('nft集合相关的智能合约', () => {
   // const assetInfoAccountAddr = new Keypair();
   // const mintKeypair = new Keypair();
   // const assetInfoAccount = Keypair.generate();
-  console.log(`assetCollectionAddr : ${assetCollectionAddr}`);
+  console.log(`assetCollectionAddr : ${assetCollectionAddr.publicKey}`);
 
   it('初始化nft集合', async () => {
     await program.methods
