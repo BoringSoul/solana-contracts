@@ -4,7 +4,7 @@ import type { Program } from '@coral-xyz/anchor';
 import {Keypair ,PublicKey } from '@solana/web3.js';
 import type { SolanaContracts } from '../target/types/solana_contracts';
 
-describe('wrap asset', () => {
+describe('nft集合相关的智能合约', () => {
   // Configure the client to use the local cluster.
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
@@ -15,16 +15,15 @@ describe('wrap asset', () => {
   const authority = Keypair.fromSecretKey(new Uint8Array(authoritySeed));
   console.log(` authority : ${authority.publicKey}`);
 
-  // Derive the PDA for the user's account.
-  const [assetInfoAccountAddr] = PublicKey.findProgramAddressSync([Buffer.from('asset_manager'), authority.publicKey.toBuffer()], program.programId);
+  const assetCollectionAddr = PublicKey.generate();
   // const assetInfoAccountAddr = new Keypair();
   // const mintKeypair = new Keypair();
   // const assetInfoAccount = Keypair.generate();
-  console.log(`assetInfoAccountAddr : ${assetInfoAccountAddr}`);
+  console.log(`assetCollectionAddr : ${assetCollectionAddr}`);
 
-  it('initAssetManager', async () => {
+  it('初始化nft集合', async () => {
     await program.methods
-      .initAssetManager(new anchor.BN(2000), 
+      .initAssetCollection(new anchor.BN(2000), 
       "baidu.com", 
       new anchor.BN(1735277947523), 
       new anchor.BN(1735278947523),
