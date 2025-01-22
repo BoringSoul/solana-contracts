@@ -29,6 +29,8 @@ pub struct InitAssetCollectionContext<'info> {
     #[account(
         init,
         payer = owner,
+        seeds = [b"asset_collection", owner.key().as_ref()],
+        bump,
         space = 8 + std::mem::size_of::<AssetCollection>()
     )]
     pub asset_collection: Account<'info, AssetCollection>,
