@@ -24,7 +24,7 @@ describe('质押测试', () => {
 
   const supplyNo = new anchor.BN(4);
   //initCollection测试脚本呢打印出来的公钥
-  const assetCollection = new PublicKey("B4Qn9uFmvdHb8YqEcbo7Dk41jvsSeiLDSBXjS4xuQDp9");
+  const assetCollection = new PublicKey("initCollection的地址");
   console.log(`assetCollection: ${assetCollection}`);
   //MjadGGZfdowLjJbhf2xXUmGuydYtRV2AtCzbfzA9RCs
   const [assetAddress] = PublicKey.findProgramAddressSync([Buffer.from('asset'), assetCollection.toBuffer(), supplyNo.toBuffer("le", 8)], program.programId);
