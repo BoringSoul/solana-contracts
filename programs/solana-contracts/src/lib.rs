@@ -58,6 +58,10 @@ pub mod solana_contracts {
         ctx.accounts.burn_nft(supply_no)
     }
 
+    pub fn init_stake_account(ctx:Context<StakeAccountContext>) -> Result<()>{
+        ctx.accounts.init_stake_account()
+    }
+
     pub fn stake(ctx:Context<StakeContext>, stake_no:u64) -> Result<StakeInfo>{
         ctx.accounts.stake(stake_no)
     }

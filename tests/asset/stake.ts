@@ -29,6 +29,17 @@ describe('质押测试', () => {
   const [assetAddress] = PublicKey.findProgramAddressSync([Buffer.from('asset'), assetCollection.toBuffer(), supplyNo.toBuffer("le", 8)], program.programId);
   console.log(`assetAddress: ${assetAddress}`);
 
+  it('创建质押时的系统nft钱包账号(服务端)', async () => {
+    await program.methods
+    .initStakeAccount()
+    .accounts({
+      authority: authority.publicKey,
+      asset:assetAddress
+    })
+    .signers([authority])
+    .rpc();
+  });
+
   it('开始质押', async () => {
     const stakeNo = new anchor.BN(1);
     await program.methods

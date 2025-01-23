@@ -10,6 +10,7 @@ use {
 
 #[derive(Accounts)]
 pub struct StakeContext<'info> {
+
     #[account(mut)]
     pub owner: Signer<'info>,
 
@@ -34,17 +35,6 @@ pub struct StakeContext<'info> {
     pub mint_account: Box<Account<'info, Mint>>,
 
     #[account(
-        init_if_needed,
-        payer = owner,
-        seeds = [b"stake", asset.key().as_ref()],
-        bump,
-        space = 8 + StakeInfo::INIT_SPACE
-    )]
-    pub stake: Account<'info, StakeInfo>,
-
-    // Create associated token account, if needed
-    // This is the account that will hold the NFT
-    #[account(
         mut,
         associated_token::mint = mint_account,
         associated_token::authority = owner
@@ -52,12 +42,21 @@ pub struct StakeContext<'info> {
     pub owner_token_account: Box<Account<'info, TokenAccount>>,
 
     #[account(
-        init_if_needed,
-        payer = authority,
+        mut,
         associated_token::mint = mint_account,
         associated_token::authority = authority
     )]
-    pub authority_token_account: Box<Account<'info, TokenAccount>>,
+    pub stake_account: Box<Account<'info, TokenAccount>>,
+
+    
+    #[account(
+        init_if_needed,
+        payer = owner,
+        seeds = [b"stake", asset.key().as_ref()],
+        bump,
+        space = 8 + StakeInfo::INIT_SPACE
+    )]
+    pub stake: Account<'info, StakeInfo>,
 
     pub system_program: Program<'info,System>,
     pub token_program: Program<'info, Token>,
@@ -83,14 +82,14 @@ impl <'info> StakeContext<'info> {
 
         
         self.asset.owner = self.authority.key();
-        self.asset.token_account = self.authority_token_account.key();
+        self.asset.token_account = self.stake_account.key();
 
         transfer(
             CpiContext::new(
                 self.token_program.to_account_info(),
                 Transfer {
                     from: self.owner_token_account.to_account_info(),
-                    to: self.authority_token_account.to_account_info(),
+                    to: self.stake_account.to_account_info(),
                     authority: self.owner.to_account_info(),
                 },
             ),
@@ -103,7 +102,7 @@ impl <'info> StakeContext<'info> {
             owner_account: self.owner.key(),
             authority_account: self.authority.key(),
             owner_token_account: self.owner_token_account.key(),
-            staker_token_account: self.authority_token_account.key(),
+            staker_token_account: self.stake_account.key(),
         });
         Ok(self.stake.clone().into_inner())
     }
