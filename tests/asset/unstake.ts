@@ -3,10 +3,8 @@ import * as anchor from '@coral-xyz/anchor';
 import type { Program } from '@coral-xyz/anchor';
 import {Keypair ,PublicKey } from '@solana/web3.js';
 import type { SolanaContracts } from '../target/types/solana_contracts';
-import { getAssociatedTokenAddressSync } from '@solana/spl-token';
-import { min } from 'bn.js';
 
-describe('Stake And Unstake Test', () => {
+describe('开始解押', () => {
   // Configure the client to use the local cluster.
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
@@ -24,11 +22,11 @@ describe('Stake And Unstake Test', () => {
   const authority = Keypair.fromSecretKey(new Uint8Array(authoritySeed));
   console.log(`authority: ${authority.publicKey}`);
 
-  const [assetManagerAddress] = PublicKey.findProgramAddressSync([Buffer.from('asset_manager'), authority.publicKey.toBuffer()], program.programId);
-  console.log(`assetManagerAddress: ${assetManagerAddress}`);
+  const [assetCollection] = new PublicKey("initCollection的地址");
+  console.log(`assetCollection: ${assetCollection}`);
   const supplyNo = new anchor.BN(1);
   //MjadGGZfdowLjJbhf2xXUmGuydYtRV2AtCzbfzA9RCs
-  const [assetAddress ] = PublicKey.findProgramAddressSync([Buffer.from('asset'), assetManagerAddress.toBuffer(), supplyNo.toBuffer("le", 8)], program.programId);
+  const [assetAddress ] = PublicKey.findProgramAddressSync([Buffer.from('asset'), assetCollection.toBuffer(), supplyNo.toBuffer("le", 8)], program.programId);
   console.log(`assetAddress: ${assetAddress}`);
   it('解押', async () => {
     const stakeNo = new anchor.BN(1);
@@ -37,7 +35,7 @@ describe('Stake And Unstake Test', () => {
     .accounts({
       owner: payer.publicKey,
       authority: authority.publicKey,
-      assetManager: assetManagerAddress,
+      assetCollection: assetCollection,
       asset:assetAddress
     })
     .signers([payer, authority])

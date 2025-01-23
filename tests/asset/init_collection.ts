@@ -19,7 +19,7 @@ describe('nft集合相关的智能合约', () => {
   // const assetInfoAccountAddr = new Keypair();
   // const mintKeypair = new Keypair();
   // const assetInfoAccount = Keypair.generate();
-  console.log(`assetCollectionAddr : ${assetCollectionAddr.publicKey}`);
+  console.log(`assetCollectionAddr(保存下来！！！后续的测试脚本一直会用上) : ${assetCollectionAddr.publicKey}`);
 
   it('初始化nft集合', async () => {
     await program.methods
@@ -36,5 +36,6 @@ describe('nft集合相关的智能合约', () => {
     })
     .signers([authority, assetCollectionAddr])
     .rpc();
+    console.log(`初始化nft集合完成， 下一步调用 tests/asset/wrap.ts脚本， 修改 assetCollection 的 公钥为  ${assetCollectionAddr.publicKey}`);
   });
 });

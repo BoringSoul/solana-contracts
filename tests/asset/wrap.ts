@@ -16,7 +16,7 @@ describe('打包资产', () => {
   const payer = Keypair.fromSecretKey(new Uint8Array(payerSeed));
   console.log(`payer: ${payer.publicKey}`);
 
-  const assetCollection = new PublicKey("9ZRVL57MtSDk26k6oSy1Zbm1n1XXXFm7dePSgqeNr6Kq");
+  const assetCollection = new PublicKey("initCollection的地址");
 
   it('打包', async () => {
   const assets = [{"amount": new anchor.BN(10000), "tokenAddress": payer.publicKey}];

@@ -18,7 +18,7 @@ describe('资产测试-解包', () => {
   console.log(`payer: ${payer.publicKey}`);
 
 
-  const assetCollection = new PublicKey("9ZRVL57MtSDk26k6oSy1Zbm1n1XXXFm7dePSgqeNr6Kq");
+  const assetCollection = new PublicKey("initCollection的地址");
   console.log(`assetCollection: ${assetCollection}`);
   const supplyNo = new anchor.BN(1);
   //MjadGGZfdowLjJbhf2xXUmGuydYtRV2AtCzbfzA9RCs
